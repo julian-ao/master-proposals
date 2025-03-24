@@ -33,7 +33,7 @@ export function ProjectTypeFilter({ value, onChange }: ProjectTypeFilterProps) {
             onChange={() => onChange('duo')}
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
           />
-          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">2 student</span>
+          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">2 students</span>
         </label>
       </div>
     </div>

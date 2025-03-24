@@ -1,26 +1,30 @@
-"use client"
 import { useState } from "react"
 
 interface SupervisorFilterProps {
   supervisors: string[]
   selected: Record<string, boolean>
+  excluded: Record<string, boolean>
   onToggle: (supervisor: string) => void
+  onExclude: (supervisor: string) => void
   onClear: () => void
 }
 
 export function SupervisorFilter({
   supervisors,
   selected,
+  excluded,
   onToggle,
+  onExclude,
   onClear
 }: SupervisorFilterProps) {
   const [searchTerm, setSearchTerm] = useState("")
+  const [viewMode, setViewMode] = useState<'include' | 'exclude'>('include')
 
   const filteredSupervisors = supervisors.filter(supervisor =>
     supervisor.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  const hasSelections = Object.keys(selected).length > 0
+  const hasSelections = Object.keys(selected).length > 0 || Object.keys(excluded).length > 0
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
@@ -31,9 +35,30 @@ export function SupervisorFilter({
             onClick={onClear}
             className="text-xs text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
           >
-            Clear
+            Clear all
           </button>
         )}
+      </div>
+
+      <div className="flex space-x-2 mb-3">
+        <button
+          onClick={() => setViewMode('include')}
+          className={`text-xs px-3 py-1 rounded-md ${viewMode === 'include'
+            ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100'
+            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+            }`}
+        >
+          Include
+        </button>
+        <button
+          onClick={() => setViewMode('exclude')}
+          className={`text-xs px-3 py-1 rounded-md ${viewMode === 'exclude'
+            ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
+            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+            }`}
+        >
+          Exclude
+        </button>
       </div>
 
       <div className="relative mb-3">
@@ -54,24 +79,37 @@ export function SupervisorFilter({
         </svg>
       </div>
 
-      <div className="space-y-2 overflow-y-auto">
+      <div className="space-y-2 max-h-60 overflow-y-auto">
         {filteredSupervisors.length > 0 ? (
           filteredSupervisors.map((supervisor) => (
-            <div key={supervisor} className="flex items-center">
-              <input
-                id={`supervisor-${supervisor}`}
-                type="checkbox"
-                checked={!!selected[supervisor]}
-                onChange={() => onToggle(supervisor)}
-                className="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
-              />
-              <label
-                htmlFor={`supervisor-${supervisor}`}
-                className="ml-2 text-sm text-gray-700 dark:text-gray-300 truncate"
-                title={supervisor}
-              >
-                {supervisor}
-              </label>
+            <div key={supervisor} className="flex items-center justify-between">
+              <div className="flex items-center">
+                {viewMode === 'include' ? (
+                  <input
+                    type="checkbox"
+                    checked={!!selected[supervisor]}
+                    onChange={() => onToggle(supervisor)}
+                    className="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
+                  />
+                ) : (
+                  <input
+                    type="checkbox"
+                    checked={!!excluded[supervisor]}
+                    onChange={() => onExclude(supervisor)}
+                    className="h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-red-500"
+                  />
+                )}
+                <label className="ml-2 text-sm text-gray-700 dark:text-gray-300 truncate">
+                  {supervisor}
+                </label>
+              </div>
+              <span className="text-xs text-gray-500">
+                {selected[supervisor] ? (
+                  <span className="text-indigo-600">Included</span>
+                ) : excluded[supervisor] ? (
+                  <span className="text-red-600">Excluded</span>
+                ) : null}
+              </span>
             </div>
           ))
         ) : (

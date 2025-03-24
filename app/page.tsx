@@ -25,6 +25,7 @@ export default function ProjectBrowser() {
 
   const [selectedSupervisors, setSelectedSupervisors] = useState<Record<string, boolean>>({})
   const [availableSupervisors, setAvailableSupervisors] = useState<string[]>([])
+  const [excludedSupervisors, setExcludedSupervisors] = useState<Record<string, boolean>>({})
 
   const fetchProjects = useCallback(async () => {
     setLoading(true)
@@ -120,8 +121,11 @@ export default function ProjectBrowser() {
         .every(selectedProgramId => project.programs.includes(selectedProgramId))
 
     const supervisorMatch =
-      Object.keys(selectedSupervisors).length === 0 ||
-      selectedSupervisors[project.teacher]
+      (Object.keys(selectedSupervisors).length === 0 &&
+        Object.keys(excludedSupervisors).length === 0) ||
+      (Object.keys(selectedSupervisors).length > 0
+        ? selectedSupervisors[project.teacher]
+        : !excludedSupervisors[project.teacher])
 
     // Filter by search query
     const searchMatch = searchQuery.toLowerCase() === "" ||
@@ -170,13 +174,33 @@ export default function ProjectBrowser() {
           <SupervisorFilter
             supervisors={availableSupervisors}
             selected={selectedSupervisors}
+            excluded={excludedSupervisors}
             onToggle={(supervisor) => {
               setSelectedSupervisors(prev => ({
                 ...prev,
                 [supervisor]: !prev[supervisor]
               }))
+              setExcludedSupervisors(prev => {
+                const newExcluded = { ...prev }
+                delete newExcluded[supervisor]
+                return newExcluded
+              })
             }}
-            onClear={() => setSelectedSupervisors({})}
+            onExclude={(supervisor) => {
+              setExcludedSupervisors(prev => ({
+                ...prev,
+                [supervisor]: true
+              }))
+              setSelectedSupervisors(prev => {
+                const newSelected = { ...prev }
+                delete newSelected[supervisor]
+                return newSelected
+              })
+            }}
+            onClear={() => {
+              setSelectedSupervisors({})
+              setExcludedSupervisors({})
+            }}
           />
         </aside>
 

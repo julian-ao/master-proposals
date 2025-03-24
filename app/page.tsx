@@ -19,7 +19,6 @@ export default function ProjectBrowser() {
   const [projects, setProjects] = useState<IProject[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [sortBy, setSortBy] = useState<"2" | "1">("2") // "2" = project name, "1" = teacher
   const [filterMode, setFilterMode] = useState<"union" | "intersection">("union")
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -35,7 +34,7 @@ export default function ProjectBrowser() {
       const programPromises = Object.entries(selectedPrograms)
         .filter(([_, isSelected]) => isSelected)
         .map(async ([programId]) => {
-          const response = await fetch(`/api/idi?${programId}=1&s=${sortBy}`)
+          const response = await fetch(`/api/idi?${programId}=1`)
           if (!response.ok) throw new Error(`Failed to fetch ${programId}`)
           return { programId, html: await response.text() }
         })
@@ -99,7 +98,7 @@ export default function ProjectBrowser() {
     } finally {
       setLoading(false)
     }
-  }, [selectedPrograms, sortBy])
+  }, [selectedPrograms])
 
   useEffect(() => {
     fetchProjects()
@@ -207,8 +206,6 @@ export default function ProjectBrowser() {
 
         <main className="lg:col-span-3">
           <SortAndFilterControls
-            sortBy={sortBy}
-            onSortChange={setSortBy}
             filterMode={filterMode}
             onFilterModeChange={setFilterMode}
             searchQuery={searchQuery}

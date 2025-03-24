@@ -1,6 +1,4 @@
 interface SortAndFilterControlsProps {
-  sortBy: "1" | "2"
-  onSortChange: (value: "1" | "2") => void
   filterMode: "union" | "intersection"
   onFilterModeChange: (mode: "union" | "intersection") => void
   searchQuery: string
@@ -9,8 +7,6 @@ interface SortAndFilterControlsProps {
 }
 
 export function SortAndFilterControls({
-  sortBy,
-  onSortChange,
   filterMode,
   onFilterModeChange,
   searchQuery,
@@ -40,18 +36,6 @@ export function SortAndFilterControls({
         </div>
 
         <div className="flex items-start sm:items-center flex-col sm:flex-row gap-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-700 dark:text-gray-300">Sort:</span>
-            <select
-              value={sortBy}
-              onChange={(e) => onSortChange(e.target.value as "1" | "2")}
-              className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            >
-              <option value="2">Project Name</option>
-              <option value="1">Teacher</option>
-            </select>
-          </div>
-
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-700 dark:text-gray-300">Filter:</span>
             <div className="flex space-x-2">

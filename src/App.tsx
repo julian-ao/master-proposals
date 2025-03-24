@@ -11,9 +11,9 @@ const studyPrograms = [
 function App() {
   const [selectedPrograms, setSelectedPrograms] = useState({
     p2_6: true,
-    p2_7: true,
     p2_9: true,
-    p2_10: true
+    p2_10: true,
+    p2_7: true,
   });
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -100,6 +100,10 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
   const toggleProgram = (programId) => {
     setSelectedPrograms(prev => ({
       ...prev,
@@ -116,7 +120,6 @@ function App() {
   };
 
   useEffect(() => {
-    fetchProjects();
     setFilteredProjects(showUnion
       ? projects.filter(project =>
         project.programs.some(programId => selectedPrograms[programId])
@@ -129,7 +132,6 @@ function App() {
             project.programs.includes(selectedProgramId)
           )
       ));
-
   }, [selectedPrograms, showUnion, sortBy]);
 
 

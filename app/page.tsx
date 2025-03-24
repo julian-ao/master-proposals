@@ -7,6 +7,7 @@ import { SortAndFilterControls } from "../components/SortAndFilterControls"
 import { LoadingSkeleton } from "../components/LoadingSkeleton"
 import { ErrorMessage } from "../components/ErrorMessage"
 import { IProject, STUDY_PROGRAMS } from "../lib/constants"
+import { SupervisorFilter } from "../components/SupervisorFilter"
 
 const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
   acc[program.id] = true
@@ -21,6 +22,9 @@ export default function ProjectBrowser() {
   const [sortBy, setSortBy] = useState<"2" | "1">("2") // "2" = project name, "1" = teacher
   const [filterMode, setFilterMode] = useState<"union" | "intersection">("union")
   const [searchQuery, setSearchQuery] = useState("")
+
+  const [selectedSupervisors, setSelectedSupervisors] = useState<Record<string, boolean>>({})
+  const [availableSupervisors, setAvailableSupervisors] = useState<string[]>([])
 
   const fetchProjects = useCallback(async () => {
     setLoading(true)
@@ -37,6 +41,7 @@ export default function ProjectBrowser() {
 
       const programResults = await Promise.all(programPromises)
       const allProjects: IProject[] = []
+      const supervisors = new Set<string>()
 
       programResults.forEach(({ programId, html }) => {
         const parser = new DOMParser()
@@ -47,6 +52,7 @@ export default function ProjectBrowser() {
           const title = element.querySelector("h3")?.textContent?.trim() || "Untitled Project"
           const description = element.querySelector("p")?.textContent?.trim() || ""
           const teacher = element.querySelector(".status a")?.textContent?.trim() || "Unknown"
+          supervisors.add(teacher)
           const status = element.querySelector(".status i")?.textContent?.trim() || "Unknown"
           const link = element.querySelector('.status a[href^="oppgaveforslag"]')?.getAttribute("href") || "#"
 
@@ -82,6 +88,9 @@ export default function ProjectBrowser() {
         })
       })
 
+      console.log(Array.from(supervisors).sort())
+
+      setAvailableSupervisors(Array.from(supervisors).sort())
       setProjects(allProjects)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to fetch projects")
@@ -110,6 +119,10 @@ export default function ProjectBrowser() {
         .filter(programId => selectedPrograms[programId])
         .every(selectedProgramId => project.programs.includes(selectedProgramId))
 
+    const supervisorMatch =
+      Object.keys(selectedSupervisors).length === 0 ||
+      selectedSupervisors[project.teacher]
+
     // Filter by search query
     const searchMatch = searchQuery.toLowerCase() === "" ||
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -117,7 +130,7 @@ export default function ProjectBrowser() {
       project.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.fullDescription.toLowerCase().includes(searchQuery.toLowerCase())
 
-    return programMatch && searchMatch
+    return programMatch && supervisorMatch && searchMatch
   })
 
   const getProgramName = (programId: string) =>
@@ -147,11 +160,23 @@ export default function ProjectBrowser() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <aside className="lg:col-span-1">
+        <aside className="lg:col-span-1 space-y-6">
           <StudyProgramFilter
             programs={STUDY_PROGRAMS}
             selectedPrograms={selectedPrograms}
             onToggleProgram={toggleProgram}
+          />
+
+          <SupervisorFilter
+            supervisors={availableSupervisors}
+            selected={selectedSupervisors}
+            onToggle={(supervisor) => {
+              setSelectedSupervisors(prev => ({
+                ...prev,
+                [supervisor]: !prev[supervisor]
+              }))
+            }}
+            onClear={() => setSelectedSupervisors({})}
           />
         </aside>
 

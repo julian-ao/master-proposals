@@ -19,7 +19,7 @@ export default function ProjectBrowser() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<"2" | "1">("2") // "2" = project name, "1" = teacher
-  const [filterMode, setFilterMode] = useState<"intersection" | "union">("intersection")
+  const [filterMode, setFilterMode] = useState<"union" | "intersection">("union")
   const [searchQuery, setSearchQuery] = useState("")
 
   const fetchProjects = useCallback(async () => {

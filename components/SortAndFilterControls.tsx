@@ -31,7 +31,7 @@ export function SortAndFilterControls({
             <input
               type="text"
               id="search"
-              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 py-2 sm:text-sm border-gray-300 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               placeholder="Search projects..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
@@ -45,7 +45,7 @@ export function SortAndFilterControls({
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value as "1" | "2")}
-              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             >
               <option value="2">Project Name</option>
               <option value="1">Teacher</option>
@@ -60,14 +60,14 @@ export function SortAndFilterControls({
                 onClick={() => onFilterModeChange("intersection")}
                 className={`px-3 py-1 text-sm rounded-md ${filterMode === "intersection" ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}
               >
-                INTERSECTION
+                Intersection
               </button>
               <button
                 type="button"
                 onClick={() => onFilterModeChange("union")}
                 className={`px-3 py-1 text-sm rounded-md ${filterMode === "union" ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}
               >
-                UNION
+                Union
               </button>
             </div>
           </div>

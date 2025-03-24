@@ -1,11 +1,14 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Analytics } from "@vercel/analytics/react"
+import { Footer } from '../components/Footer'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'MSIT Master Proposals 2025',
+  description: 'A better way to find your master thesis project',
+  icons: {
+    icon: '/ntnu.png',
+  },
 }
 
 export default function RootLayout({
@@ -16,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Analytics />
-      <body>{children}</body>
+      <body>
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

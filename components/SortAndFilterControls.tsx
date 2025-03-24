@@ -39,7 +39,7 @@ export function SortAndFilterControls({
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-start sm:items-center flex-col sm:flex-row gap-4">
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-700 dark:text-gray-300">Sort:</span>
             <select

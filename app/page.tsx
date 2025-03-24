@@ -6,24 +6,7 @@ import { StudyProgramFilter } from "../components/StudyProgramFilter"
 import { SortAndFilterControls } from "../components/SortAndFilterControls"
 import { LoadingSkeleton } from "../components/LoadingSkeleton"
 import { ErrorMessage } from "../components/ErrorMessage"
-
-export interface Project {
-  id: string
-  title: string
-  shortDescription: string
-  fullDescription: string
-  teacher: string
-  status: string
-  link: string
-  programs: string[]
-}
-
-export const STUDY_PROGRAMS = [
-  { id: "p2_6", name: "Programvaresystemer" },
-  { id: "p2_7", name: "Databaser og søk" },
-  { id: "p2_9", name: "Kunstig intelligens" },
-  { id: "p2_10", name: "Interaksjonsdesign, spill- og læringsteknologi" },
-]
+import { IProject, STUDY_PROGRAMS } from "../lib/constants"
 
 const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
   acc[program.id] = true
@@ -32,7 +15,7 @@ const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
 
 export default function ProjectBrowser() {
   const [selectedPrograms, setSelectedPrograms] = useState(DEFAULT_SELECTED_PROGRAMS)
-  const [projects, setProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<IProject[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [sortBy, setSortBy] = useState<"2" | "1">("2") // "2" = project name, "1" = teacher
@@ -53,7 +36,7 @@ export default function ProjectBrowser() {
         })
 
       const programResults = await Promise.all(programPromises)
-      const allProjects: Project[] = []
+      const allProjects: IProject[] = []
 
       programResults.forEach(({ programId, html }) => {
         const parser = new DOMParser()

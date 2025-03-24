@@ -1,4 +1,4 @@
-import { STUDY_PROGRAMS } from "../app/page"
+import { STUDY_PROGRAMS } from "../lib/constants"
 
 interface StudyProgramFilterProps {
   programs: typeof STUDY_PROGRAMS

@@ -112,13 +112,13 @@ declare module 'next/cache' {
     /**
      * Cache this `"use cache"` using a custom timespan.
      * ```
-     *   stale: ... // seconds 
+     *   stale: ... // seconds
      *   revalidate: ... // seconds
      *   expire: ... // seconds
      * ```
-     * 
+     *
      * This is similar to Cache-Control: max-age=`stale`,s-max-age=`revalidate`,stale-while-revalidate=`expire-revalidate`
-     * 
+     *
      * If a value is left out, the lowest of other cacheLife() calls or the default, is used instead.
      */
     export function unstable_cacheLife(profile: {

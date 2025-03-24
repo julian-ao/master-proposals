@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { Project } from "../app/page"
+import { IProject } from "../lib/constants"
 
 interface ProjectCardProps {
-  project: Project
+  project: IProject
   getProgramName: (programId: string) => string
 }
 

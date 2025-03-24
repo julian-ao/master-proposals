@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, SetStateAction } from "react"
 
 import './globals.css';
 import { ProjectCard } from "../components/ProjectCard";
@@ -12,19 +12,30 @@ const studyPrograms = [
   { id: "p2_10", name: "Interaksjonsdesign, spill- og læringsteknologi" },
 ]
 
+interface Project {
+  id: string
+  title: string
+  shortDescription: string
+  fullDescription: string
+  teacher: string
+  status: string
+  link: string
+  programs: string[]
+}
+
 export default function Home() {
-  const [selectedPrograms, setSelectedPrograms] = useState({
+  const [selectedPrograms, setSelectedPrograms] = useState<{ [key: string]: boolean }>({
     p2_6: true,
     p2_9: true,
     p2_10: true,
     p2_7: true,
   })
-  const [projects, setProjects] = useState([])
+  const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<String | null>(null)
   const [sortBy, setSortBy] = useState("2") // Default sort by project name
   const [showUnion, setShowUnion] = useState(true)
-  const [filteredProjects, setFilteredProjects] = useState([])
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([])
 
   const fetchProjects = async () => {
     setLoading(true)
@@ -43,7 +54,7 @@ export default function Home() {
       const programResults = await Promise.all(programPromises)
 
       // Parse HTML for each program and combine results
-      const allProjects = []
+      const allProjects: Project[] = []
 
       programResults.forEach(({ programId, html }) => {
         const parser = new DOMParser()
@@ -116,7 +127,7 @@ export default function Home() {
     }))
   }
 
-  const handleSortChange = (e) => {
+  const handleSortChange = (e: { target: { value: SetStateAction<string> } }) => {
     setSortBy(e.target.value)
   }
 

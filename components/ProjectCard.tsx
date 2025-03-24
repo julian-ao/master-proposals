@@ -59,6 +59,15 @@ export function ProjectCard({ project, getProgramName }: ProjectCardProps) {
           <div className="text-gray-600 dark:text-gray-400">
             <span className="font-medium">Status:</span> {project.status}
           </div>
+          {project.type === 'duo' ? (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+              Group Project (2)
+            </span>
+          ) : (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+              Single Student
+            </span>
+          )}
         </div>
       </div>
     </div>

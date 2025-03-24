@@ -7,6 +7,7 @@ export interface IProject {
     status: string
     link: string
     programs: string[]
+    type: 'single' | 'duo'
 }
 
 export const STUDY_PROGRAMS = [

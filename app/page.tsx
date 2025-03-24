@@ -8,6 +8,7 @@ import { LoadingSkeleton } from "../components/LoadingSkeleton"
 import { ErrorMessage } from "../components/ErrorMessage"
 import { IProject, STUDY_PROGRAMS } from "../lib/constants"
 import { SupervisorFilter } from "../components/SupervisorFilter"
+import { ProjectTypeFilter } from "../components/ProjectTypeFilter"
 
 const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
   acc[program.id] = true
@@ -21,6 +22,7 @@ export default function ProjectBrowser() {
   const [error, setError] = useState<string | null>(null)
   const [filterMode, setFilterMode] = useState<"union" | "intersection">("union")
   const [searchQuery, setSearchQuery] = useState("")
+  const [projectTypeFilter, setProjectTypeFilter] = useState<'all' | 'single' | 'duo'>('all')
 
   const [selectedSupervisors, setSelectedSupervisors] = useState<Record<string, boolean>>({})
   const [availableSupervisors, setAvailableSupervisors] = useState<string[]>([])
@@ -60,6 +62,19 @@ export default function ProjectBrowser() {
           let hiddenDesc = ""
           const divs = element.querySelectorAll('div[id^="shown_"], div[id^="hidden_"]')
 
+
+          const statusDiv = element.querySelector('.status')
+          const studentImg = statusDiv?.querySelector('img[src*="student_"]')
+
+          let type: 'single' | 'duo' = 'single' // default to single
+          if (studentImg) {
+            if (studentImg.getAttribute('src')?.includes('student_group')) {
+              type = 'duo'
+            } else if (studentImg.getAttribute('src')?.includes('student_singel')) {
+              type = 'single'
+            }
+          }
+
           divs.forEach((div) => {
             const text = div.textContent?.trim() || ""
             if (div.id.startsWith("shown_")) shownDesc = text
@@ -75,6 +90,7 @@ export default function ProjectBrowser() {
             status,
             link,
             programs: [programId],
+            type,
           }
 
           const existingIndex = allProjects.findIndex(p => p.title === title && p.teacher === teacher)
@@ -126,6 +142,10 @@ export default function ProjectBrowser() {
         ? selectedSupervisors[project.teacher]
         : !excludedSupervisors[project.teacher])
 
+    const typeMatch =
+      projectTypeFilter === 'all' ||
+      project.type === projectTypeFilter
+
     // Filter by search query
     const searchMatch = searchQuery.toLowerCase() === "" ||
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -133,7 +153,7 @@ export default function ProjectBrowser() {
       project.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.fullDescription.toLowerCase().includes(searchQuery.toLowerCase())
 
-    return programMatch && supervisorMatch && searchMatch
+    return programMatch && supervisorMatch && typeMatch && searchMatch
   })
 
   const getProgramName = (programId: string) =>
@@ -211,6 +231,10 @@ export default function ProjectBrowser() {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             projectCount={filteredProjects.length}
+          />
+          <ProjectTypeFilter
+            value={projectTypeFilter}
+            onChange={setProjectTypeFilter}
           />
 
           {loading && <LoadingSkeleton count={5} />}

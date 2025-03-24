@@ -31,7 +31,7 @@ function App() {
         .filter(([_, isSelected]) => isSelected)
         .map(async ([programId]) => {
           const response = await fetch(
-            `/api/fordypningsprosjekt.php?${programId}=1&s=${sortBy}`
+            `https://thingproxy.freeboard.io/fetch/https://www.idi.ntnu.no/education/fordypningsprosjekt.php?${programId}=1&s=${sortBy}`
           );
           const text = await response.text();
           return { programId, html: text };

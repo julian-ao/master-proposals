@@ -53,12 +53,7 @@ export function ProjectCard({ project, getProgramName }: ProjectCardProps) {
         )}
 
         <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap items-center gap-3 text-sm">
-          {/* Supervisor */}
-          <span className="text-gray-600 dark:text-gray-400">
-            {project.teacher}
-          </span>
-
-          {/* Student Count - Minimal but clear */}
+          {/* Student Count  */}
           {project.type === 'duo' ? (
             <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs">
               <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -74,6 +69,11 @@ export function ProjectCard({ project, getProgramName }: ProjectCardProps) {
               1 student
             </span>
           )}
+
+          {/* Supervisor */}
+          <span className="text-gray-600 dark:text-gray-400">
+            {project.teacher}
+          </span>
 
           {/* Status */}
           <span className="text-gray-600 dark:text-gray-400">

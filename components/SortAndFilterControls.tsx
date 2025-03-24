@@ -37,7 +37,7 @@ export function SortAndFilterControls({
 
         <div className="flex items-start sm:items-center flex-col sm:flex-row gap-4">
           <div className="flex items-center space-x-2">
-            <span className="text-sm text-gray-700 dark:text-gray-300">Filter:</span>
+            <span className="text-sm text-gray-700 dark:text-gray-300">Specialization-filter:</span>
             <div className="flex space-x-2">
               <button
                 type="button"

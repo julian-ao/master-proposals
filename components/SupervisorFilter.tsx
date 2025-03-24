@@ -7,6 +7,7 @@ interface SupervisorFilterProps {
   onToggle: (supervisor: string) => void
   onExclude: (supervisor: string) => void
   onClear: () => void
+  loading: boolean
 }
 
 export function SupervisorFilter({
@@ -15,7 +16,8 @@ export function SupervisorFilter({
   excluded,
   onToggle,
   onExclude,
-  onClear
+  onClear,
+  loading,
 }: SupervisorFilterProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [viewMode, setViewMode] = useState<'include' | 'exclude'>('include')
@@ -114,7 +116,7 @@ export function SupervisorFilter({
           ))
         ) : (
           <p className="text-sm text-gray-500 dark:text-gray-400 py-1">
-            No supervisors found
+            {loading ? 'Loading...' : 'No supervisors found'}
           </p>
         )}
       </div>

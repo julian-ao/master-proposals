@@ -201,6 +201,7 @@ export default function ProjectBrowser() {
               setSelectedSupervisors({})
               setExcludedSupervisors({})
             }}
+            loading={loading}
           />
         </aside>
 

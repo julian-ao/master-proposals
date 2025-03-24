@@ -104,7 +104,7 @@ function App() {
     fetchProjects();
   }, []);
 
-  const toggleProgram = (programId) => {
+  const toggleProgram = (programId: string) => {
     setSelectedPrograms(prev => ({
       ...prev,
       [programId]: !prev[programId]
@@ -115,9 +115,7 @@ function App() {
     setSortBy(e.target.value);
   };
 
-  const getProgramName = (programId) => {
-    return studyPrograms.find(p => p.id === programId)?.name || programId;
-  };
+  const getProgramName = (programId: string) => studyPrograms.find(p => p.id === programId)?.name || programId;
 
   useEffect(() => {
     setFilteredProjects(showUnion
@@ -215,7 +213,7 @@ function ProjectCard({ project, getProgramName }) {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   // Map program IDs to CSS classes
-  const getLabelClass = (programId) => {
+  const getLabelClass = (programId: string) => {
     switch (programId) {
       case 'p2_6': return 'label-programvaresystemer';
       case 'p2_7': return 'label-databaser';
@@ -232,7 +230,7 @@ function ProjectCard({ project, getProgramName }) {
 
       {/* Add study program labels */}
       <div className="study-program-labels">
-        {project.programs.map(programId => (
+        {project.programs.map((programId: string) => (
           <span
             key={programId}
             className={`study-program-label ${getLabelClass(programId)}`}

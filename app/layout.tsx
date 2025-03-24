@@ -5,7 +5,6 @@ import { Footer } from '../components/Footer'
 
 export const metadata: Metadata = {
   title: 'MSIT Master Proposals 2025',
-  description: 'A better way to find your master thesis project',
   icons: {
     icon: '/ntnu.png',
   },

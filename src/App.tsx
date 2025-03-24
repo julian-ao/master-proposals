@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 
-const CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
-
 const studyPrograms = [
   { id: 'p2_6', name: 'Programvaresystemer' },
   { id: 'p2_7', name: 'Databaser og søk' },
@@ -23,10 +21,6 @@ function App() {
   const [sortBy, setSortBy] = useState('2'); // Default sort by project name
   const [showUnion, setShowUnion] = useState(true);
   const [filteredProjects, setFilteredProjects] = useState([]);
-
-  useEffect(() => {
-    fetchProjects();
-  }, [selectedPrograms, sortBy]);
 
   const fetchProjects = async () => {
     setLoading(true);
@@ -136,7 +130,7 @@ function App() {
           )
       ));
 
-  }, [selectedPrograms, showUnion]);
+  }, [selectedPrograms, showUnion, sortBy]);
 
 
   return (
@@ -265,7 +259,7 @@ function ProjectCard({ project, getProgramName }) {
 
       <div className="status">
         <div>
-          <strong>Faglærer:</strong> {project.teacher}
+          <strong>Veileder:</strong> {project.teacher}
         </div>
         <div>
           <strong>Status:</strong> {project.status}

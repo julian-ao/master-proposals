@@ -15,7 +15,7 @@ export function ProjectTypeFilter({ value, onChange }: ProjectTypeFilterProps) {
             onChange={() => onChange('all')}
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
           />
-          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">All Projects</span>
+          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">All</span>
         </label>
         <label className="inline-flex items-center">
           <input
@@ -24,7 +24,7 @@ export function ProjectTypeFilter({ value, onChange }: ProjectTypeFilterProps) {
             onChange={() => onChange('single')}
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
           />
-          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Single</span>
+          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">1 student</span>
         </label>
         <label className="inline-flex items-center">
           <input
@@ -33,7 +33,7 @@ export function ProjectTypeFilter({ value, onChange }: ProjectTypeFilterProps) {
             onChange={() => onChange('duo')}
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
           />
-          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Duo</span>
+          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">2 student</span>
         </label>
       </div>
     </div>

@@ -52,22 +52,33 @@ export function ProjectCard({ project, getProgramName }: ProjectCardProps) {
           </div>
         )}
 
-        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap gap-4 text-sm">
-          <div className="text-gray-600 dark:text-gray-400">
-            <span className="font-medium">Supervisor:</span> {project.teacher}
-          </div>
-          <div className="text-gray-600 dark:text-gray-400">
-            <span className="font-medium">Status:</span> {project.status}
-          </div>
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap items-center gap-3 text-sm">
+          {/* Supervisor */}
+          <span className="text-gray-600 dark:text-gray-400">
+            {project.teacher}
+          </span>
+
+          {/* Student Count - Minimal but clear */}
           {project.type === 'duo' ? (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
-              Group Project (2)
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs">
+              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z" />
+              </svg>
+              2 students
             </span>
           ) : (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
-              Single Student
+            <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300 text-xs">
+              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+              </svg>
+              1 student
             </span>
           )}
+
+          {/* Status */}
+          <span className="text-gray-600 dark:text-gray-400">
+            {project.status}
+          </span>
         </div>
       </div>
     </div>

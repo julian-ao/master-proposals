@@ -128,8 +128,13 @@ function App() {
         project.programs.some(programId => selectedPrograms[programId])
       )
       : projects.filter(project =>
-        project.programs.every(programId => selectedPrograms[programId])
-      ))
+        // For SNITT, we need to check that ALL selected programs are in project.programs
+        Object.keys(selectedPrograms)
+          .filter(programId => selectedPrograms[programId])
+          .every(selectedProgramId =>
+            project.programs.includes(selectedProgramId)
+          )
+      ));
 
   }, [selectedPrograms, showUnion]);
 

@@ -1,18 +1,13 @@
 "use client"
 
-import { useState, useEffect, SetStateAction } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { ProjectCard } from "../components/ProjectCard"
+import { StudyProgramFilter } from "../components/StudyProgramFilter"
+import { SortAndFilterControls } from "../components/SortAndFilterControls"
+import { LoadingSkeleton } from "../components/LoadingSkeleton"
+import { ErrorMessage } from "../components/ErrorMessage"
 
-import './globals.css';
-import { ProjectCard } from "../components/ProjectCard";
-
-const studyPrograms = [
-  { id: "p2_6", name: "Programvaresystemer" },
-  { id: "p2_7", name: "Databaser og søk" },
-  { id: "p2_9", name: "Kunstig intelligens" },
-  { id: "p2_10", name: "Interaksjonsdesign, spill- og læringsteknologi" },
-]
-
-interface Project {
+export interface Project {
   id: string
   title: string
   shortDescription: string
@@ -23,21 +18,28 @@ interface Project {
   programs: string[]
 }
 
-export default function Home() {
-  const [selectedPrograms, setSelectedPrograms] = useState<{ [key: string]: boolean }>({
-    p2_6: true,
-    p2_9: true,
-    p2_10: true,
-    p2_7: true,
-  })
+export const STUDY_PROGRAMS = [
+  { id: "p2_6", name: "Programvaresystemer" },
+  { id: "p2_7", name: "Databaser og søk" },
+  { id: "p2_9", name: "Kunstig intelligens" },
+  { id: "p2_10", name: "Interaksjonsdesign, spill- og læringsteknologi" },
+]
+
+const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
+  acc[program.id] = true
+  return acc
+}, {} as Record<string, boolean>)
+
+export default function ProjectBrowser() {
+  const [selectedPrograms, setSelectedPrograms] = useState(DEFAULT_SELECTED_PROGRAMS)
   const [projects, setProjects] = useState<Project[]>([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<String | null>(null)
-  const [sortBy, setSortBy] = useState("2") // Default sort by project name
-  const [showUnion, setShowUnion] = useState(true)
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([])
+  const [error, setError] = useState<string | null>(null)
+  const [sortBy, setSortBy] = useState<"2" | "1">("2") // "2" = project name, "1" = teacher
+  const [filterMode, setFilterMode] = useState<"union" | "intersection">("union")
+  const [searchQuery, setSearchQuery] = useState("")
 
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     setLoading(true)
     setError(null)
 
@@ -45,15 +47,12 @@ export default function Home() {
       const programPromises = Object.entries(selectedPrograms)
         .filter(([_, isSelected]) => isSelected)
         .map(async ([programId]) => {
-          // Using Next.js API route instead of direct fetch with thingproxy
           const response = await fetch(`/api/idi?${programId}=1&s=${sortBy}`)
-          const text = await response.text()
-          return { programId, html: text }
+          if (!response.ok) throw new Error(`Failed to fetch ${programId}`)
+          return { programId, html: await response.text() }
         })
 
       const programResults = await Promise.all(programPromises)
-
-      // Parse HTML for each program and combine results
       const allProjects: Project[] = []
 
       programResults.forEach(({ programId, html }) => {
@@ -62,29 +61,24 @@ export default function Home() {
         const projectElements = doc.querySelectorAll(".oppgave")
 
         projectElements.forEach((element) => {
-          const title = element.querySelector("h3")?.textContent || "No title"
-          const description = element.querySelector("p")?.textContent || ""
-          const teacher = element.querySelector(".status a")?.textContent || "Unknown teacher"
-          const status = element.querySelector(".status i")?.textContent || "Unknown status"
+          const title = element.querySelector("h3")?.textContent?.trim() || "Untitled Project"
+          const description = element.querySelector("p")?.textContent?.trim() || ""
+          const teacher = element.querySelector(".status a")?.textContent?.trim() || "Unknown"
+          const status = element.querySelector(".status i")?.textContent?.trim() || "Unknown"
           const link = element.querySelector('.status a[href^="oppgaveforslag"]')?.getAttribute("href") || "#"
 
-          // Find the description elements by checking IDs that start with shown_ or hidden_
           let shownDesc = ""
           let hiddenDesc = ""
-
-          // Find all divs with IDs starting with 'shown_' or 'hidden_'
           const divs = element.querySelectorAll('div[id^="shown_"], div[id^="hidden_"]')
 
           divs.forEach((div) => {
-            if (div.id.startsWith("shown_")) {
-              shownDesc = div.textContent || ""
-            } else if (div.id.startsWith("hidden_")) {
-              hiddenDesc = div.textContent || ""
-            }
+            const text = div.textContent?.trim() || ""
+            if (div.id.startsWith("shown_")) shownDesc = text
+            else if (div.id.startsWith("hidden_")) hiddenDesc = text
           })
 
           const project = {
-            id: link.split("oid=")[1] || Math.random().toString(36).substr(2, 9),
+            id: link.split("oid=")[1] || crypto.randomUUID(),
             title,
             shortDescription: description,
             fullDescription: hiddenDesc || shownDesc,
@@ -94,10 +88,8 @@ export default function Home() {
             programs: [programId],
           }
 
-          // Check if this project already exists (from another program)
-          const existingIndex = allProjects.findIndex((p) => p.title === title && p.teacher === teacher)
+          const existingIndex = allProjects.findIndex(p => p.title === title && p.teacher === teacher)
           if (existingIndex >= 0) {
-            // Merge programs
             allProjects[existingIndex].programs = [
               ...new Set([...allProjects[existingIndex].programs, ...project.programs]),
             ]
@@ -109,106 +101,128 @@ export default function Home() {
 
       setProjects(allProjects)
     } catch (err) {
-      setError("Failed to fetch projects. Please try again later.")
-      console.error(err)
+      setError(err instanceof Error ? err.message : "Failed to fetch projects")
+      console.error("Fetch error:", err)
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedPrograms, sortBy])
 
   useEffect(() => {
     fetchProjects()
-  }, [])
+  }, [fetchProjects])
 
   const toggleProgram = (programId: string) => {
-    setSelectedPrograms((prev) => ({
+    setSelectedPrograms(prev => ({
       ...prev,
-      [programId]: !prev[programId],
+      [programId]: !prev[programId]
     }))
   }
 
-  const handleSortChange = (e: { target: { value: SetStateAction<string> } }) => {
-    setSortBy(e.target.value)
-  }
+  const filteredProjects = projects.filter(project => {
+    // Filter by selected programs
+    const programMatch = filterMode === "union"
+      ? project.programs.some(programId => selectedPrograms[programId])
+      : Object.keys(selectedPrograms)
+        .filter(programId => selectedPrograms[programId])
+        .every(selectedProgramId => project.programs.includes(selectedProgramId))
 
-  const getProgramName = (programId: string) => studyPrograms.find((p) => p.id === programId)?.name || programId
+    // Filter by search query
+    const searchMatch = searchQuery.toLowerCase() === "" ||
+      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.teacher.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.shortDescription.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      project.fullDescription.toLowerCase().includes(searchQuery.toLowerCase())
 
-  useEffect(() => {
-    setFilteredProjects(
-      showUnion
-        ? projects.filter((project) => project.programs.some((programId) => selectedPrograms[programId]))
-        : projects.filter((project) =>
-          // For SNITT, we need to check that ALL selected programs are in project.programs
-          Object.keys(selectedPrograms)
-            .filter((programId) => selectedPrograms[programId])
-            .every((selectedProgramId) => project.programs.includes(selectedProgramId)),
-        ),
-    )
-  }, [selectedPrograms, showUnion, projects, sortBy])
+    return programMatch && searchMatch
+  })
+
+  const getProgramName = (programId: string) =>
+    STUDY_PROGRAMS.find(p => p.id === programId)?.name || programId
 
   return (
-    <div className="App">
-      <h1>Prosjekt 2025</h1>
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          MSIT Master Proposals 2025
+        </h1>
 
-      <div className="notice">
-        <p>
-          Prosjektønsker kan registreres <b>fra 1. april 2025</b>.
-        </p>
-      </div>
-
-      <p>Velg hva du ønsker å vise prosjekt for.</p>
-
-      <div className="filters">
-        <fieldset>
-          <legend>Studieprogram (Informatikk)</legend>
-          <div className="program-grid">
-            {studyPrograms.map((program) => (
-              <div key={program.id}>
-                <input
-                  type="checkbox"
-                  id={program.id}
-                  checked={selectedPrograms[program.id]}
-                  onChange={() => toggleProgram(program.id)}
-                />
-                <label htmlFor={program.id}>{program.name}</label>
-              </div>
-            ))}
-          </div>
-        </fieldset>
-
-        <div className="filter-options">
-          <div>
-            <label>
-              <input type="radio" checked={showUnion} onChange={() => setShowUnion(true)} />
-              UNION (prosjekter fra minst ett valgt program)
-            </label>
-            <label>
-              <input type="radio" checked={!showUnion} onChange={() => setShowUnion(false)} />
-              SNITT (prosjekter fra alle valgte programmer)
-            </label>
-          </div>
-
-          <div className="sort">
-            Sorter etter:
-            <select value={sortBy} onChange={handleSortChange}>
-              <option value="2">Oppgave</option>
-              <option value="1">Faglærer</option>
-            </select>
+        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-yellow-700">
+                Project proposals can be registered <strong>from April 1, 2025</strong>. The deadline for submitting proposals are <strong>May 21, 2025</strong>.
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      {loading && <p>Loading projects...</p>}
-      {error && <p className="error">{error}</p>}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <aside className="lg:col-span-1">
+          <StudyProgramFilter
+            programs={STUDY_PROGRAMS}
+            selectedPrograms={selectedPrograms}
+            onToggleProgram={toggleProgram}
+          />
+        </aside>
 
-      <h2>Oppgaveforslag ({filteredProjects.length})</h2>
+        <main className="lg:col-span-3">
+          <SortAndFilterControls
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            filterMode={filterMode}
+            onFilterModeChange={setFilterMode}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            projectCount={filteredProjects.length}
+          />
 
-      <div className="projects">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.id} project={project} getProgramName={getProgramName} />
-        ))}
+          {loading && <LoadingSkeleton count={5} />}
+          {error && <ErrorMessage message={error} onRetry={fetchProjects} />}
+
+          {!loading && !error && (
+            <div className="space-y-6">
+              {filteredProjects.length > 0 ? (
+                filteredProjects.map(project => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    getProgramName={getProgramName}
+                  />
+                ))
+              ) : (
+                <div className="text-center py-12">
+                  <svg
+                    className="mx-auto h-12 w-12 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1}
+                      d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">
+                    No projects found
+                  </h3>
+                  <p className="mt-1 text-gray-500 dark:text-gray-400">
+                    Try adjusting your filters or search query.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </main>
       </div>
     </div>
   )
 }
-

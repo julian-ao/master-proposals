@@ -213,10 +213,33 @@ function App() {
 function ProjectCard({ project, getProgramName }) {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
+  // Map program IDs to CSS classes
+  const getLabelClass = (programId) => {
+    switch (programId) {
+      case 'p2_6': return 'label-programvaresystemer';
+      case 'p2_7': return 'label-databaser';
+      case 'p2_9': return 'label-kunstig-intelligens';
+      case 'p2_10': return 'label-interaksjonsdesign';
+      default: return '';
+    }
+  };
+
   return (
     <div className="oppgave">
       <h3>{project.title}</h3>
       <p>{project.shortDescription}</p>
+
+      {/* Add study program labels */}
+      <div className="study-program-labels">
+        {project.programs.map(programId => (
+          <span
+            key={programId}
+            className={`study-program-label ${getLabelClass(programId)}`}
+          >
+            {getProgramName(programId)}
+          </span>
+        ))}
+      </div>
 
       {!showFullDescription ? (
         <p>
@@ -241,9 +264,6 @@ function ProjectCard({ project, getProgramName }) {
         </div>
         <div>
           <strong>Status:</strong> {project.status}
-        </div>
-        <div>
-          <strong>Studieretning:</strong> {project.programs.map(getProgramName).join(', ')}
         </div>
         <div>
           <a href={project.link} target="_blank" rel="noopener noreferrer">

@@ -132,3 +132,25 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.study-program-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 5px 0;
+}
+
+.study-program-label {
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.7em;
+  font-weight: bold;
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* Color coding for different programs */
+.label-programvaresystemer { background-color: #ffcdd2; color: #c62828; }
+.label-databaser { background-color: #c8e6c9; color: #2e7d32; }
+.label-kunstig-intelligens { background-color: #bbdefb; color: #1565c0; }
+.label-interaksjonsdesign { background-color: #e1bee7; color: #7b1fa2; }

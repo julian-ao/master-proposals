@@ -107,8 +107,10 @@ export function ProjectCard({
                         <button
                             onClick={onFavoriteToggle}
                             className={`ml-auto ${
-                                isFavorite ? "text-red-500" : "text-gray-500"
-                            } hover:text-red-600`}
+                                isFavorite
+                                    ? "text-red-500 "
+                                    : "text-gray-500 text-xl"
+                            } hover:text-yellow-500`}
                         >
                             {isFavorite ? "⭐" : "⭐︎"}
                         </button>

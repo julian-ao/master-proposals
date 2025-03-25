@@ -48,6 +48,8 @@ export default function ProjectBrowser() {
         []
     );
 
+    const [showAvailableOnly, setShowTildelt] = useState(false);
+
     const fetchProjects = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -223,12 +225,20 @@ export default function ProjectBrowser() {
             isFavorite = true;
         }
 
+        let tildeltMatch = true;
+
+        // Filter out tildelt
+        if (showAvailableOnly) {
+            tildeltMatch = !project.status.toLowerCase().includes("tildelt");
+        }
+
         return (
             programMatch &&
             supervisorMatch &&
             typeMatch &&
             searchMatch &&
-            isFavorite
+            isFavorite &&
+            tildeltMatch
         );
     });
 
@@ -280,23 +290,42 @@ export default function ProjectBrowser() {
                     />
 
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                        Favorites
-                        <div className="flex items-center mt-2">
-                            <input
-                                type="checkbox"
-                                id="show-favorites"
-                                checked={showFavorites}
-                                onChange={() =>
-                                    setShowFavorites((prev) => !prev)
-                                }
-                                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            />
-                            <label
-                                htmlFor="show-favorites"
-                                className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                            >
-                                Show only favorites
-                            </label>
+                        Other
+                        <div className="flex mt-2 flex-col">
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="show-favorites"
+                                    checked={showFavorites}
+                                    onChange={() =>
+                                        setShowFavorites((prev) => !prev)
+                                    }
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="show-favorites"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Show only favorites
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="show-tildelt"
+                                    checked={showAvailableOnly}
+                                    onChange={() =>
+                                        setShowTildelt((prev) => !prev)
+                                    }
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="show-tildelt"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Show only available projects
+                                </label>
+                            </div>
                         </div>
                     </div>
 

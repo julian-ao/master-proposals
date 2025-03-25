@@ -14,8 +14,10 @@ export async function GET(request: NextRequest) {
     });
 
     try {
-        console.log("Fetching data from:", url.toString());
-        const response = await fetch(url.toString());
+        const response = await fetch(url.toString(), {
+            cache: "force-cache",
+            next: { revalidate: 86400 },
+        });
 
         if (!response.ok) {
             return NextResponse.json(

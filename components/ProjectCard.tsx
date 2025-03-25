@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { IProject } from "../lib/constants"
+import { track } from '@vercel/analytics';
 
 interface ProjectCardProps {
   project: IProject
@@ -24,7 +25,10 @@ export function ProjectCard({ project, getProgramName }: ProjectCardProps) {
             {project.title}
           </h3>
           <button
-            onClick={() => setExpanded(!expanded)}
+            onClick={() => {
+              track('My Event', {}, { flags: ['summer-sale'] });
+              setExpanded(!expanded)
+            }}
             className="text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
           >
             {expanded ? 'Hide details' : 'Show details'}

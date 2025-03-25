@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { track } from '@vercel/analytics';
 
 interface SupervisorFilterProps {
   supervisors: string[]
@@ -28,13 +29,48 @@ export function SupervisorFilter({
 
   const hasSelections = Object.keys(selected).length > 0 || Object.keys(excluded).length > 0
 
+  const handleToggle = (supervisor: string) => {
+    track('Supervisor Filter', {
+      action: 'include',
+      supervisor,
+      state: !selected[supervisor] ? 'added' : 'removed'
+    });
+    onToggle(supervisor);
+  };
+
+  const handleExclude = (supervisor: string) => {
+    track('Supervisor Filter', {
+      action: 'exclude',
+      supervisor,
+      state: !excluded[supervisor] ? 'added' : 'removed'
+    });
+    onExclude(supervisor);
+  };
+
+  const handleClear = () => {
+    track('Supervisor Filter', {
+      action: 'clear_all',
+      previously_included: Object.keys(selected).length,
+      previously_excluded: Object.keys(excluded).length
+    });
+    onClear();
+  };
+
+  const handleViewModeChange = (mode: 'include' | 'exclude') => {
+    track('Supervisor Filter UI', {
+      action: 'view_mode_change',
+      mode
+    });
+    setViewMode(mode);
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-sm font-medium text-gray-900 dark:text-white">Supervisors</h3>
         {hasSelections && (
           <button
-            onClick={onClear}
+            onClick={handleClear}
             className="text-xs text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
           >
             Clear all
@@ -44,19 +80,19 @@ export function SupervisorFilter({
 
       <div className="flex space-x-2 mb-3">
         <button
-          onClick={() => setViewMode('include')}
+          onClick={() => handleViewModeChange('include')}
           className={`text-xs px-3 py-1 rounded-md ${viewMode === 'include'
-            ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100'
-            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+              ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100'
+              : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
             }`}
         >
           Include
         </button>
         <button
-          onClick={() => setViewMode('exclude')}
+          onClick={() => handleViewModeChange('exclude')}
           className={`text-xs px-3 py-1 rounded-md ${viewMode === 'exclude'
-            ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
-            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+              ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
+              : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
             }`}
         >
           Exclude
@@ -69,7 +105,15 @@ export function SupervisorFilter({
           placeholder="Search supervisors..."
           className="w-full pl-8 pr-3 py-1.5 text-sm border rounded-md dark:bg-gray-700 dark:border-gray-600"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value.length > 0) {
+              track('Supervisor Filter UI', {
+                action: 'search',
+                query: e.target.value
+              });
+            }
+            setSearchTerm(e.target.value);
+          }}
         />
         <svg
           className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400"
@@ -90,14 +134,14 @@ export function SupervisorFilter({
                   <input
                     type="checkbox"
                     checked={!!selected[supervisor]}
-                    onChange={() => onToggle(supervisor)}
+                    onChange={() => handleToggle(supervisor)}
                     className="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
                   />
                 ) : (
                   <input
                     type="checkbox"
                     checked={!!excluded[supervisor]}
-                    onChange={() => onExclude(supervisor)}
+                    onChange={() => handleExclude(supervisor)}
                     className="h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-red-500"
                   />
                 )}

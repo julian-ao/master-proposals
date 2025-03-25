@@ -1,3 +1,5 @@
+import { track } from '@vercel/analytics';
+
 interface SortAndFilterControlsProps {
   filterMode: "union" | "intersection"
   onFilterModeChange: (mode: "union" | "intersection") => void
@@ -13,6 +15,16 @@ export function SortAndFilterControls({
   onSearchChange,
   projectCount
 }: SortAndFilterControlsProps) {
+  const handleSearch = (query: string) => {
+    track('Search', { query });
+    onSearchChange(query);
+  };
+
+  const handleFilterModeChange = (mode: "union" | "intersection") => {
+    track('Filter Mode Changed', { mode });
+    onFilterModeChange(mode);
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -30,7 +42,7 @@ export function SortAndFilterControls({
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 py-2 sm:text-sm border-gray-300 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               placeholder="Search projects..."
               value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
         </div>
@@ -41,14 +53,14 @@ export function SortAndFilterControls({
             <div className="flex space-x-2">
               <button
                 type="button"
-                onClick={() => onFilterModeChange("intersection")}
+                onClick={() => handleFilterModeChange("intersection")}
                 className={`px-3 py-1 text-sm rounded-md ${filterMode === "intersection" ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}
               >
                 Intersection
               </button>
               <button
                 type="button"
-                onClick={() => onFilterModeChange("union")}
+                onClick={() => handleFilterModeChange("union")}
                 className={`px-3 py-1 text-sm rounded-md ${filterMode === "union" ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100' : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}
               >
                 Union

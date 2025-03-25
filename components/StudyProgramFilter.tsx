@@ -1,3 +1,4 @@
+import { track } from '@vercel/analytics';
 import { STUDY_PROGRAMS } from "../lib/constants"
 
 interface StudyProgramFilterProps {
@@ -7,6 +8,18 @@ interface StudyProgramFilterProps {
 }
 
 export function StudyProgramFilter({ programs, selectedPrograms, onToggleProgram }: StudyProgramFilterProps) {
+  const handleToggleProgram = (programId: string) => {
+    const programName = programs.find(p => p.id === programId)?.name || programId;
+    const action = selectedPrograms[programId] ? 'deselected' : 'selected';
+
+    track('Specialization Filter', {
+      program: programName,
+      action: action
+    });
+
+    onToggleProgram(programId);
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
@@ -19,7 +32,7 @@ export function StudyProgramFilter({ programs, selectedPrograms, onToggleProgram
               id={program.id}
               type="checkbox"
               checked={selectedPrograms[program.id]}
-              onChange={() => onToggleProgram(program.id)}
+              onChange={() => handleToggleProgram(program.id)}
               className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <label

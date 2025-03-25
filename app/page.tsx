@@ -64,6 +64,17 @@ export default function ProjectBrowser() {
 
     const { toast } = useToast();
 
+    // Custom toast function with auto-dismiss after 3 seconds
+    const showToast = useCallback(
+        ({ title, description }: { title: string; description: string }) => {
+            const { dismiss } = toast({ title, description });
+            setTimeout(() => {
+                dismiss();
+            }, 3000);
+        },
+        [toast]
+    );
+
     const fetchProjects = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -486,7 +497,7 @@ export default function ProjectBrowser() {
                                             setFavorites((prev) => {
                                                 if (isFavorite) {
                                                     // Remove from favorites
-                                                    toast({
+                                                    showToast({
                                                         title: "Removed from favorites",
                                                         description: `"${project.title}" has been removed from your favorites.`,
                                                     });
@@ -497,7 +508,7 @@ export default function ProjectBrowser() {
                                                     );
                                                 } else {
                                                     // Add to favorites
-                                                    toast({
+                                                    showToast({
                                                         title: "Added to favorites",
                                                         description: `"${project.title}" has been added to your favorites.`,
                                                     });
@@ -519,7 +530,7 @@ export default function ProjectBrowser() {
                                             setHiddenProjects((prev) => {
                                                 if (isHidden) {
                                                     // Unhide project
-                                                    toast({
+                                                    showToast({
                                                         title: "Project unhidden",
                                                         description: `"${project.title}" is now visible in your project list.`,
                                                     });
@@ -530,7 +541,7 @@ export default function ProjectBrowser() {
                                                     );
                                                 } else {
                                                     // Hide project
-                                                    toast({
+                                                    showToast({
                                                         title: "Project hidden",
                                                         description: `"${project.title}" has been hidden from your project list.`,
                                                     });

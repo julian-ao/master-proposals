@@ -7,6 +7,8 @@ interface ProjectCardProps {
     getProgramName: (programId: string) => string;
     onFavoriteToggle?: () => void;
     isFavorite?: boolean;
+    onHideToggle?: () => void;
+    isHidden?: boolean;
 }
 
 export function ProjectCard({
@@ -14,6 +16,8 @@ export function ProjectCard({
     getProgramName,
     onFavoriteToggle,
     isFavorite,
+    onHideToggle,
+    isHidden,
 }: ProjectCardProps) {
     const [expanded, setExpanded] = useState(false);
 
@@ -112,19 +116,39 @@ export function ProjectCard({
                             🔗
                         </a>
                     </span>
-                    {/* Favorite button positioned at the far right */}
-                    {onFavoriteToggle && (
-                        <button
-                            onClick={onFavoriteToggle}
-                            className={`ml-auto ${
-                                isFavorite
-                                    ? "text-red-500 "
-                                    : "text-gray-500 text-xl"
-                            } hover:text-yellow-500`}
-                        >
-                            {isFavorite ? "⭐" : "⭐︎"}
-                        </button>
-                    )}
+                    {/* Action buttons positioned at the far right */}
+                    <div className="ml-auto flex gap-2">
+                        {onHideToggle && (
+                            <button
+                                onClick={onHideToggle}
+                                title={
+                                    isHidden ? "Unhide project" : "Hide project"
+                                }
+                                className={`${
+                                    isHidden ? "text-gray-400" : "text-gray-500"
+                                } hover:text-gray-700 dark:hover:text-gray-300`}
+                            >
+                                {isHidden ? "👁️" : "👁️‍🗨️"}
+                            </button>
+                        )}
+                        {onFavoriteToggle && (
+                            <button
+                                onClick={onFavoriteToggle}
+                                title={
+                                    isFavorite
+                                        ? "Remove from favorites"
+                                        : "Add to favorites"
+                                }
+                                className={`${
+                                    isFavorite
+                                        ? "text-red-500 "
+                                        : "text-gray-500 text-3xl"
+                                } hover:text-yellow-500`}
+                            >
+                                {isFavorite ? "⭐" : "⭐︎"}
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

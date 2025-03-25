@@ -48,6 +48,13 @@ export default function ProjectBrowser() {
         []
     );
 
+    // Add state for hidden projects
+    const [hiddenProjects, setHiddenProjects] = useLocalStorage<string[]>(
+        "hiddenProjects",
+        []
+    );
+    const [showHiddenProjects, setShowHiddenProjects] = useState(false);
+
     const [showAvailableOnly, setShowTildelt] = useState(false);
 
     const fetchProjects = useCallback(async () => {
@@ -225,6 +232,13 @@ export default function ProjectBrowser() {
             isFavorite = true;
         }
 
+        // Filter by hidden status
+        let hiddenStatusMatch = true;
+        const isHidden = hiddenProjects.includes(project.title);
+        if (isHidden && !showHiddenProjects) {
+            hiddenStatusMatch = false;
+        }
+
         let tildeltMatch = true;
 
         // Filter out tildelt
@@ -238,7 +252,8 @@ export default function ProjectBrowser() {
             typeMatch &&
             searchMatch &&
             isFavorite &&
-            tildeltMatch
+            tildeltMatch &&
+            hiddenStatusMatch
         );
     });
 
@@ -290,8 +305,10 @@ export default function ProjectBrowser() {
                     />
 
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                        Other
-                        <div className="flex mt-2 flex-col">
+                        <h3 className="font-medium text-gray-900 dark:text-white mb-3">
+                            Filter Options
+                        </h3>
+                        <div className="flex mt-2 flex-col space-y-2">
                             <div>
                                 <input
                                     type="checkbox"
@@ -307,6 +324,23 @@ export default function ProjectBrowser() {
                                     className="ml-3 text-sm text-gray-700 dark:text-gray-300"
                                 >
                                     Show only favorites
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="show-hidden"
+                                    checked={showHiddenProjects}
+                                    onChange={() =>
+                                        setShowHiddenProjects((prev) => !prev)
+                                    }
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="show-hidden"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Show hidden projects
                                 </label>
                             </div>
                             <div>
@@ -400,6 +434,28 @@ export default function ProjectBrowser() {
                                                     return prev.filter(
                                                         (fav) =>
                                                             fav !==
+                                                            project.title
+                                                    );
+                                                } else {
+                                                    return [
+                                                        ...prev,
+                                                        project.title,
+                                                    ];
+                                                }
+                                            });
+                                        }}
+                                        isHidden={hiddenProjects.includes(
+                                            project.title
+                                        )}
+                                        onHideToggle={() => {
+                                            setHiddenProjects((prev) => {
+                                                const isHidden = prev.includes(
+                                                    project.title
+                                                );
+                                                if (isHidden) {
+                                                    return prev.filter(
+                                                        (hidden) =>
+                                                            hidden !==
                                                             project.title
                                                     );
                                                 } else {

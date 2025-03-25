@@ -9,6 +9,7 @@ import { ErrorMessage } from "../components/ErrorMessage";
 import { IProject, STUDY_PROGRAMS } from "../lib/constants";
 import { SupervisorFilter } from "../components/SupervisorFilter";
 import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
+import { useLocalStorage } from "usehooks-ts";
 
 const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
     acc[program.id] = true;
@@ -39,6 +40,13 @@ export default function ProjectBrowser() {
     const [excludedSupervisors, setExcludedSupervisors] = useState<
         Record<string, boolean>
     >({});
+
+    const [showFavorites, setShowFavorites] = useState(false);
+
+    const [favorites, setFavorites] = useLocalStorage<string[]>(
+        "favorites",
+        []
+    );
 
     const fetchProjects = useCallback(async () => {
         setLoading(true);
@@ -206,7 +214,22 @@ export default function ProjectBrowser() {
                 .toLowerCase()
                 .includes(searchQuery.toLowerCase());
 
-        return programMatch && supervisorMatch && typeMatch && searchMatch;
+        // Filter by favorites
+        // If name in favorites
+        let isFavorite = favorites.some(
+            (favorite) => favorite === project.title
+        );
+        if (!showFavorites) {
+            isFavorite = true;
+        }
+
+        return (
+            programMatch &&
+            supervisorMatch &&
+            typeMatch &&
+            searchMatch &&
+            isFavorite
+        );
     });
 
     const getProgramName = (programId: string) =>
@@ -255,6 +278,27 @@ export default function ProjectBrowser() {
                         filterMode={filterMode}
                         onFilterModeChange={setFilterMode}
                     />
+
+                    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                        Favorites
+                        <div className="flex items-center mt-2">
+                            <input
+                                type="checkbox"
+                                id="show-favorites"
+                                checked={showFavorites}
+                                onChange={() =>
+                                    setShowFavorites((prev) => !prev)
+                                }
+                                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                            />
+                            <label
+                                htmlFor="show-favorites"
+                                className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                            >
+                                Show only favorites
+                            </label>
+                        </div>
+                    </div>
 
                     <SupervisorFilter
                         supervisors={availableSupervisors}
@@ -314,6 +358,29 @@ export default function ProjectBrowser() {
                                         key={project.id}
                                         project={project}
                                         getProgramName={getProgramName}
+                                        isFavorite={favorites.includes(
+                                            project.title
+                                        )}
+                                        onFavoriteToggle={() => {
+                                            setFavorites((prev) => {
+                                                const isFavorite =
+                                                    prev.includes(
+                                                        project.title
+                                                    );
+                                                if (isFavorite) {
+                                                    return prev.filter(
+                                                        (fav) =>
+                                                            fav !==
+                                                            project.title
+                                                    );
+                                                } else {
+                                                    return [
+                                                        ...prev,
+                                                        project.title,
+                                                    ];
+                                                }
+                                            });
+                                        }}
                                     />
                                 ))
                             ) : (

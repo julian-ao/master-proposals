@@ -102,6 +102,16 @@ export function ProjectCard({
                     <span className="text-gray-600 dark:text-gray-400">
                         {project.status}
                     </span>
+                    <span>
+                        <a
+                            href={
+                                "https://www.idi.ntnu.no/education/" +
+                                project.link
+                            }
+                        >
+                            🔗
+                        </a>
+                    </span>
                     {/* Favorite button positioned at the far right */}
                     {onFavoriteToggle && (
                         <button

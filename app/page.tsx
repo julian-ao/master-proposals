@@ -10,6 +10,7 @@ import { IProject, STUDY_PROGRAMS } from "../lib/constants";
 import { SupervisorFilter } from "../components/SupervisorFilter";
 import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
 import { useLocalStorage } from "usehooks-ts";
+import { useToast } from "../hooks/use-toast";
 
 const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
     acc[program.id] = true;
@@ -42,6 +43,7 @@ export default function ProjectBrowser() {
     >({});
 
     const [showFavorites, setShowFavorites] = useState(false);
+    const [hideFavorites, setHideFavorites] = useState(false);
 
     const [favorites, setFavorites] = useLocalStorage<string[]>(
         "favorites",
@@ -59,6 +61,19 @@ export default function ProjectBrowser() {
 
     // Add state for auto-expand toggle
     const [autoExpandDescriptions, setAutoExpandDescriptions] = useState(false);
+
+    const { toast } = useToast();
+
+    // Custom toast function with auto-dismiss after 3 seconds
+    const showToast = useCallback(
+        ({ title, description }: { title: string; description: string }) => {
+            const { dismiss } = toast({ title, description });
+            setTimeout(() => {
+                dismiss();
+            }, 3000);
+        },
+        [toast]
+    );
 
     const fetchProjects = useCallback(async () => {
         setLoading(true);
@@ -227,12 +242,15 @@ export default function ProjectBrowser() {
                 .includes(searchQuery.toLowerCase());
 
         // Filter by favorites
-        // If name in favorites
-        let isFavorite = favorites.some(
-            (favorite) => favorite === project.title
-        );
-        if (!showFavorites) {
-            isFavorite = true;
+        const isFavorite = favorites.includes(project.title);
+        let favoriteMatch = true;
+
+        if (showFavorites) {
+            // Show only favorites
+            favoriteMatch = isFavorite;
+        } else if (hideFavorites) {
+            // Hide favorites
+            favoriteMatch = !isFavorite;
         }
 
         // Filter by hidden status
@@ -254,7 +272,7 @@ export default function ProjectBrowser() {
             supervisorMatch &&
             typeMatch &&
             searchMatch &&
-            isFavorite &&
+            favoriteMatch &&
             tildeltMatch &&
             hiddenStatusMatch
         );
@@ -317,9 +335,13 @@ export default function ProjectBrowser() {
                                     type="checkbox"
                                     id="show-favorites"
                                     checked={showFavorites}
-                                    onChange={() =>
-                                        setShowFavorites((prev) => !prev)
-                                    }
+                                    onChange={() => {
+                                        setShowFavorites((prev) => !prev);
+                                        if (!showFavorites) {
+                                            // If enabling "show only favorites", disable "hide favorites"
+                                            setHideFavorites(false);
+                                        }
+                                    }}
                                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                                 />
                                 <label
@@ -327,6 +349,27 @@ export default function ProjectBrowser() {
                                     className="ml-3 text-sm text-gray-700 dark:text-gray-300"
                                 >
                                     Show only favorites
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="hide-favorites"
+                                    checked={hideFavorites}
+                                    onChange={() => {
+                                        setHideFavorites((prev) => !prev);
+                                        if (!hideFavorites) {
+                                            // If enabling "hide favorites", disable "show only favorites"
+                                            setShowFavorites(false);
+                                        }
+                                    }}
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="hide-favorites"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Hide favorites
                                 </label>
                             </div>
                             <div>
@@ -447,18 +490,28 @@ export default function ProjectBrowser() {
                                             project.title
                                         )}
                                         onFavoriteToggle={() => {
+                                            const isFavorite =
+                                                favorites.includes(
+                                                    project.title
+                                                );
                                             setFavorites((prev) => {
-                                                const isFavorite =
-                                                    prev.includes(
-                                                        project.title
-                                                    );
                                                 if (isFavorite) {
+                                                    // Remove from favorites
+                                                    showToast({
+                                                        title: "Removed from favorites",
+                                                        description: `"${project.title}" has been removed from your favorites.`,
+                                                    });
                                                     return prev.filter(
                                                         (fav) =>
                                                             fav !==
                                                             project.title
                                                     );
                                                 } else {
+                                                    // Add to favorites
+                                                    showToast({
+                                                        title: "Added to favorites",
+                                                        description: `"${project.title}" has been added to your favorites.`,
+                                                    });
                                                     return [
                                                         ...prev,
                                                         project.title,
@@ -470,17 +523,28 @@ export default function ProjectBrowser() {
                                             project.title
                                         )}
                                         onHideToggle={() => {
-                                            setHiddenProjects((prev) => {
-                                                const isHidden = prev.includes(
+                                            const isHidden =
+                                                hiddenProjects.includes(
                                                     project.title
                                                 );
+                                            setHiddenProjects((prev) => {
                                                 if (isHidden) {
+                                                    // Unhide project
+                                                    showToast({
+                                                        title: "Project unhidden",
+                                                        description: `"${project.title}" is now visible in your project list.`,
+                                                    });
                                                     return prev.filter(
                                                         (hidden) =>
                                                             hidden !==
                                                             project.title
                                                     );
                                                 } else {
+                                                    // Hide project
+                                                    showToast({
+                                                        title: "Project hidden",
+                                                        description: `"${project.title}" has been hidden from your project list.`,
+                                                    });
                                                     return [
                                                         ...prev,
                                                         project.title,

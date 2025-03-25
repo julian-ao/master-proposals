@@ -70,10 +70,14 @@ export function ProjectCard({
                 </div>
                 {expanded && (
                     <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
-                            {project.fullDescription ||
-                                "No detailed description available."}
-                        </p>
+                        <div
+                            className="text-gray-700 dark:text-gray-300"
+                            dangerouslySetInnerHTML={{
+                                __html:
+                                    project.fullDescription ||
+                                    "No detailed description available.",
+                            }}
+                        />
                     </div>
                 )}
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap items-center gap-3 text-sm">

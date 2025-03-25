@@ -147,10 +147,10 @@ export default function ProjectBrowser() {
                     }
 
                     divs.forEach((div) => {
-                        const text = div.textContent?.trim() || "";
-                        if (div.id.startsWith("shown_")) shownDesc = text;
+                        if (div.id.startsWith("shown_"))
+                            shownDesc = div.innerHTML;
                         else if (div.id.startsWith("hidden_"))
-                            hiddenDesc = text;
+                            hiddenDesc = div.innerHTML;
                     });
 
                     const project = {

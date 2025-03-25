@@ -42,6 +42,7 @@ export default function ProjectBrowser() {
     >({});
 
     const [showFavorites, setShowFavorites] = useState(false);
+    const [hideFavorites, setHideFavorites] = useState(false);
 
     const [favorites, setFavorites] = useLocalStorage<string[]>(
         "favorites",
@@ -227,12 +228,15 @@ export default function ProjectBrowser() {
                 .includes(searchQuery.toLowerCase());
 
         // Filter by favorites
-        // If name in favorites
-        let isFavorite = favorites.some(
-            (favorite) => favorite === project.title
-        );
-        if (!showFavorites) {
-            isFavorite = true;
+        const isFavorite = favorites.includes(project.title);
+        let favoriteMatch = true;
+
+        if (showFavorites) {
+            // Show only favorites
+            favoriteMatch = isFavorite;
+        } else if (hideFavorites) {
+            // Hide favorites
+            favoriteMatch = !isFavorite;
         }
 
         // Filter by hidden status
@@ -254,7 +258,7 @@ export default function ProjectBrowser() {
             supervisorMatch &&
             typeMatch &&
             searchMatch &&
-            isFavorite &&
+            favoriteMatch &&
             tildeltMatch &&
             hiddenStatusMatch
         );
@@ -317,9 +321,13 @@ export default function ProjectBrowser() {
                                     type="checkbox"
                                     id="show-favorites"
                                     checked={showFavorites}
-                                    onChange={() =>
-                                        setShowFavorites((prev) => !prev)
-                                    }
+                                    onChange={() => {
+                                        setShowFavorites((prev) => !prev);
+                                        if (!showFavorites) {
+                                            // If enabling "show only favorites", disable "hide favorites"
+                                            setHideFavorites(false);
+                                        }
+                                    }}
                                     className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                                 />
                                 <label
@@ -327,6 +335,27 @@ export default function ProjectBrowser() {
                                     className="ml-3 text-sm text-gray-700 dark:text-gray-300"
                                 >
                                     Show only favorites
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="hide-favorites"
+                                    checked={hideFavorites}
+                                    onChange={() => {
+                                        setHideFavorites((prev) => !prev);
+                                        if (!hideFavorites) {
+                                            // If enabling "hide favorites", disable "show only favorites"
+                                            setShowFavorites(false);
+                                        }
+                                    }}
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="hide-favorites"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Hide favorites
                                 </label>
                             </div>
                             <div>

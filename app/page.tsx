@@ -57,6 +57,9 @@ export default function ProjectBrowser() {
 
     const [showAvailableOnly, setShowTildelt] = useState(false);
 
+    // Add state for auto-expand toggle
+    const [autoExpandDescriptions, setAutoExpandDescriptions] = useState(false);
+
     const fetchProjects = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -306,7 +309,7 @@ export default function ProjectBrowser() {
 
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                         <h3 className="font-medium text-gray-900 dark:text-white mb-3">
-                            Filter Options
+                            Other Options
                         </h3>
                         <div className="flex mt-2 flex-col space-y-2">
                             <div>
@@ -358,6 +361,25 @@ export default function ProjectBrowser() {
                                     className="ml-3 text-sm text-gray-700 dark:text-gray-300"
                                 >
                                     Show only available projects
+                                </label>
+                            </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="auto-expand"
+                                    checked={autoExpandDescriptions}
+                                    onChange={() =>
+                                        setAutoExpandDescriptions(
+                                            (prev) => !prev
+                                        )
+                                    }
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="auto-expand"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Auto-expand all descriptions
                                 </label>
                             </div>
                         </div>
@@ -466,6 +488,7 @@ export default function ProjectBrowser() {
                                                 }
                                             });
                                         }}
+                                        autoExpand={autoExpandDescriptions}
                                     />
                                 ))
                             ) : (

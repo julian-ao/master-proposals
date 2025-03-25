@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IProject } from "../lib/constants";
 import { track } from "@vercel/analytics";
 
@@ -9,6 +9,7 @@ interface ProjectCardProps {
     isFavorite?: boolean;
     onHideToggle?: () => void;
     isHidden?: boolean;
+    autoExpand?: boolean;
 }
 
 export function ProjectCard({
@@ -18,8 +19,14 @@ export function ProjectCard({
     isFavorite,
     onHideToggle,
     isHidden,
+    autoExpand = false,
 }: ProjectCardProps) {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(autoExpand);
+
+    // Update expanded state when autoExpand changes
+    useEffect(() => {
+        setExpanded(autoExpand);
+    }, [autoExpand]);
 
     const programColors: Record<string, string> = {
         p2_6: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100",

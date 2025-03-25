@@ -62,7 +62,15 @@ export default function ProjectBrowser() {
     // Add state for auto-expand toggle
     const [autoExpandDescriptions, setAutoExpandDescriptions] = useState(false);
 
+    // Add state to track if component is mounted (for hydration safety)
+    const [isMounted, setIsMounted] = useState(false);
+
     const { toast } = useToast();
+
+    // Set mounted state after initial render
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     // Custom toast function with auto-dismiss after 3 seconds
     const showToast = useCallback(
@@ -369,7 +377,10 @@ export default function ProjectBrowser() {
                                     htmlFor="hide-favorites"
                                     className="ml-3 text-sm text-gray-700 dark:text-gray-300"
                                 >
-                                    Hide favorites
+                                    Hide favorites{" "}
+                                    {isMounted &&
+                                        favorites.length > 0 &&
+                                        `(${favorites.length})`}
                                 </label>
                             </div>
                             <div>
@@ -386,7 +397,10 @@ export default function ProjectBrowser() {
                                     htmlFor="show-hidden"
                                     className="ml-3 text-sm text-gray-700 dark:text-gray-300"
                                 >
-                                    Show hidden projects
+                                    Show hidden projects{" "}
+                                    {isMounted &&
+                                        hiddenProjects.length > 0 &&
+                                        `(${hiddenProjects.length})`}
                                 </label>
                             </div>
                             <div>

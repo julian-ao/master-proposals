@@ -10,6 +10,7 @@ import { IProject, STUDY_PROGRAMS } from "../lib/constants";
 import { SupervisorFilter } from "../components/SupervisorFilter";
 import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
 import { useLocalStorage } from "usehooks-ts";
+import { useToast } from "../hooks/use-toast";
 
 const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
     acc[program.id] = true;
@@ -60,6 +61,8 @@ export default function ProjectBrowser() {
 
     // Add state for auto-expand toggle
     const [autoExpandDescriptions, setAutoExpandDescriptions] = useState(false);
+
+    const { toast } = useToast();
 
     const fetchProjects = useCallback(async () => {
         setLoading(true);
@@ -476,18 +479,28 @@ export default function ProjectBrowser() {
                                             project.title
                                         )}
                                         onFavoriteToggle={() => {
+                                            const isFavorite =
+                                                favorites.includes(
+                                                    project.title
+                                                );
                                             setFavorites((prev) => {
-                                                const isFavorite =
-                                                    prev.includes(
-                                                        project.title
-                                                    );
                                                 if (isFavorite) {
+                                                    // Remove from favorites
+                                                    toast({
+                                                        title: "Removed from favorites",
+                                                        description: `"${project.title}" has been removed from your favorites.`,
+                                                    });
                                                     return prev.filter(
                                                         (fav) =>
                                                             fav !==
                                                             project.title
                                                     );
                                                 } else {
+                                                    // Add to favorites
+                                                    toast({
+                                                        title: "Added to favorites",
+                                                        description: `"${project.title}" has been added to your favorites.`,
+                                                    });
                                                     return [
                                                         ...prev,
                                                         project.title,
@@ -499,17 +512,28 @@ export default function ProjectBrowser() {
                                             project.title
                                         )}
                                         onHideToggle={() => {
-                                            setHiddenProjects((prev) => {
-                                                const isHidden = prev.includes(
+                                            const isHidden =
+                                                hiddenProjects.includes(
                                                     project.title
                                                 );
+                                            setHiddenProjects((prev) => {
                                                 if (isHidden) {
+                                                    // Unhide project
+                                                    toast({
+                                                        title: "Project unhidden",
+                                                        description: `"${project.title}" is now visible in your project list.`,
+                                                    });
                                                     return prev.filter(
                                                         (hidden) =>
                                                             hidden !==
                                                             project.title
                                                     );
                                                 } else {
+                                                    // Hide project
+                                                    toast({
+                                                        title: "Project hidden",
+                                                        description: `"${project.title}" has been hidden from your project list.`,
+                                                    });
                                                     return [
                                                         ...prev,
                                                         project.title,

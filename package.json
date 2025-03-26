@@ -9,13 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/openai-compatible": "^0.2.2",
     "@radix-ui/react-toast": "^1.2.6",
+    "@types/jsdom": "^21.1.7",
     "@vercel/analytics": "^1.5.0",
+    "ai": "^4.2.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "jsdom": "^26.0.0",
     "lucide-react": "^0.484.0",
     "next": ">=15.2.3",
     "next-themes": "^0.4.4",
+    "node-fetch": "^3.3.2",
     "react": "^19",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",

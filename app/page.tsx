@@ -17,6 +17,14 @@ const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
     return acc;
 }, {} as Record<string, boolean>);
 
+// Interface for summaries
+interface ISummaries {
+    summaries: Record<string, string>;
+    originalDataFile: string;
+    generatedAt: string;
+    totalSummaries: number;
+}
+
 export default function ProjectBrowser() {
     const [selectedPrograms, setSelectedPrograms] = useState(
         DEFAULT_SELECTED_PROGRAMS
@@ -31,6 +39,10 @@ export default function ProjectBrowser() {
     const [projectTypeFilter, setProjectTypeFilter] = useState<
         "all" | "single" | "duo"
     >("all");
+
+    // Add state for AI summaries
+    const [summaries, setSummaries] = useState<Record<string, string>>({});
+    const [showAiSummaries, setShowAiSummaries] = useState(false);
 
     const [selectedSupervisors, setSelectedSupervisors] = useState<
         Record<string, boolean>
@@ -206,6 +218,25 @@ export default function ProjectBrowser() {
     useEffect(() => {
         fetchProjects();
     }, [fetchProjects]);
+
+    // Load AI summaries from the JSON file
+    useEffect(() => {
+        const loadSummaries = async () => {
+            try {
+                const response = await fetch("json/summaries.json");
+                if (!response.ok) {
+                    console.error("Failed to load AI summaries");
+                    return;
+                }
+                const data: ISummaries = await response.json();
+                setSummaries(data.summaries);
+            } catch (error) {
+                console.error("Error loading AI summaries:", error);
+            }
+        };
+
+        loadSummaries();
+    }, []);
 
     const toggleProgram = (programId: string) => {
         setSelectedPrograms((prev) => ({
@@ -439,6 +470,23 @@ export default function ProjectBrowser() {
                                     Auto-expand all descriptions
                                 </label>
                             </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="show-ai-summaries"
+                                    checked={showAiSummaries}
+                                    onChange={() =>
+                                        setShowAiSummaries((prev) => !prev)
+                                    }
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="show-ai-summaries"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Show AI summaries
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -567,6 +615,11 @@ export default function ProjectBrowser() {
                                             });
                                         }}
                                         autoExpand={autoExpandDescriptions}
+                                        aiSummary={
+                                            showAiSummaries
+                                                ? summaries[project.title]
+                                                : undefined
+                                        }
                                     />
                                 ))
                             ) : (

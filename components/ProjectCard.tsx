@@ -76,7 +76,7 @@ export function ProjectCard({
                         {expanded ? "Hide details" : "Show details"}
                     </button>
                 </div>
-                
+
                 {/* AI Summary - displayed when enabled */}
                 {aiSummary && (
                     <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-4 mb-4 border-l-4 border-indigo-400 dark:border-indigo-600">
@@ -103,7 +103,7 @@ export function ProjectCard({
                         />
                     </div>
                 )}
-                
+
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
                     {project.shortDescription}
                 </p>

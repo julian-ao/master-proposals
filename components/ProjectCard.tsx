@@ -2,6 +2,28 @@ import { useState, useEffect } from "react";
 import { IProject } from "../lib/constants";
 import { track } from "@vercel/analytics";
 
+// Helper function to format AI summary text
+function formatAiSummary(summary: string): string {
+    if (!summary) return "";
+
+    // Remove the introductory text before the actual summary
+    let cleanSummary = summary.replace(/^Okay,.*?summary.*?:\s*\n\n/i, "");
+
+    // Format markdown bold text to HTML
+    cleanSummary = cleanSummary.replace(
+        /\*\*(.*?)\*\*/g,
+        '<strong class="text-indigo-700 dark:text-indigo-300">$1</strong>'
+    );
+
+    // Handle paragraph breaks
+    cleanSummary = cleanSummary.replace(/\n\n/g, "<br/><br/>");
+
+    // Remove any remaining markdown artifacts
+    cleanSummary = cleanSummary.replace(/\n/g, " ");
+
+    return cleanSummary;
+}
+
 interface ProjectCardProps {
     project: IProject;
     getProgramName: (programId: string) => string;
@@ -10,6 +32,7 @@ interface ProjectCardProps {
     onHideToggle?: () => void;
     isHidden?: boolean;
     autoExpand?: boolean;
+    aiSummary?: string;
 }
 
 export function ProjectCard({
@@ -20,6 +43,7 @@ export function ProjectCard({
     onHideToggle,
     isHidden,
     autoExpand = false,
+    aiSummary,
 }: ProjectCardProps) {
     const [expanded, setExpanded] = useState(autoExpand);
 
@@ -52,6 +76,34 @@ export function ProjectCard({
                         {expanded ? "Hide details" : "Show details"}
                     </button>
                 </div>
+
+                {/* AI Summary - displayed when enabled */}
+                {aiSummary && (
+                    <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-4 mb-4 border-l-4 border-indigo-400 dark:border-indigo-600">
+                        <h4 className="font-medium text-indigo-700 dark:text-indigo-300 text-sm mb-1 flex items-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4 mr-1"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                            AI Summary
+                        </h4>
+                        <div
+                            className="text-sm text-gray-700 dark:text-gray-300"
+                            dangerouslySetInnerHTML={{
+                                __html: formatAiSummary(aiSummary),
+                            }}
+                        />
+                    </div>
+                )}
+
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
                     {project.shortDescription}
                 </p>
@@ -68,6 +120,7 @@ export function ProjectCard({
                         </span>
                     ))}
                 </div>
+
                 {expanded && (
                     <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                         <div

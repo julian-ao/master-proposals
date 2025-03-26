@@ -80,85 +80,94 @@ export function ProjectCard({
                         />
                     </div>
                 )}
-                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700 flex flex-wrap items-center gap-3 text-sm">
-                    {/* Student Count  */}
-                    {project.type === "duo" ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs">
-                            <svg
-                                className="w-3 h-3"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                            >
-                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z" />
-                            </svg>
-                            2 students
-                        </span>
-                    ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300 text-xs">
-                            <svg
-                                className="w-3 h-3"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                            1 student
-                        </span>
-                    )}
-                    {/* Supervisor */}
-                    <span className="text-gray-600 dark:text-gray-400">
-                        {project.teacher}
-                    </span>
-                    {/* Status */}
-                    <span className="text-gray-600 dark:text-gray-400">
-                        {project.status}
-                    </span>
-                    <span>
-                        <a
-                            href={
-                                "https://www.idi.ntnu.no/education/" +
-                                project.link
-                            }
-                        >
-                            🔗
-                        </a>
-                    </span>
-                    {/* Action buttons positioned at the far right */}
-                    <div className="ml-auto flex gap-2">
-                        {onHideToggle && (
-                            <button
-                                onClick={onHideToggle}
-                                title={
-                                    isHidden ? "Unhide project" : "Hide project"
-                                }
-                                className={`${
-                                    isHidden ? "text-gray-400" : "text-gray-500"
-                                } hover:text-gray-700 dark:hover:text-gray-300`}
-                            >
-                                {isHidden ? "👁️" : "👁️‍🗨️"}
-                            </button>
-                        )}
-                        {onFavoriteToggle && (
-                            <button
-                                onClick={onFavoriteToggle}
-                                title={
-                                    isFavorite
-                                        ? "Remove from favorites"
-                                        : "Add to favorites"
-                                }
-                                className={`${
-                                    isFavorite
-                                        ? "text-red-500 "
-                                        : "text-gray-500 text-3xl"
-                                } hover:text-yellow-500`}
-                            >
-                                {isFavorite ? "⭐" : "⭐︎"}
-                            </button>
-                        )}
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-sm">
+                        <div className="flex flex-wrap items-center gap-3">
+                            {/* Student Count  */}
+                            {project.type === "duo" ? (
+                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-xs">
+                                    <svg
+                                        className="w-3 h-3"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z" />
+                                    </svg>
+                                    2 students
+                                </span>
+                            ) : (
+                                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-300 text-xs">
+                                    <svg
+                                        className="w-3 h-3"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                    1 student
+                                </span>
+                            )}
+                            {/* Supervisor */}
+                            <span className="text-gray-600 dark:text-gray-400">
+                                {project.teacher}
+                            </span>
+                            {/* Status */}
+                            <span className="text-gray-600 dark:text-gray-400">
+                                {project.status}
+                            </span>
+                            <span>
+                                <a
+                                    href={
+                                        "https://www.idi.ntnu.no/education/" +
+                                        project.link
+                                    }
+                                >
+                                    🔗
+                                </a>
+                            </span>
+                        </div>
+
+                        {/* Action buttons - will appear below on mobile, to the right on desktop */}
+                        <div className="flex w-full gap-2 mt-3 sm:mt-0 sm:w-auto sm:ml-auto">
+                            {onHideToggle && (
+                                <button
+                                    onClick={onHideToggle}
+                                    title={
+                                        isHidden
+                                            ? "Unhide project"
+                                            : "Hide project"
+                                    }
+                                    className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-md flex items-center justify-center text-xs font-medium transition-colors ${
+                                        isHidden
+                                            ? "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                                            : "bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-800/50"
+                                    }`}
+                                >
+                                    {isHidden ? "Unhide" : "Hide"}
+                                </button>
+                            )}
+                            {onFavoriteToggle && (
+                                <button
+                                    onClick={onFavoriteToggle}
+                                    title={
+                                        isFavorite
+                                            ? "Remove from favorites"
+                                            : "Add to favorites"
+                                    }
+                                    className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-md flex items-center justify-center text-xs font-medium transition-colors ${
+                                        isFavorite
+                                            ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:hover:bg-yellow-800/50"
+                                            : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+                                    }`}
+                                >
+                                    {isFavorite ? "Unfavorite" : "Favorite"}
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

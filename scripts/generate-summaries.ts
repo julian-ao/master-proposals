@@ -26,7 +26,6 @@ function createProgressBar(
     update: (current: number) => void;
     complete: () => void;
 } {
-    let currentProgress = 0;
     let startTime = Date.now();
 
     function formatTime(ms: number): string {
@@ -78,7 +77,6 @@ function createProgressBar(
 
     return {
         update: (current: number) => {
-            currentProgress = current;
             render(current);
         },
         complete: () => {

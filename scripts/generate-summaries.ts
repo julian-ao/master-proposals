@@ -12,6 +12,11 @@ import fs from "fs";
 import path from "path";
 import { generateText } from "ai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import * as dotenv from "dotenv";
+
+// Load environment variables from .env file
+dotenv.config();
 
 // Add progress bar functionality
 function createProgressBar(
@@ -22,6 +27,35 @@ function createProgressBar(
     complete: () => void;
 } {
     let currentProgress = 0;
+    let startTime = Date.now();
+
+    function formatTime(ms: number): string {
+        // For times less than a minute
+        if (ms < 60000) {
+            return `${Math.floor(ms / 1000)}s`;
+        }
+        // For times less than an hour
+        if (ms < 3600000) {
+            const minutes = Math.floor(ms / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            return `${minutes}m ${seconds}s`;
+        }
+        // For longer times
+        const hours = Math.floor(ms / 3600000);
+        const minutes = Math.floor((ms % 3600000) / 60000);
+        return `${hours}h ${minutes}m`;
+    }
+
+    function calculateETA(current: number): string {
+        if (current === 0) return "calculating...";
+
+        const elapsedMs = Date.now() - startTime;
+        const msPerItem = elapsedMs / current;
+        const itemsRemaining = total - current;
+        const msRemaining = msPerItem * itemsRemaining;
+
+        return formatTime(msRemaining);
+    }
 
     function render(current: number) {
         const percentage = Math.floor((current / total) * 100);
@@ -29,10 +63,16 @@ function createProgressBar(
         const bar =
             "█".repeat(filledLength) + "░".repeat(barLength - filledLength);
 
-        process.stdout.write(`\r[${bar}] ${percentage}% | ${current}/${total}`);
+        const eta = calculateETA(current);
+        const elapsed = formatTime(Date.now() - startTime);
+
+        process.stdout.write(
+            `\r[${bar}] ${percentage}% | ${current}/${total} | Elapsed: ${elapsed} | ETA: ${eta}`
+        );
 
         if (current === total) {
-            process.stdout.write("\n");
+            const totalTime = formatTime(Date.now() - startTime);
+            process.stdout.write(`\nCompleted in ${totalTime}\n`);
         }
     }
 
@@ -43,7 +83,6 @@ function createProgressBar(
         },
         complete: () => {
             render(total);
-            process.stdout.write("\n");
         },
     };
 }
@@ -105,14 +144,40 @@ async function generateSummaries() {
 
         console.log(`Found ${projects.length} projects to summarize`);
 
-        // Create AI SDK client for LMStudio
-        const lmstudio = createOpenAICompatible({
-            name: "lmstudio",
-            baseURL: "http://localhost:1234/v1",
-        });
+        // Determine which model to use
+        const modelProvider = process.env.MODEL_PROVIDER || "lmstudio";
+        console.log(`Using model provider: ${modelProvider}`);
 
-        // Use Gemma model - modify this to match your actual model in LMStudio
-        const model = lmstudio("gemma-3-4b-it");
+        let model;
+
+        // Initialize the selected model
+        if (modelProvider === "gemini") {
+            // Check if API key is available
+            if (!process.env.GOOGLE_API_KEY) {
+                throw new Error(
+                    "GOOGLE_API_KEY environment variable is required for Gemini model"
+                );
+            }
+
+            console.log("Initializing Google Gemini model...");
+            const google = createGoogleGenerativeAI({
+                apiKey: process.env.GOOGLE_API_KEY,
+            });
+
+            // Use Gemini 2.0 flash
+            model = google("models/gemini-2.0-flash");
+        } else {
+            // Default to LMStudio
+            console.log("Initializing LMStudio model...");
+            const lmstudio = createOpenAICompatible({
+                name: "lmstudio",
+                baseURL: "http://localhost:1234/v1",
+            });
+
+            // Use local model
+            const modelName = process.env.LMSTUDIO_MODEL || "gemma-3-27b-it";
+            model = lmstudio(modelName);
+        }
 
         // Store summaries
         const summaries: Record<string, string> = {};

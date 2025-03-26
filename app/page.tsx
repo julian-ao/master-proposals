@@ -223,7 +223,7 @@ export default function ProjectBrowser() {
     useEffect(() => {
         const loadSummaries = async () => {
             try {
-                const response = await fetch("json/summaries.json");
+                const response = await fetch("json/summaries-gemini.json");
                 if (!response.ok) {
                     console.error("Failed to load AI summaries");
                     return;

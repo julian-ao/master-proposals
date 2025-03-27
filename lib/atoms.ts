@@ -21,3 +21,17 @@ export const selectedProgramsAtom = atom<Record<string, boolean>>(
 
 // Fetched state atom to track if the initial fetch has been done
 export const projectsFetchedAtom = atom<boolean>(false);
+
+// Interface for summaries
+export interface ISummaries {
+    summaries: Record<string, string>;
+    originalDataFile: string;
+    generatedAt: string;
+    totalSummaries: number;
+}
+
+// Atoms for AI summaries
+export const summariesAtom = atom<Record<string, string>>({});
+export const summariesLoadingAtom = atom<boolean>(false);
+export const summariesErrorAtom = atom<string | null>(null);
+export const showAiSummariesAtom = atom<boolean>(false);

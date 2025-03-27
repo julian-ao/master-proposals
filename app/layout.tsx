@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { Footer } from "../components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { ProjectDataProvider } from "@/components/ProjectDataProvider";
+import { AISummaryProvider } from "@/components/AISummaryProvider";
 import { Provider } from "jotai";
 
 export const metadata: Metadata = {
@@ -23,10 +24,12 @@ export default function RootLayout({
             <body>
                 <Provider>
                     <ProjectDataProvider>
-                        <Analytics />
-                        {children}
-                        <Footer />
-                        <Toaster />
+                        <AISummaryProvider>
+                            <Analytics />
+                            {children}
+                            <Footer />
+                            <Toaster />
+                        </AISummaryProvider>
                     </ProjectDataProvider>
                 </Provider>
             </body>

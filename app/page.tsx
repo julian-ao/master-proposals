@@ -18,15 +18,9 @@ import {
     loadingProjectsAtom,
     errorAtom,
     selectedProgramsAtom,
+    summariesAtom,
+    showAiSummariesAtom,
 } from "../lib/atoms";
-
-// Interface for summaries
-interface ISummaries {
-    summaries: Record<string, string>;
-    originalDataFile: string;
-    generatedAt: string;
-    totalSummaries: number;
-}
 
 export default function ProjectBrowser() {
     const [selectedPrograms, setSelectedPrograms] =
@@ -36,6 +30,10 @@ export default function ProjectBrowser() {
     const error = useAtomValue(errorAtom);
     const availableSupervisors = useAtomValue(availableSupervisorsAtom);
 
+    // Use the Jotai atoms for AI summaries
+    const summaries = useAtomValue(summariesAtom);
+    const [showAiSummaries, setShowAiSummaries] = useAtom(showAiSummariesAtom);
+
     const [filterMode, setFilterMode] = useState<"union" | "intersection">(
         "union"
     );
@@ -43,10 +41,6 @@ export default function ProjectBrowser() {
     const [projectTypeFilter, setProjectTypeFilter] = useState<
         "all" | "single" | "duo"
     >("all");
-
-    // Add state for AI summaries
-    const [summaries, setSummaries] = useState<Record<string, string>>({});
-    const [showAiSummaries, setShowAiSummaries] = useState(false);
 
     const [selectedSupervisors, setSelectedSupervisors] = useState<
         Record<string, boolean>
@@ -95,25 +89,6 @@ export default function ProjectBrowser() {
         },
         [toast]
     );
-
-    // Load AI summaries from the JSON file
-    useEffect(() => {
-        const loadSummaries = async () => {
-            try {
-                const response = await fetch("json/summaries-gemini.json");
-                if (!response.ok) {
-                    console.error("Failed to load AI summaries");
-                    return;
-                }
-                const data: ISummaries = await response.json();
-                setSummaries(data.summaries);
-            } catch (error) {
-                console.error("Error loading AI summaries:", error);
-            }
-        };
-
-        loadSummaries();
-    }, []);
 
     const toggleProgram = (programId: string) => {
         setSelectedPrograms((prev) => ({

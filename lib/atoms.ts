@@ -34,4 +34,3 @@ export interface ISummaries {
 export const summariesAtom = atom<Record<string, string>>({});
 export const summariesLoadingAtom = atom<boolean>(false);
 export const summariesErrorAtom = atom<string | null>(null);
-export const showAiSummariesAtom = atom<boolean>(false);

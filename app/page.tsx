@@ -19,7 +19,6 @@ import {
     errorAtom,
     selectedProgramsAtom,
     summariesAtom,
-    showAiSummariesAtom,
 } from "../lib/atoms";
 
 export default function ProjectBrowser() {
@@ -29,10 +28,9 @@ export default function ProjectBrowser() {
     const loading = useAtomValue(loadingProjectsAtom);
     const error = useAtomValue(errorAtom);
     const availableSupervisors = useAtomValue(availableSupervisorsAtom);
-
-    // Use the Jotai atoms for AI summaries
     const summaries = useAtomValue(summariesAtom);
-    const [showAiSummaries, setShowAiSummaries] = useAtom(showAiSummariesAtom);
+
+    const [showAiSummaries, setShowAiSummaries] = useState(false);
 
     const [filterMode, setFilterMode] = useState<"union" | "intersection">(
         "union"

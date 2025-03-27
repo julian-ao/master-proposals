@@ -11,11 +11,14 @@ import { SupervisorFilter } from "../components/SupervisorFilter";
 import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
 import { useLocalStorage } from "usehooks-ts";
 import { useToast } from "../hooks/use-toast";
-
-const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
-    acc[program.id] = true;
-    return acc;
-}, {} as Record<string, boolean>);
+import { useAtom, useAtomValue } from "jotai";
+import {
+    projectsAtom,
+    availableSupervisorsAtom,
+    loadingProjectsAtom,
+    errorAtom,
+    selectedProgramsAtom,
+} from "../lib/atoms";
 
 // Interface for summaries
 interface ISummaries {
@@ -26,12 +29,13 @@ interface ISummaries {
 }
 
 export default function ProjectBrowser() {
-    const [selectedPrograms, setSelectedPrograms] = useState(
-        DEFAULT_SELECTED_PROGRAMS
-    );
-    const [projects, setProjects] = useState<IProject[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [selectedPrograms, setSelectedPrograms] =
+        useAtom(selectedProgramsAtom);
+    const projects = useAtomValue(projectsAtom);
+    const loading = useAtomValue(loadingProjectsAtom);
+    const error = useAtomValue(errorAtom);
+    const availableSupervisors = useAtomValue(availableSupervisorsAtom);
+
     const [filterMode, setFilterMode] = useState<"union" | "intersection">(
         "union"
     );
@@ -47,9 +51,6 @@ export default function ProjectBrowser() {
     const [selectedSupervisors, setSelectedSupervisors] = useState<
         Record<string, boolean>
     >({});
-    const [availableSupervisors, setAvailableSupervisors] = useState<string[]>(
-        []
-    );
     const [excludedSupervisors, setExcludedSupervisors] = useState<
         Record<string, boolean>
     >({});
@@ -94,130 +95,6 @@ export default function ProjectBrowser() {
         },
         [toast]
     );
-
-    const fetchProjects = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const programPromises = Object.entries(selectedPrograms)
-                .filter(([_, isSelected]) => isSelected)
-                .map(async ([programId]) => {
-                    const response = await fetch(`/api/idi?${programId}=1`);
-                    if (!response.ok)
-                        throw new Error(`Failed to fetch ${programId}`);
-                    return { programId, html: await response.text() };
-                });
-
-            const programResults = await Promise.all(programPromises);
-            const allProjects: IProject[] = [];
-            const supervisors = new Set<string>();
-
-            programResults.forEach(({ programId, html }) => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, "text/html");
-                const projectElements = doc.querySelectorAll(".oppgave");
-
-                projectElements.forEach((element) => {
-                    const title =
-                        element.querySelector("h3")?.textContent?.trim() ||
-                        "Untitled Project";
-                    const description =
-                        element.querySelector("p")?.textContent?.trim() || "";
-                    const teacher =
-                        element
-                            .querySelector(".status a")
-                            ?.textContent?.trim() || "Unknown";
-                    supervisors.add(teacher);
-                    const status =
-                        element
-                            .querySelector(".status i")
-                            ?.textContent?.trim() || "Unknown";
-                    const link =
-                        element
-                            .querySelector('.status a[href^="oppgaveforslag"]')
-                            ?.getAttribute("href") || "#";
-
-                    let shownDesc = "";
-                    let hiddenDesc = "";
-                    const divs = element.querySelectorAll(
-                        'div[id^="shown_"], div[id^="hidden_"]'
-                    );
-
-                    const statusDiv = element.querySelector(".status");
-                    const studentImg = statusDiv?.querySelector(
-                        'img[src*="student_"]'
-                    );
-
-                    let type: "single" | "duo" = "single"; // default to single
-                    if (studentImg) {
-                        if (
-                            studentImg
-                                .getAttribute("src")
-                                ?.includes("student_group")
-                        ) {
-                            type = "duo";
-                        } else if (
-                            studentImg
-                                .getAttribute("src")
-                                ?.includes("student_singel")
-                        ) {
-                            type = "single";
-                        }
-                    }
-
-                    divs.forEach((div) => {
-                        if (div.id.startsWith("shown_"))
-                            shownDesc = div.innerHTML;
-                        else if (div.id.startsWith("hidden_"))
-                            hiddenDesc = div.innerHTML;
-                    });
-
-                    const project = {
-                        id: link.split("oid=")[1] || crypto.randomUUID(),
-                        title,
-                        shortDescription: description,
-                        fullDescription: hiddenDesc || shownDesc,
-                        teacher,
-                        status,
-                        link,
-                        programs: [programId],
-                        type,
-                    };
-
-                    const existingIndex = allProjects.findIndex(
-                        (p) => p.title === title && p.teacher === teacher
-                    );
-                    if (existingIndex >= 0) {
-                        allProjects[existingIndex].programs = [
-                            ...new Set([
-                                ...allProjects[existingIndex].programs,
-                                ...project.programs,
-                            ]),
-                        ];
-                    } else {
-                        allProjects.push(project);
-                    }
-                });
-            });
-
-            console.log(Array.from(supervisors).sort());
-
-            setAvailableSupervisors(Array.from(supervisors).sort());
-            setProjects(allProjects);
-        } catch (err) {
-            setError(
-                err instanceof Error ? err.message : "Failed to fetch projects"
-            );
-            console.error("Fetch error:", err);
-        } finally {
-            setLoading(false);
-        }
-    }, [selectedPrograms]);
-
-    useEffect(() => {
-        fetchProjects();
-    }, [fetchProjects]);
 
     // Load AI summaries from the JSON file
     useEffect(() => {
@@ -537,7 +414,7 @@ export default function ProjectBrowser() {
 
                     {loading && <LoadingSkeleton count={5} />}
                     {error && (
-                        <ErrorMessage message={error} onRetry={fetchProjects} />
+                        <ErrorMessage message={error} onRetry={() => {}} />
                     )}
 
                     {!loading && !error && (

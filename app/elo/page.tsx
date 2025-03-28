@@ -5,9 +5,10 @@ import {
     loadingProjectsAtom,
     projectsAtom,
     summariesAtom,
+    projectsEloAtom,
+    ProjectsEloState,
 } from "@/lib/atoms";
 import { useAtom, useAtomValue } from "jotai";
-import { atomWithStorage } from "jotai/utils";
 import { useLocalStorage } from "usehooks-ts";
 import { useEffect, useState } from "react";
 import { IProject } from "@/lib/constants";
@@ -19,16 +20,6 @@ import {
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ProjectComparisonCard } from "@/components/ProjectComparisonCard";
-
-interface ProjectsEloState {
-    ratings: Record<string, number>;
-    comparisonCount: number;
-}
-
-const projects_elo = atomWithStorage<ProjectsEloState>("projects_elo", {
-    ratings: {},
-    comparisonCount: 0,
-});
 
 // Function to calculate new ELO ratings
 function calculateElo(
@@ -71,7 +62,7 @@ export default function Page() {
     const summaries = useAtomValue(summariesAtom);
     const isMobile = useIsMobile();
 
-    const [projectsElo, setProjectsElo] = useAtom(projects_elo);
+    const [projectsElo, setProjectsElo] = useAtom(projectsEloAtom);
     const [favorites] = useLocalStorage<string[]>("favorites", []);
 
     const [projectA, setProjectA] = useState<IProject | null>(null);

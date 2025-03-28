@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 import { IProject } from "./constants";
 
 // Atoms for project state
@@ -34,3 +35,17 @@ export interface ISummaries {
 export const summariesAtom = atom<Record<string, string>>({});
 export const summariesLoadingAtom = atom<boolean>(false);
 export const summariesErrorAtom = atom<string | null>(null);
+
+// ELO rating state for project comparisons
+export interface ProjectsEloState {
+    ratings: Record<string, number>;
+    comparisonCount: number;
+}
+
+export const projectsEloAtom = atomWithStorage<ProjectsEloState>(
+    "projects_elo",
+    {
+        ratings: {},
+        comparisonCount: 0,
+    }
+);

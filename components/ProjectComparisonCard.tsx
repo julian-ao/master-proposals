@@ -56,7 +56,7 @@ export function ProjectComparisonCard({
 
             {/* Full description */}
             {showFullDescriptions && (
-                <div className="mb-4 flex-grow overflow-auto max-h-64 border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
+                <div className="mb-4 flex-grow overflow-auto border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
                     <p className="text-xs font-semibold text-gray-500 mb-1">
                         Full Description:
                     </p>

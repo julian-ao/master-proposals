@@ -8,6 +8,7 @@ import {
     projectsEloAtom,
 } from "@/lib/atoms";
 import { useAtom, useAtomValue } from "jotai";
+import { RESET } from "jotai/utils";
 import { useLocalStorage } from "usehooks-ts";
 import { useEffect, useState } from "react";
 import { IProject } from "@/lib/constants";
@@ -134,6 +135,10 @@ export default function Page() {
         setProjectA(firstSelection.project);
         setProjectB(secondSelection.project);
     };
+
+    const resetElo = () => {
+        setProjectsElo(RESET);
+    }
 
     // Initialize ELO ratings for new projects
     useEffect(() => {
@@ -272,10 +277,17 @@ export default function Page() {
                     <h2 className="text-2xl font-semibold mb-4 text-center">
                         Leaderboard
                     </h2>
-                    <p className="text-sm text-gray-500 mb-4 text-center">
-                        Comparisons: {projectsElo.comparisonCount}
-                    </p>
-
+                    <div className="flex flex-col items-center mb-6">
+                        <p className="text-sm text-gray-500 mb-4 text-center">
+                            Comparisons: {projectsElo.comparisonCount}
+                        </p>
+                        <button
+                            onClick={resetElo}
+                            className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md transition"
+                        >
+                            Reset ELO
+                        </button>
+                    </div>
                     <div className="divide-y divide-gray-200 dark:divide-gray-700">
                         {sortedProjects.map((project, index) => (
                             <div

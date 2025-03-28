@@ -181,7 +181,7 @@ async function generateSummaries() {
         const summaries: Record<string, string> = {};
 
         // Process projects in batches to avoid overwhelming the LM
-        const batchSize = 5;
+        const batchSize = 20;
 
         // Create progress bar
         const progressBar = createProgressBar(projects.length);

@@ -130,22 +130,21 @@ export function SupervisorFilter({
           filteredSupervisors.map((supervisor) => (
             <div key={supervisor} className="flex items-center justify-between">
               <div className="flex items-center">
-                {viewMode === 'include' ? (
-                  <input
-                    type="checkbox"
-                    checked={!!selected[supervisor]}
-                    onChange={() => handleToggle(supervisor)}
-                    className="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500"
-                  />
-                ) : (
-                  <input
-                    type="checkbox"
-                    checked={!!excluded[supervisor]}
-                    onChange={() => handleExclude(supervisor)}
-                    className="h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-red-500"
-                  />
-                )}
-                <label className="ml-2 text-sm text-gray-700 dark:text-gray-300 truncate">
+                <input
+                  id={`supervisor-${supervisor}`}
+                  name={supervisor}
+                  type="checkbox"
+                  checked={!!selected[supervisor]}
+                  onChange={() =>
+                    viewMode === "include"
+                      ? handleToggle(supervisor)
+                      : handleExclude(supervisor)
+                  }
+                  className="h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-red-500"
+                />
+                <label
+                  className="ml-2 text-sm text-gray-700 dark:text-gray-300 truncate"
+                  htmlFor={`supervisor-${supervisor}`}>
                   {supervisor}
                 </label>
               </div>

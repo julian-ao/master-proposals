@@ -25,7 +25,7 @@ export const DarkModeToggle: React.FC = () => {
                 onChange={toggleDarkMode}
                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
-            <label className="ml-3 text-sm text-gray-700 dark:text-gray-300" htmlFor="darkModeToggle">Dark Mode</label>
+            <label className="ml-3 text-sm text-gray-700 dark:text-gray-300" htmlFor="darkModeToggle">Dark Mode {darkMode ? "🌙" : "☀️"}</label>
         </div>
     );
 };

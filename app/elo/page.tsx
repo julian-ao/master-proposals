@@ -339,9 +339,33 @@ export default function Page() {
                                         {project.title}
                                     </a>
                                 </div>
-                                <span className="text-blue-600 font-semibold flex-shrink-0">
-                                    {project.elo}
-                                </span>
+                                <div className="flex items-center gap-2 flex-shrink-0">
+                                    <span className="text-blue-600 font-semibold">
+                                        {project.elo}
+                                    </span>
+                                    <button
+                                        onClick={() =>
+                                            handleUnfavorite(project.title)
+                                        }
+                                        className="text-gray-400 hover:text-red-500 transition"
+                                        title="Unfavorite project"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         ))}
                     </div>

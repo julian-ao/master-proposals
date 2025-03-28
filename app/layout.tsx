@@ -5,6 +5,7 @@ import { Footer } from "../components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { ProjectDataProvider } from "@/components/ProjectDataProvider";
 import { AISummaryProvider } from "@/components/AISummaryProvider";
+import { ImprovedTitlesProvider } from "@/components/ImprovedTitlesProvider";
 import { Provider } from "jotai";
 
 export const metadata: Metadata = {
@@ -25,10 +26,12 @@ export default function RootLayout({
                 <Provider>
                     <ProjectDataProvider>
                         <AISummaryProvider>
-                            <Analytics />
-                            {children}
-                            <Footer />
-                            <Toaster />
+                            <ImprovedTitlesProvider>
+                                <Analytics />
+                                {children}
+                                <Footer />
+                                <Toaster />
+                            </ImprovedTitlesProvider>
                         </AISummaryProvider>
                     </ProjectDataProvider>
                 </Provider>

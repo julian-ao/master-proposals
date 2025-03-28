@@ -8,6 +8,25 @@ export const availableSupervisorsAtom = atom<string[]>([]);
 export const loadingProjectsAtom = atom<boolean>(false);
 export const errorAtom = atom<string | null>(null);
 
+// Interface for improved titles
+export interface IImprovedTitles {
+    titles: Record<string, { originalTitle: string; improvedTitle: string }>;
+    originalDataFile: string;
+    generatedAt: string;
+    totalTitles: number;
+}
+
+// Atoms for AI improved titles
+export const improvedTitlesAtom = atom<
+    Record<string, { originalTitle: string; improvedTitle: string }>
+>({});
+export const improvedTitlesLoadingAtom = atom<boolean>(false);
+export const improvedTitlesErrorAtom = atom<string | null>(null);
+export const showImprovedTitlesAtom = atomWithStorage<boolean>(
+    "show_improved_titles",
+    false
+);
+
 // Selected programs atom with default value from constants
 import { STUDY_PROGRAMS } from "./constants";
 

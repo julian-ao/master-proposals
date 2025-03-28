@@ -8,6 +8,8 @@ interface ProjectComparisonCardProps {
     eloRating: number;
     onUnfavorite?: () => void;
     getProgramName: (programId: string) => string;
+    improvedTitle?: string;
+    showImprovedTitle?: boolean;
 }
 
 export function ProjectComparisonCard({
@@ -18,6 +20,8 @@ export function ProjectComparisonCard({
     eloRating,
     onUnfavorite,
     getProgramName,
+    improvedTitle,
+    showImprovedTitle = false,
 }: ProjectComparisonCardProps) {
     const programColors: Record<string, string> = {
         p2_6: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100",
@@ -28,7 +32,18 @@ export function ProjectComparisonCard({
 
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col h-full">
-            <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+            {showImprovedTitle && improvedTitle ? (
+                <>
+                    <h3 className="text-xl font-semibold mb-1 text-teal-600 dark:text-teal-400">
+                        {improvedTitle}
+                    </h3>
+                    <h4 className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+                        {project.title}
+                    </h4>
+                </>
+            ) : (
+                <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
+            )}
 
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
                 Supervisor:{" "}
@@ -63,11 +78,11 @@ export function ProjectComparisonCard({
 
             {/* AI Summary - above short description */}
             {showAiSummaries && summaries[project.title] && (
-                <div className="mb-5 bg-gradient-to-r from-blue-50 to-blue-50/50 dark:from-blue-900/40 dark:to-blue-800/20 p-4 rounded-md border-l-4 border-blue-500 dark:border-blue-400 shadow-sm">
+                <div className="mb-5 bg-gradient-to-r from-teal-50 to-teal-50/50 dark:from-teal-900/40 dark:to-teal-800/20 p-4 rounded-md border-l-4 border-teal-500 dark:border-teal-400 shadow-sm">
                     <div className="flex items-center mb-2">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4 text-blue-600 dark:text-blue-400 mr-1.5"
+                            className="h-4 w-4 text-teal-600 dark:text-teal-400 mr-1.5"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >
@@ -77,7 +92,7 @@ export function ProjectComparisonCard({
                                 clipRule="evenodd"
                             />
                         </svg>
-                        <p className="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                        <p className="text-sm font-semibold text-teal-700 dark:text-teal-300">
                             AI Summary
                         </p>
                     </div>
@@ -111,7 +126,6 @@ export function ProjectComparisonCard({
                 <p className="text-xs text-gray-500">
                     Current ELO: {eloRating || 1000}
                 </p>
-
                 {/* Unfavorite button */}
                 {onUnfavorite && (
                     <button

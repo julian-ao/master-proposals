@@ -1,0 +1,1327 @@
+{
+  "titles": {
+    "2253": {
+      "originalTitle": "Visualisering av kriterier for nullutslippsområder",
+      "improvedTitle": "Visualizing Zero-Emission Zone Criteria: A Dashboard Design Science Approach"
+    },
+    "2269": {
+      "originalTitle": "Problems in bioinformatics",
+      "improvedTitle": "Computational Models for Gene Regulation: Algorithms, Simulations, and Machine Learning"
+    },
+    "2361": {
+      "originalTitle": "Digital registrering av innemiljø og tilstedværelse på Campus",
+      "improvedTitle": "Campus Sensor Data: Indoor Climate, Occupancy, and Smart Workplace Applications"
+    },
+    "2504": {
+      "originalTitle": "Merging of spatial data",
+      "improvedTitle": "Merging Spatial Data with Space-Filling Curves: An LSM-Tree Approach"
+    },
+    "2557": {
+      "originalTitle": "The Strategic Value of Big Data Analytics",
+      "improvedTitle": "Big Data Analytics and Value Creation: Evidence from Norwegian Firms"
+    },
+    "2560": {
+      "originalTitle": "What is the Business Value of Artificial Intelligence?",
+      "improvedTitle": "AI Adoption and Value Realization in Public and Private Organizations"
+    },
+    "2561": {
+      "originalTitle": "Artificial Intelligence in Business: Uncovering challenges and obstacles of adoption.",
+      "improvedTitle": "AI Adoption Challenges: Overcoming Technological, Organizational, and Human Barriers"
+    },
+    "2564": {
+      "originalTitle": "The potential of Artificial Intelligence for public administration",
+      "improvedTitle": "AI in Public Administration: Adoption, Applications, and Value Realization"
+    },
+    "2565": {
+      "originalTitle": "Human-Machine Symbiosis: How does decision-making change in the age of Big Data Analytics?",
+      "improvedTitle": "Big Data Analytics and Decision-Making: An EEG and Eye-Tracking Study of Cognitive Adoption"
+    },
+    "2566": {
+      "originalTitle": "What are the skills of the future: A look at how Artificial Intelligence and Analytics change the competences of computer science graduates",
+      "improvedTitle": "AI and Analytics: Reshaping Computer Science Graduate Skills"
+    },
+    "2700": {
+      "originalTitle": "Computer Vision in Bad Weather conditions / Bad Visibility",
+      "improvedTitle": "Robust Vehicle Detection in Adverse Weather: A Machine Learning Approach"
+    },
+    "2726": {
+      "originalTitle": "TrønderEnergi: Explainable time-series forecasting",
+      "improvedTitle": "Explainable AI for Power Grid Forecasting: Empowering Domain Experts at TrønderEnergi"
+    },
+    "2737": {
+      "originalTitle": "Large-scale agile software develpment",
+      "improvedTitle": "Scaling Agile: Practices and Frameworks in Large Software Projects"
+    },
+    "2747": {
+      "originalTitle": "Further development of a novel immune-inspired hybrid classification algorithm",
+      "improvedTitle": "MAIM: Refining an Immune-Inspired Hybrid Classification Algorithm"
+    },
+    "2748": {
+      "originalTitle": "Bio-inspired techniques applied to remote sensing with hyperspectral data",
+      "improvedTitle": "Bio-inspired Spectral Band Selection for Hyperspectral Remote Sensing"
+    },
+    "2753": {
+      "originalTitle": "Particle Swarm Optimisation as a modelling tool for Climate Change",
+      "improvedTitle": "Particle Swarm Optimisation for Modelling Pro-Environmental Behaviour"
+    },
+    "2802": {
+      "originalTitle": "Stochastic Local Search: Algorithms and Applications",
+      "improvedTitle": "Stochastic Local Search: Theory, Optimization, and Applications in AI/ML"
+    },
+    "2824": {
+      "originalTitle": "[2023/2024 Collaboration with Refinitiv AS] - Deep Learning Models for detecting wind turbines’ curtailment",
+      "improvedTitle": "Deep Learning for Wind Turbine Curtailment Prediction"
+    },
+    "2867": {
+      "originalTitle": "Artificial Intelligence in the Healthcare sector",
+      "improvedTitle": "AI in Healthcare: Transforming Roles and Impact on Practitioners"
+    },
+    "2879": {
+      "originalTitle": "Database opportunities at Huawei Research lab, Trondheim (updated, 1. June 2022)",
+      "improvedTitle": "Cloud-Native HTAP: Optimizing Hybrid Workloads in Next-Gen Databases"
+    },
+    "2890": {
+      "originalTitle": "Development and maintenance of IT-systems in Norwegian Organization",
+      "improvedTitle": "IT Systems Support in Norwegian Organizations: Resource Utilization Trends Since 1993"
+    },
+    "2907": {
+      "originalTitle": "Organizational decision-making in the age of AI",
+      "improvedTitle": "AI-Driven Decisions: Transforming Organizational Practices"
+    },
+    "2908": {
+      "originalTitle": "Responsible AI in organizations",
+      "improvedTitle": "Implementing Responsible AI: Organizational Impacts and Outcomes"
+    },
+    "2909": {
+      "originalTitle": "Exploring the black box of AI Governance",
+      "improvedTitle": "Unpacking AI Governance: Practices, Processes, and Performance Impacts"
+    },
+    "2997": {
+      "originalTitle": "Comparing gaze input methods with traditional mouse input for typical tasks",
+      "improvedTitle": "Gaze vs. Mouse: Evaluating Input Methods for Common Desktop Tasks"
+    },
+    "3003": {
+      "originalTitle": "Pedagogical chat bot",
+      "improvedTitle": "Domain-Specific Chatbot for Interactive Course Material"
+    },
+    "3064": {
+      "originalTitle": "Visual Simultaneous Localization and Mapping (VSLAM) for an Underwater Snake Robot (H2024-V2025)",
+      "improvedTitle": "Underwater Visual SLAM for Snake Robots: Addressing Image Degradation and Dynamic Environments"
+    },
+    "3084": {
+      "originalTitle": "Numerical Contours",
+      "improvedTitle": "Scalable Annotation of Numerical Expressions in Large Document Collections"
+    },
+    "3085": {
+      "originalTitle": "Semantic Text Indexing",
+      "improvedTitle": "Scalable Semantic Text Matching via Interpretable Embeddings"
+    },
+    "3086": {
+      "originalTitle": "Event Mining and Linking",
+      "improvedTitle": "Mining and Linking News Events into Storylines"
+    },
+    "3087": {
+      "originalTitle": "Learning Indexing Patterns from Annotated Document Collections",
+      "improvedTitle": "Annotation-Aware Indexing for Semantic Search in Document Collections"
+    },
+    "3089": {
+      "originalTitle": "Text Driven Analytics and Visualization",
+      "improvedTitle": "Text-Driven Visual Analytics from Scalable Information Extraction"
+    },
+    "3098": {
+      "originalTitle": "Autonomous Ferry -- Projects in AI-based Perception in Cooperation with Zeabuz (H2024-V2025)",
+      "improvedTitle": "AI-Powered Perception for Autonomous Ferry Development with Zeabuz"
+    },
+    "3124": {
+      "originalTitle": "An immune system approach to fake News Classification",
+      "improvedTitle": "Antibody-Antigen Inspired Fake News Classification"
+    },
+    "3158": {
+      "originalTitle": "Managing big data volumes",
+      "improvedTitle": "Parallel Insertion Methods for Large-Scale Spatial Data in B- and R-Trees"
+    },
+    "3159": {
+      "originalTitle": "Merging of offline databases",
+      "improvedTitle": "Offline Database Synchronization for Disconnected Rescue Teams"
+    },
+    "3161": {
+      "originalTitle": "NoSQL/NewSQL (scalable)  databases",
+      "improvedTitle": "NewSQL Transaction Models"
+    },
+    "3162": {
+      "originalTitle": "Similarity of trajectories",
+      "improvedTitle": "Trajectory Similarity: Indexing Methods for Efficient Algorithm Selection"
+    },
+    "3163": {
+      "originalTitle": "AI for sustainable business models",
+      "improvedTitle": "AI-Driven Sustainable Business Models: Mechanisms and Competitive Advantage"
+    },
+    "3165": {
+      "originalTitle": "AI for understanding marine ecosystems by using underwater acoustic data",
+      "improvedTitle": "Classifying Marine Soundscapes: An AI Approach to Underwater Acoustic Data"
+    },
+    "3182": {
+      "originalTitle": "Eye-tracking and training novice programmers  (multiple projects)",
+      "improvedTitle": "Gaze-Enabled Debugging Tutor for Novice Programmers"
+    },
+    "3183": {
+      "originalTitle": "AI-Based gaze-aware feedback system for programming  (multiple projects)",
+      "improvedTitle": "Gaze-Aware Programming Feedback: Real-Time Assistance for Students"
+    },
+    "3187": {
+      "originalTitle": "Artificial Intelligence and pair programming (multiple projects)",
+      "improvedTitle": "Predicting Pair Programming Performance Using Multi-Sensor Data and AI"
+    },
+    "3188": {
+      "originalTitle": "Artificial Intelligence and Biometrics in Education (multiple projects)",
+      "improvedTitle": "Biometric-Enhanced AI for Personalized Learning: An Eye-Tracking and EEG Approach"
+    },
+    "3241": {
+      "originalTitle": "Virtual, Augmented and Mixed Reality for learning AI etc. (2024)",
+      "improvedTitle": "XR for AI Education and Medical Training"
+    },
+    "3245": {
+      "originalTitle": "Learning software organisations",
+      "improvedTitle": "Organizational Learning in Software Companies: A Multi-Level Perspective"
+    },
+    "3257": {
+      "originalTitle": "3D oriented data augmentation for Deep Object Detection",
+      "improvedTitle": "Depth-Aware Data Augmentation for Realistic Object Detection in Marine Environments"
+    },
+    "3258": {
+      "originalTitle": "AI-based Environment Perception for Underwater Robots",
+      "improvedTitle": "Underwater Robot Vision: Deep Learning for Enhanced Perception in Turbid Environments"
+    },
+    "3261": {
+      "originalTitle": "Uncertainty Quantification in Detection and Classification Problems",
+      "improvedTitle": "Quantifying Uncertainty in Deep Learning for Out-of-Distribution Boat Image Classification"
+    },
+    "3266": {
+      "originalTitle": "Biometrics and Neuro-conceptualization",
+      "improvedTitle": "Decoding Diagrams: A Biometric Study of Conceptual Model Comprehension"
+    },
+    "3273": {
+      "originalTitle": "Investigating and comparing alternatives to the Eclipse Modeling Framework (EMF)",
+      "improvedTitle": "EMF Alternatives: A Comparative Analysis of Metamodeling Frameworks"
+    },
+    "3285": {
+      "originalTitle": "Sustainability by design",
+      "improvedTitle": "Sustainable Software: Integrating Requirements in Agile Development"
+    },
+    "3293": {
+      "originalTitle": "Predictive Maintenance in Fish Farming",
+      "improvedTitle": "Predictive Maintenance for Fish Feed Systems: Optimizing Cleaning Cycles with Piscada's Platform"
+    },
+    "3294": {
+      "originalTitle": "Tag inference",
+      "improvedTitle": "Equipment Tagging via Time-Series Analysis in Building Automation Systems"
+    },
+    "3295": {
+      "originalTitle": "Predictive Maintenance in Building Automation & HVAC Systems",
+      "improvedTitle": "Predicting Air Filter Replacement in HVAC Systems Using Cloud-Based Industrial Data"
+    },
+    "3305": {
+      "originalTitle": "[NorwAI] Neural Machine Translation in Written Norwegian - Bokmål and Nynorsk - with Generative Pre-trained Transformer",
+      "improvedTitle": "GPT-Based Neural Machine Translation for Low-Resource Norwegian: Bokmål to Nynorsk"
+    },
+    "3319": {
+      "originalTitle": "Enterprise Architectures for learning and knowledge transfer in sustainable cities",
+      "improvedTitle": "Enterprise Architecture for Cross-City Learning in Sustainable Urban Development"
+    },
+    "3320": {
+      "originalTitle": "Cities as Urban Living Labs",
+      "improvedTitle": "Citizen-Driven Innovation: Designing Urban Services Through Living Labs"
+    },
+    "3321": {
+      "originalTitle": "ICT for Health & Well-being in Built Environments",
+      "improvedTitle": "ICT-Enabled Built Environments: Fostering Health and Well-being through Interactive Technologies"
+    },
+    "3328": {
+      "originalTitle": "[ExerGames] Play to get fit 2024/2025",
+      "improvedTitle": "Exergame Design: Balancing Fun and Fitness Through Play"
+    },
+    "3331": {
+      "originalTitle": "Social Robotics: HCI in Norwegian",
+      "improvedTitle": "Norwegian Language Human-Robot Interaction"
+    },
+    "3332": {
+      "originalTitle": "Analysing the Effectiveness of Last Level (Data) Cache for Cloud Applications",
+      "improvedTitle": "Cloud Cache Inefficiency: Reassessing Last-Level Caches for Cloud Workloads"
+    },
+    "3346": {
+      "originalTitle": "Automated indoor tasks assisted by rover like robots (continuation)",
+      "improvedTitle": "Autonomous Rover Navigation and Task Execution for Indoor Environmental Monitoring"
+    },
+    "3386": {
+      "originalTitle": "An Immune System Approach to Music recommendation",
+      "improvedTitle": "Immune-Inspired Music Recommendation: AIRS for Personalized Playlists"
+    },
+    "3387": {
+      "originalTitle": "Evolving personalised training programs to reduce/relieve Metabolic Syndrome",
+      "improvedTitle": "Genetic Algorithm for Personalized Exercise: Combating Metabolic Syndrome"
+    },
+    "3398": {
+      "originalTitle": "Hybrid co-design toolkits",
+      "improvedTitle": "Hybrid Co-Design: Adapting Toolkits for Remote Collaboration"
+    },
+    "3408": {
+      "originalTitle": "Computational nanosystems: Toward real word tasks",
+      "improvedTitle": "Artificial Spin Ice Reservoirs for Real-World Digit Recognition"
+    },
+    "3411": {
+      "originalTitle": "Effects of Interpreted Languages on Microarchitectural Performance",
+      "improvedTitle": "Microarchitectural Impact of Interpreted Languages: A Tool for Profiling Python, JavaScript, and PHP Workloads"
+    },
+    "3412": {
+      "originalTitle": "Application of artificial intelligence-based image soft-sensor to high temperature property study",
+      "improvedTitle": "AI-Powered Image Analysis for High-Temperature Material Property Prediction"
+    },
+    "3415": {
+      "originalTitle": "[NorwAI] Sentiment Analysis Based on Brain Signal Feedback",
+      "improvedTitle": "Decoding Sentiment: fMRI-Based Word-Level Sentiment Analysis"
+    },
+    "3421": {
+      "originalTitle": "Define your own project in Visual Computing",
+      "improvedTitle": "Visual Computing Project Proposals: TDT4195 & TDT4230"
+    },
+    "3427": {
+      "originalTitle": "Data science - in practice",
+      "improvedTitle": "Bridging the Gap: Data Science Implementation in Energy and Healthcare"
+    },
+    "3432": {
+      "originalTitle": "Open data - from vision to reality?",
+      "improvedTitle": "From Vision to Reality: Adoption Challenges in the Open Data Subsurface Universe"
+    },
+    "3433": {
+      "originalTitle": "Learned index and updates",
+      "improvedTitle": "Learned Indexes: Optimizing Updates for High-Velocity Data"
+    },
+    "3449": {
+      "originalTitle": "Automated indoor tasks assisted by drones",
+      "improvedTitle": "Autonomous Drone System for Indoor Environmental Monitoring and Inspection"
+    },
+    "3469": {
+      "originalTitle": "XR4CE - Citizen Engagement with XR",
+      "improvedTitle": "XR for Civic Voice: Tools for Effective Citizen Engagement"
+    },
+    "3501": {
+      "originalTitle": "Design Thinking learning with Emerging Technologies",
+      "improvedTitle": "Learning Analytics Dashboards for Design Thinking: Enhancing Student Experiences with Emerging Technologies"
+    },
+    "3510": {
+      "originalTitle": "XR4Colab - Remote Learning and Collaboration with Augmented Reality and Hololens 2",
+      "improvedTitle": "Hololens 2 for Collaborative Learning: Design Principles and Applications"
+    },
+    "3519": {
+      "originalTitle": "AI-based computer vision for salmon identification / alternatively: AI-based perception for autonomous ships",
+      "improvedTitle": "AI for Salmon Identification or Autonomous Ship Perception: A Research Plan"
+    },
+    "3521": {
+      "originalTitle": "Short-term planning for inspection drone using reinforcement learning",
+      "improvedTitle": "Reinforcement Learning for Drone Path Planning in Industrial Tank Inspection"
+    },
+    "3522": {
+      "originalTitle": "Constructing an AI-based, intelligent ground vehicle, level II",
+      "improvedTitle": "LIMO: Cooperative Multi-Robot Navigation in Dense Environments"
+    },
+    "3524": {
+      "originalTitle": "Bio-Inspired Artificial Intelligence for Computer Games",
+      "improvedTitle": "Evolving Engaging Game Characters: Bio-Inspired AI for Procedural Content Generation in SOL"
+    },
+    "3525": {
+      "originalTitle": "Neural Radiance Fields (NeRF) for real time 3D-reconstruction (H2024-V2025)",
+      "improvedTitle": "Real-time SLAM with Instant-NeRF for Dynamic 3D Environment Reconstruction"
+    },
+    "3526": {
+      "originalTitle": "Characterization of marine detectors in a situation awareness context",
+      "improvedTitle": "Marine Detector Performance Modeling for Situation Awareness Systems"
+    },
+    "3527": {
+      "originalTitle": "Improved Ambulance Response: Optimization",
+      "improvedTitle": "Optimizing Ambulance Placement: A Data-Driven Approach to Reduce Response Times"
+    },
+    "3528": {
+      "originalTitle": "Investigations on Situation Awareness Systems for an Autonomous Ferry (H2024-V2025)",
+      "improvedTitle": "AI-Powered Situation Awareness for Autonomous Ferry Navigation"
+    },
+    "3529": {
+      "originalTitle": "Learning analytics and AI learning systems in Norway",
+      "improvedTitle": "Learning Analytics and AI in Norwegian Education: Adoption, Practices, and Policy"
+    },
+    "3530": {
+      "originalTitle": "Reinforcement learning for multi-agent simulated autonomous driving",
+      "improvedTitle": "Reinforcement Learning for Multi-Agent Autonomous Driving in CARLA"
+    },
+    "3532": {
+      "originalTitle": "Empowering Children’s STEM Learning through Embodied Interaction and GenAI capabilities",
+      "improvedTitle": "Motion-Based STEM Learning: GenAI-Powered Adaptive Activities for Children"
+    },
+    "3535": {
+      "originalTitle": "Using LLMs and conversational agents to support children’s science learning",
+      "improvedTitle": "LLM-Enhanced Mobile Apps for Engaging Children in Science Learning"
+    },
+    "3536": {
+      "originalTitle": "Online Learning Platform – Enhancing Personalization with Self-Regulated Learning",
+      "improvedTitle": "Progresso: Integrating Self-Regulated Learning to Personalize Java Education"
+    },
+    "3540": {
+      "originalTitle": "Education in the era of generative AI: Understanding the potential benefits of ChatGPT in teaching and learning",
+      "improvedTitle": "ChatGPT in Education: Maximizing Learning Opportunities"
+    },
+    "3541": {
+      "originalTitle": "Evolutionary Algorithms with Applications",
+      "improvedTitle": "Evolutionary Algorithms: Optimization, Analysis, and Applications in Machine Learning"
+    },
+    "3542": {
+      "originalTitle": "Hybrid human‐AI learning technologies",
+      "improvedTitle": "Designing Hybrid Human-AI Learning Interfaces: An Augmentation Approach"
+    },
+    "3544": {
+      "originalTitle": "Artificial Intelligence and Machine Learning wih Geophysical Applications",
+      "improvedTitle": "Forecasting Geophysical Phenomena: AI/ML for IoT Sensor Data Analysis"
+    },
+    "3558": {
+      "originalTitle": "Classroom interaction tools",
+      "improvedTitle": "Enhancing Interactivity in Large Classrooms: A User-Centered Approach"
+    },
+    "3562": {
+      "originalTitle": "Identifying Online Hate Speech and Cyber Bullying",
+      "improvedTitle": "Machine Learning for Hate Speech and Cyberbullying Detection Online"
+    },
+    "3564": {
+      "originalTitle": "Simulating Language and Communication Evolution",
+      "improvedTitle": "Evolving Language: Agent-Based Simulations with Dynamic Populations"
+    },
+    "3567": {
+      "originalTitle": "Machine Learning for Black-box Safety Validation of Autonomous Marine Vessels",
+      "improvedTitle": "Stress Testing Autonomous Ferries: A Reinforcement Learning Approach to Black-Box Safety Validation"
+    },
+    "3570": {
+      "originalTitle": "Improved Ambulance Response: Prediction",
+      "improvedTitle": "Predicting Ambulance Demand: A Spatiotemporal Model for Emergency Medical Services"
+    },
+    "3572": {
+      "originalTitle": "Machine Learning for Integrating Visual and Language Intelligence",
+      "improvedTitle": "Image Captioning: Augmenting Datasets with Paraphrases for Improved Deep Learning Performance"
+    },
+    "3574": {
+      "originalTitle": "Sentiment and/or Figurative Language Analysis in Social Media",
+      "improvedTitle": "Figurative Language and Sentiment Detection in Tweets"
+    },
+    "3577": {
+      "originalTitle": "Context-Aware Decoding using Multi-Lingual Language Models",
+      "improvedTitle": "Context-Aware Metadata Generation for Norwegian Parliamentary Speech using Multilingual Language Models"
+    },
+    "3578": {
+      "originalTitle": "Language Technology and Large Language Models with Applications",
+      "improvedTitle": "Norwegian Language Technology: Applying Large Language Models to Dialogue, Chatbots, and Question Generation"
+    },
+    "3582": {
+      "originalTitle": "Computational Creativity with Reinforcement Learning and/or Generative Adversarial Networks",
+      "improvedTitle": "Reinforcement Learning for Creative Generation: Beyond Language"
+    },
+    "3583": {
+      "originalTitle": "Computational Linguistic Creativity",
+      "improvedTitle": "Computational Poetry: Generation and Evaluation"
+    },
+    "3584": {
+      "originalTitle": "Computational Creativity in Art, Images or Videos",
+      "improvedTitle": "Algorithmic Art: Evaluating Creativity in Computer-Generated Visual Media"
+    },
+    "3589": {
+      "originalTitle": "[2023/2024] Exploring the Effectiveness of Synthetic Data Generation in the Air Traffic Management Domain",
+      "improvedTitle": "Synthetic Data for Smarter Skies: AI-Driven Air Traffic Management"
+    },
+    "3606": {
+      "originalTitle": "Human Pose Estimation for VR-exergaming",
+      "improvedTitle": "VR-Exergaming with Human Pose Estimation: A Feasibility Study for Rehabilitation"
+    },
+    "3610": {
+      "originalTitle": "Combining EEG and motion capture in immersive VR environment",
+      "improvedTitle": "VR Exergaming: Synchronizing EEG and Human Pose Estimation for Enhanced Biofeedback."
+    },
+    "3612": {
+      "originalTitle": "Understanding the execution behavior of high-level productivity languages",
+      "improvedTitle": "Profiling High-Level Language Execution on Modern Hardware"
+    },
+    "3622": {
+      "originalTitle": "Unsupervised learning for automatically annotating eye tracking data",
+      "improvedTitle": "Unsupervised Learning for Automated Eye-Movement Annotation: Addressing Data Inaccuracies and VR Applications"
+    },
+    "3633": {
+      "originalTitle": "[NorwAI] Automatic Reading of Traffic Announcements",
+      "improvedTitle": "Automated Traffic Announcement Broadcasting for Enhanced Road Safety"
+    },
+    "3636": {
+      "originalTitle": "Personalized Health",
+      "improvedTitle": "Recommender Systems for Personalized Health Interventions"
+    },
+    "3637": {
+      "originalTitle": "Causal Inference for Headaches",
+      "improvedTitle": "Causal AI for Headache Etiology and Treatment Optimization"
+    },
+    "3646": {
+      "originalTitle": "Open-ended evolution",
+      "improvedTitle": "POET and Beyond: Algorithms for Open-Ended Evolution in Challenging Control Problems"
+    },
+    "3650": {
+      "originalTitle": "Generating simulations that match data ​",
+      "improvedTitle": "Hybrid AI for Industrial Systems: Simulation-Based Bayesian Inference with Wind Turbine and Compressor Data"
+    },
+    "3654": {
+      "originalTitle": "​Generating synthetic data​ (Sparebank1 SMN)",
+      "improvedTitle": "Synthetic Banking Data Generation: Preserving Statistical Inference with GANs"
+    },
+    "3657": {
+      "originalTitle": "Classifying animals in the wild",
+      "improvedTitle": "Deep Learning for Animal and Habitat Classification in Wildlife Imagery"
+    },
+    "3659": {
+      "originalTitle": "Pseudo labelling of medical data",
+      "improvedTitle": "Pseudo-Labeling Chest X-rays: Transfer Learning for Abnormality Localization"
+    },
+    "3666": {
+      "originalTitle": "Exploring the design space of convolutional neural networks on edge systems",
+      "improvedTitle": "CNN Design for Edge Systems: Balancing Accuracy, Energy, and Latency on Nvidia Jetson"
+    },
+    "3689": {
+      "originalTitle": "Sports Video Analytics",
+      "improvedTitle": "Vision Transformer for Shot Power, Type, and Bat Angle Estimation in Baseball/Cricket Videos"
+    },
+    "3690": {
+      "originalTitle": "LLM-enhanced computerized adaptive testing for programming education",
+      "improvedTitle": "Adaptive Programming Tests with LLM Explanations"
+    },
+    "3691": {
+      "originalTitle": "Open Foundation Models / LLM (type ChatGPT), fine-tuned and adapted to Health and integrated in a Digital Twin setting (2024)",
+      "improvedTitle": "Personalized Health Advice: Fine-Tuning Open LLMs for Digital Twins"
+    },
+    "3699": {
+      "originalTitle": "Aneo: Ensambles for probabilistic forecasts of wind power production",
+      "improvedTitle": "Probabilistic Wind Power Forecasting with Weather Ensemble Models"
+    },
+    "3701": {
+      "originalTitle": "Aneo: Predictive maintenance of cooling systems in retail stores",
+      "improvedTitle": "Predicting Cooling System Failures in Retail Stores Using Sensor Data"
+    },
+    "3702": {
+      "originalTitle": "Aneo: Why do wind turbines fail?",
+      "improvedTitle": "Automated Root-Cause Analysis of Wind Turbine Failures Using Vibration Data"
+    },
+    "3707": {
+      "originalTitle": "Anomaly detection in x-rays",
+      "improvedTitle": "VinDR-Based Deep Learning for Anomaly Localization and Classification in Chest X-rays"
+    },
+    "3708": {
+      "originalTitle": "Transforming IT operations: organisational perspectives",
+      "improvedTitle": "Navigating DevOps: Reorganizing IT Operations for Agile Development"
+    },
+    "3709": {
+      "originalTitle": "Understanding an organisation's adaptive capacity to handle IT incidents",
+      "improvedTitle": "IT Incident Response: Unraveling Collaborative Practices for Sustained Performance"
+    },
+    "3710": {
+      "originalTitle": "Continuous software delivery utilising PaaS: opportunities and challenges",
+      "improvedTitle": "Open-Source PaaS Adoption: Benefits and Barriers to Cloud Migration"
+    },
+    "3712": {
+      "originalTitle": "Sustainable migration of cloud infrastructure",
+      "improvedTitle": "Breaking Cloud Lock-in: Strategies for Sustainable Infrastructure Migration"
+    },
+    "3713": {
+      "originalTitle": "Óne citizen - óne digital health twin (an ecosystem of smart digital twins - towards a data-driven health service) (2024)",
+      "improvedTitle": "MIA Health: Building a Digital Twin Ecosystem for Personalized Preventative Healthcare"
+    },
+    "3724": {
+      "originalTitle": "Multiplayer game development using Web3 Technologies",
+      "improvedTitle": "Web3 Blackjack: A Multiplayer Game Exploring Blockchain Identity, Scalability, and Play-to-Earn Mechanics"
+    },
+    "3725": {
+      "originalTitle": "Development of functionality for requesting and assigning substitute teachers in the Visma Inschool Mobile App",
+      "improvedTitle": "Visma InSchool Mobile App: Streamlining Substitute Teacher Management"
+    },
+    "3727": {
+      "originalTitle": "Prediksjon av råvarepriser",
+      "improvedTitle": "AI-Driven Commodity Price Forecasting in High-Growth Markets"
+    },
+    "3728": {
+      "originalTitle": "AI for eyesight",
+      "improvedTitle": "AI-Powered Diagnostics and Spectacle Design for Global Vision Care"
+    },
+    "3729": {
+      "originalTitle": "Software-enabled operational efficiencies in a global software scale-up",
+      "improvedTitle": "Generative AI for Customer Support: A Case Study at Kantega SSO"
+    },
+    "3736": {
+      "originalTitle": "Federated Learning for Privacy-Preserving Medical Image Analysis: A Collaborative Approach",
+      "improvedTitle": "Federated Learning for Medical Image Analysis: Preserving Privacy Through Decentralized Collaboration"
+    },
+    "3741": {
+      "originalTitle": "Development of ´Learn and Earn/Learn to Care’ like gaming platform using mix of Web3 and traditional gaming Technologies",
+      "improvedTitle": "Web3 Gaming Platform: Learn, Earn, and Compete"
+    },
+    "3747": {
+      "originalTitle": "Exciting topics in HPC & Parallel Computing",
+      "improvedTitle": "HPC Research Projects: Parallel Algorithms, GPU Computing, and Educational Tools"
+    },
+    "3748": {
+      "originalTitle": "Automated Single-Cell Type Annotation for Salmon Skin Disease Prevention",
+      "improvedTitle": "Automated Single-Cell Annotation for Salmon Skin Disease: A Machine Learning Approach"
+    },
+    "3750": {
+      "originalTitle": "Sparse Neural Attention",
+      "improvedTitle": "Efficient Self-Attention Networks for Scalable AI"
+    },
+    "3751": {
+      "originalTitle": "Design and prototyping workshops as collaborative learning activities",
+      "improvedTitle": "Workshops for Sustainable Cities: A Collaborative Learning Framework"
+    },
+    "3752": {
+      "originalTitle": "Machine learning-based prediction of revenue for actors providing Mobility-as-a-Service (MaaS)",
+      "improvedTitle": "Predicting MaaS Revenue: A Machine Learning Approach for Transport Service Providers"
+    },
+    "3792": {
+      "originalTitle": "Compilers for Differential Algebraic Equations",
+      "improvedTitle": "MLIR-Based Compiler for Scalable DAE Simulation"
+    },
+    "3795": {
+      "originalTitle": "Fake News (Disinformation) Detection",
+      "improvedTitle": "Detecting Disinformation: Machine Learning for Fake News Identification"
+    },
+    "3796": {
+      "originalTitle": "Ethical aspects of AI/recommender systems",
+      "improvedTitle": "Fairness and Bias Mitigation in Recommender Systems"
+    },
+    "3800": {
+      "originalTitle": "[ExerGames] Multi-player pedal-game 2024/2025",
+      "improvedTitle": "Pedal-Powered Fun: Designing Exergame Prototypes with Unity"
+    },
+    "3801": {
+      "originalTitle": "[BitPet] AR Game to Motivation Socialisation and Physical Activity 2024/2025",
+      "improvedTitle": "AR BitPet: Motivating Social Activity Through Augmented Reality Gaming"
+    },
+    "3802": {
+      "originalTitle": "[Lecture Games] AI Multi-player Classroom Learning Games 2025/2026",
+      "improvedTitle": "AI-Enhanced Collaborative Learning Games"
+    },
+    "3804": {
+      "originalTitle": "Uncertainty-aware Deep Learning a.k.a. Deep Bayesian Learning",
+      "improvedTitle": "Deep Learning with Uncertainty: Bridging Probabilistic Reasoning and Neural Networks"
+    },
+    "3806": {
+      "originalTitle": "Using causal information to improve generative models",
+      "improvedTitle": "Causal VAEs: Improving Generative Models with Causal Knowledge"
+    },
+    "3807": {
+      "originalTitle": "AI-Driven Diagnostic Assistant for Medical Applications",
+      "improvedTitle": "AI-Powered Web Application for Scintigraphy, Blood, and Anamnesis Data Analysis in Medical Diagnostics"
+    },
+    "3821": {
+      "originalTitle": "Åpne data og dataplattformer – fangstregistrering",
+      "improvedTitle": "Open Data in Fisheries: Balancing Sustainability, Compliance, and Industry Acceptance in Catch Registration"
+    },
+    "3822": {
+      "originalTitle": "Open data and data platforms – how to succeed in practice?",
+      "improvedTitle": "Open Data Platforms: Enabling Collaboration in Energy and Beyond"
+    },
+    "3823": {
+      "originalTitle": "AI for knowledge work – how to succeed in practice?",
+      "improvedTitle": "Generative AI in Knowledge Work: Practical Implementation and Alignment Strategies"
+    },
+    "3828": {
+      "originalTitle": "Workplace training in Virtual Reality in collaboration with NAV and VR4VET Erasmus + project",
+      "improvedTitle": "VR Simulations for Job Training: Skills Acquisition and Career Exploration"
+    },
+    "3830": {
+      "originalTitle": "Collaborative Games for IT and Sustainability",
+      "improvedTitle": "Serious Games for Sustainable IT: Design, Prototype, and Evaluation"
+    },
+    "3831": {
+      "originalTitle": "Game for reflection on ethical aspects of IT tools",
+      "improvedTitle": "Ethical IT: A Mobile Game for Reflection and Discussion"
+    },
+    "3832": {
+      "originalTitle": "Reflective and collaborative game for learning about AI",
+      "improvedTitle": "Designing Reflective AI Learning Games"
+    },
+    "3833": {
+      "originalTitle": "Learning about AI in schools",
+      "improvedTitle": "AI Education: Designing Engaging and Responsible Learning Interventions for Schools"
+    },
+    "3835": {
+      "originalTitle": "Emotions and well-being in Computing education",
+      "improvedTitle": "Cultivating Well-being: Emotion-Aware Tools in Computing Education"
+    },
+    "3836": {
+      "originalTitle": "Ready for digital transformation - a co-design card based tool",
+      "improvedTitle": "Co-Designing Digital Transformation: A Card-Based Toolkit for Workplace Competencies"
+    },
+    "3837": {
+      "originalTitle": "Ready for digital transformation - a game approach",
+      "improvedTitle": "Gamified Training for Digital Transformation: Fostering Systemic Thinking in the Workplace"
+    },
+    "3840": {
+      "originalTitle": "Safety evaluation of trajectory planners in autonomous vehicle scenarios",
+      "improvedTitle": "Safety-Aware Trajectory Planning: Evaluating Metrics in Autonomous Vehicle Scenarios"
+    },
+    "3842": {
+      "originalTitle": "Investigating LLMs for model-to-model transformation tasks",
+      "improvedTitle": "LLMs Automating Model Transformation: Code Generation in ATL/Epsilon"
+    },
+    "3843": {
+      "originalTitle": "Investigating LLMs for the verification of coding quality rules",
+      "improvedTitle": "LLMs for Coding Rule Verification: Automating Compliance with Natural Language Rules"
+    },
+    "3844": {
+      "originalTitle": "Verification of coding conventions for Java using CodeQL",
+      "improvedTitle": "CodeQL Verification of SEI CERT Java Coding Standards"
+    },
+    "3845": {
+      "originalTitle": "System for tidlig deteksjon av dysleksi",
+      "improvedTitle": "Magnocellular Function Assessment for Early Dyslexia Detection"
+    },
+    "3848": {
+      "originalTitle": "A shift from old-school to cutting-edge – redefined homecare services delivery platform",
+      "improvedTitle": "Decentralized Health Wallets: Empowering Patients in Trondheim's Homecare Services"
+    },
+    "3849": {
+      "originalTitle": "Designing a next generation user identities platform using web 3.0 technologies",
+      "improvedTitle": "Self-Sovereign Identity Wallets for Secure Digital Credentials"
+    },
+    "3850": {
+      "originalTitle": "Advancing Identity Security through AI",
+      "improvedTitle": "AI-Powered Identity Verification: Enhancing Security and Accuracy"
+    },
+    "3851": {
+      "originalTitle": "Computational Creative Artform Transitions (e.g., Text to Images, Images to Music or Music to Text)",
+      "improvedTitle": "Cross-Modal Generation: Text, Image, and Music Synthesis"
+    },
+    "3852": {
+      "originalTitle": "Computational Musical Creativity",
+      "improvedTitle": "Algorithmic Composition: Methods and Applications"
+    },
+    "3853": {
+      "originalTitle": "Detecting Social Media Risk Users",
+      "improvedTitle": "Social Media Risk Detection via Machine Learning"
+    },
+    "3854": {
+      "originalTitle": "Digital Forensics",
+      "improvedTitle": "Unmasking Authors: Digital Forensics of Textual Identity"
+    },
+    "3855": {
+      "originalTitle": "Fighting Bias in Large Language Models",
+      "improvedTitle": "Mitigating Demographic Bias in Large Language Models"
+    },
+    "3856": {
+      "originalTitle": "Predicting Social Media Personalities, Values and Ethics",
+      "improvedTitle": "Social Media Text as a Predictor of Personality and Ethical Values"
+    },
+    "3857": {
+      "originalTitle": "Semi-supervised learning for enhancing rare species birdsong recognition",
+      "improvedTitle": "Boosting Rare Birdsong Recognition with Semi-Supervised Learning"
+    },
+    "3858": {
+      "originalTitle": "Architecture-based reliability evaluation of machine learning pipelines",
+      "improvedTitle": "Fault Tolerance Evaluation via Architectural Modeling of Machine Learning Pipelines"
+    },
+    "3859": {
+      "originalTitle": "Design and Evaluation: A digital tool to empower children to self-report their emotions and learning",
+      "improvedTitle": "Digital EmoForm: Empowering Children to Self-Report Emotions During Design Thinking"
+    },
+    "3860": {
+      "originalTitle": "Reliability evaluation of approximate computing techniques through fault injection",
+      "improvedTitle": "Fault Tolerance of Approximate Computing: A Fault Injection Study"
+    },
+    "3861": {
+      "originalTitle": "Toolkit for Technologically Rich Education",
+      "improvedTitle": "K-12 Design Thinking Toolkit: Development and Evaluation"
+    },
+    "3864": {
+      "originalTitle": "AD - AI-agents trained end-to-end by Imitation and Reinforcement learning in simulated environments (2024)",
+      "improvedTitle": "Campus-Scale Autonomous Driving: End-to-End Deep Reinforcement Learning in Simulated Environments"
+    },
+    "3865": {
+      "originalTitle": "AD (Autonomous Driving), AI/ML/DL and Computer Vision (CV) (2024)",
+      "improvedTitle": "Autonomous Vehicle Research: Perception, Control, and Simulation in Challenging Environments"
+    },
+    "3866": {
+      "originalTitle": "Autonomous Driving (AD): NAP-lab related projects based on Visual Intelligence (AI/CV)++ (2024)",
+      "improvedTitle": "Visual Intelligence for Autonomous Driving: Sim-to-Real Research in Nordic Environments"
+    },
+    "3867": {
+      "originalTitle": "Digital Twins (DTs) for Health and Infrastructure++ (2024)",
+      "improvedTitle": "Digital Twins for Health Self-Management and Road Infrastructure Decision Support"
+    },
+    "3868": {
+      "originalTitle": "Industry (and AI-lab pitched) project proposals related to Visual intelligence (AI/CV) (2024)",
+      "improvedTitle": "Visual Intelligence Applications: Industry Proposals for AI/CV Projects (2024)"
+    },
+    "3869": {
+      "originalTitle": "MIC - Medical Image Computing / Analysis and AI/CV (most organs / most modalities) (2024)",
+      "improvedTitle": "Deep Learning for Multi-Organ Medical Image Analysis using MONAI"
+    },
+    "3870": {
+      "originalTitle": "NeRFs - Neural Rendering and photorealistic Reconstruction of complex 3D scenes (2024)",
+      "improvedTitle": "Real-time 3D Scene Reconstruction with NeRFs for Autonomous Driving"
+    },
+    "3871": {
+      "originalTitle": "Omniverse, Content generation, Simulation and Digital Twins (2024)",
+      "improvedTitle": "Gløs Campus Digital Twin: Real-time Simulation and Autonomous Vehicle Training in Omniverse"
+    },
+    "3872": {
+      "originalTitle": "Vision Transformers (for Visual Intelligence) (2024)",
+      "improvedTitle": "Vision Transformers: Theory and Applications in Autonomous Vehicles and Medical Imaging"
+    },
+    "3873": {
+      "originalTitle": "Visual Intelligence and accurate geo-referencing of road objects on mobile devices (2024)",
+      "improvedTitle": "Mobile Road Object Geo-referencing with Visual AI and CPos Correction"
+    },
+    "3874": {
+      "originalTitle": "Visual Creativity / Generative Visual AI / multi-modal foundation models (2024)",
+      "improvedTitle": "Generative AI for Visual Content Creation: From Text-to-Image to 3D"
+    },
+    "3875": {
+      "originalTitle": "Shared Situational Awareness through Role-based Workspaces",
+      "improvedTitle": "Role-Based OSDU Workspaces: Enhancing Shared Awareness with Active Knowledge Models"
+    },
+    "3876": {
+      "originalTitle": "Contextualising data on the OSDU data platform",
+      "improvedTitle": "Contextualizing OSDU Data: Active Knowledge Models for Role-Specific Workspaces"
+    },
+    "3879": {
+      "originalTitle": "Innovative education at the intersection of XR and ChatGPT",
+      "improvedTitle": "XR and ChatGPT: Co-creating Immersive Learning Environments"
+    },
+    "3880": {
+      "originalTitle": "Supporting learning with cutting-edge XR technology: Apple Vision Pro, VR treadmill and haptic suit/gloves",
+      "improvedTitle": "Beyond the Quest: Exploring Advanced XR for Immersive Learning"
+    },
+    "3881": {
+      "originalTitle": "Git dashboard",
+      "improvedTitle": "Git-Based Project Dashboard for Educational Code Collaboration"
+    },
+    "3882": {
+      "originalTitle": "System for vurdering av prosjekt og kode i en læringskontekst",
+      "improvedTitle": "Automated Assessment and Peer Feedback System for Programming Projects"
+    },
+    "3883": {
+      "originalTitle": "Generativ kunstig intelligens i programmering",
+      "improvedTitle": "Generative AI for Programming Education: Chatbots, Code Evaluation, and Assessment."
+    },
+    "3884": {
+      "originalTitle": "Læringsteknologi",
+      "improvedTitle": "Learning Technology: Student-Driven Projects & Integration with ExcITEd"
+    },
+    "3885": {
+      "originalTitle": "Species prediction models applied to vulnerability detection in software",
+      "improvedTitle": "Species Accumulation Models for Software Vulnerability Prediction"
+    },
+    "3886": {
+      "originalTitle": "Designing design systems for remote operations",
+      "improvedTitle": "OpenRemote: Design Systems for Remote Machine Interfaces"
+    },
+    "3887": {
+      "originalTitle": "Designing user interfaces for sail propulsion",
+      "improvedTitle": "Sail-Assisted Ship Interfaces: Design for Sustainable Maritime Operations"
+    },
+    "3888": {
+      "originalTitle": "Designing user interfaces for drone swarm interaction",
+      "improvedTitle": "Drone Swarm Interfaces: Enhancing Control Through User-Centered Design"
+    },
+    "3889": {
+      "originalTitle": "Designing eco-feedback interfaces for ships",
+      "improvedTitle": "Eco-Feedback Interfaces for Ships: Nudging Sustainable Maritime Operations"
+    },
+    "3890": {
+      "originalTitle": "Shipyard simulator for planning ship-breaking activities",
+      "improvedTitle": "Shipyard Simulator for Safe Ship-Breaking Planning: A 3D Visualization Approach"
+    },
+    "3891": {
+      "originalTitle": "3D visualization of ship-breaking status and location of personnel",
+      "improvedTitle": "Visualizing Ship-Breaking: A 3D Interface for Worker Safety and Status Monitoring"
+    },
+    "3892": {
+      "originalTitle": "Monitoring Norwegian nature loss with satellite imagery and AI",
+      "improvedTitle": "AI-Powered Detection of Norwegian Nature Loss Using Satellite Time Series"
+    },
+    "3893": {
+      "originalTitle": "AI for Mobile Robotics Systems:  Let us define a project after your own interests (H2024-V2025)",
+      "improvedTitle": "AI for Mobile Robotics: Customizable Research in Autonomous Systems"
+    },
+    "3895": {
+      "originalTitle": "Reinforcement learning for multi-agent simulated autonomous driving (H2024-V2025)",
+      "improvedTitle": "Reinforcement Learning for Multi-Agent Autonomous Driving in Urban Environments"
+    },
+    "3896": {
+      "originalTitle": "Dense Monocular Depth Estimation for Unmanned Surface Vessels (in cooperation with Maritime Robotics)",
+      "improvedTitle": "Monocular Depth Estimation for USVs: Distilling Depth Anything with LIDAR/AIS Calibration"
+    },
+    "3897": {
+      "originalTitle": "A game engine based simulator framework for Otter USV  (in cooperation with Maritime Robotics, H2024-V2025)",
+      "improvedTitle": "ROS2-Integrated Game Engine for Realistic USV Simulation"
+    },
+    "3898": {
+      "originalTitle": "Let the LIMO floor robot solve interesting problems",
+      "improvedTitle": "LIMO Robot AI Challenges: Treasure Hunts, Facial Recognition, and Autonomous Interaction"
+    },
+    "3901": {
+      "originalTitle": "XR4Med - Augmented reality tools for intra-operative applications (St. Olav, SINTEF)",
+      "improvedTitle": "Augmented Reality Guidance for Cardiac Ultrasound and Bronchoscopy"
+    },
+    "3902": {
+      "originalTitle": "XR4Edu - XR in Education",
+      "improvedTitle": "XR for Immersive Learning: Applications in Computer Science and Medicine"
+    },
+    "3903": {
+      "originalTitle": "AI - NeRF and Gaussian splats for mobility applications/ digital twin visualization",
+      "improvedTitle": "NeRF and Gaussian Splat Digital Twins for Autonomous Vehicle Training in Nordic Environments"
+    },
+    "3904": {
+      "originalTitle": "AI4TEE - Generative/diffusion models for ultrasound acquisitions (GE Vingmed Ultrasound)",
+      "improvedTitle": "AI-Enhanced Ultrasound: Generative Models for Cardiac Intervention Guidance"
+    },
+    "3905": {
+      "originalTitle": "AD - Visual Intelligence and accurate positioning on mobile devices",
+      "improvedTitle": "Mobile Road Asset Mapping: Visual AI and Precise Positioning for Public Transport."
+    },
+    "3906": {
+      "originalTitle": "AI4Pathology - Digital pathology, self supervised learning",
+      "improvedTitle": "Self-Supervised Lung Cancer Staging via Digital Pathology"
+    },
+    "3907": {
+      "originalTitle": "MIC - Segmentation of anatomic structures in medical images",
+      "improvedTitle": "Generic Medical Image Segmentation with Neural Networks: A MONAI-Auto3DSeg Approach"
+    },
+    "3910": {
+      "originalTitle": "City learning",
+      "improvedTitle": "City Learning Tools: Aligning Urban Transformation Through Iterative Design"
+    },
+    "3911": {
+      "originalTitle": "Digital Technologies for “placemaking” and “placekeeping”",
+      "improvedTitle": "Digital Placemaking: Designing Technologies for Community Connection"
+    },
+    "3912": {
+      "originalTitle": "Crowdsourcing using Geographical Information Systems",
+      "improvedTitle": "Crowdsourced GIS and LLMs: A Platform for Place-Based Storytelling"
+    },
+    "3914": {
+      "originalTitle": "Smart Urban Data Collection for Health and Well-being",
+      "improvedTitle": "Mobile Urban Sensing: Quantifying Well-being in Public Spaces"
+    },
+    "3915": {
+      "originalTitle": "Applying NorLLM to enrich knowledge graphs describing municipal / public sector data-driven problems",
+      "improvedTitle": "NorLLM-Enhanced Knowledge Graphs for Semantic Search and Deduplication of Municipal Services"
+    },
+    "3916": {
+      "originalTitle": "AI in the classroom: Actively learning from student feedback during the lectures",
+      "improvedTitle": "Sentiment Analysis of Student Feedback: Improving Lectures with AI Insights"
+    },
+    "3917": {
+      "originalTitle": "Flexible data visualization in a VR environment to aid the assessment of visuospatial neglect using eye tracking",
+      "improvedTitle": "VR-Based Eye-Tracking Visualization for Visuospatial Neglect Assessment"
+    },
+    "3918": {
+      "originalTitle": "Use of honeypots for understanding attacker methodologies in n-day vulnerable software",
+      "improvedTitle": "Honeypots Exposing Attacker Tactics in N-Day Vulnerabilities"
+    },
+    "3919": {
+      "originalTitle": "AI computer vision for Open Discovery  of Educational Augmented Reality Experiences",
+      "improvedTitle": "Augmented Reality Learning: Object Recognition via CLIP for Open Discovery"
+    },
+    "3920": {
+      "originalTitle": "Generative AI for Meta Data Inference (with DNB)",
+      "improvedTitle": "Generative AI for Metadata Inference in Financial Documents"
+    },
+    "3923": {
+      "originalTitle": "Generative AI for Customer Relationship Management (with Sparebank 1 SMN)",
+      "improvedTitle": "LLMs vs. Traditional Models: Classifying Customer Messages at Sparebank 1 SMN"
+    },
+    "3925": {
+      "originalTitle": "Topological Methods for Condition Monitoring in Heavy Asset Industries (with Cognite)",
+      "improvedTitle": "Topological Data Analysis for Predictive Maintenance in Heavy Industry"
+    },
+    "3931": {
+      "originalTitle": "EduWallet: A Blockchain-Enabled Digital Wallet for Managing University Course Credits",
+      "improvedTitle": "EduWallet: Blockchain for Secure University Credit Management and Transfer"
+    },
+    "3932": {
+      "originalTitle": "Automated scanning tool for Kubernetes",
+      "improvedTitle": "Automated Kubernetes Security Auditing at Norsk Helsenett"
+    },
+    "3933": {
+      "originalTitle": "Zero Emission Farm – digital game design and development",
+      "improvedTitle": "Zero Emission Farm Game: Design for Sustainable Agriculture Education"
+    },
+    "3934": {
+      "originalTitle": "Training video generation with sensor and Generative AI",
+      "improvedTitle": "Personalized Rehabilitation Videos: Sensor-Driven Generative AI for Avatar-Based Training"
+    },
+    "3935": {
+      "originalTitle": "AI-based Fair Recruitment Systems",
+      "improvedTitle": "Fairness in AI Hiring: Comparing Human and Machine-Learned Feature Importance"
+    },
+    "3936": {
+      "originalTitle": "Evaluating quantizations of large language models on edge systems",
+      "improvedTitle": "Quantized LLMs on the Edge: Performance Analysis on Nvidia Jetson TX2"
+    },
+    "3937": {
+      "originalTitle": "On-device personalization of large language models on edge devices",
+      "improvedTitle": "EdgeLLM: On-Device Personalization for Efficient Edge Inference"
+    },
+    "3939": {
+      "originalTitle": "Smart Desks",
+      "improvedTitle": "Context-Aware Smart Desks: Design, Prototype, and User Evaluation"
+    },
+    "3941": {
+      "originalTitle": "Non-destructive reconstruction of 3D objects using machine learning",
+      "improvedTitle": "Improving CT Reconstruction with Implicit Neural Representations"
+    },
+    "3942": {
+      "originalTitle": "Cool AI",
+      "improvedTitle": "AI Innovation Lab"
+    },
+    "3943": {
+      "originalTitle": "AI-lab pitched projects - Master-project Safari",
+      "improvedTitle": "AI for Sports Analytics, Medical Imaging, Mapping, Ecology, and Maritime Applications"
+    },
+    "3945": {
+      "originalTitle": "Hybrid Vector Search in High-Dimensional Space",
+      "improvedTitle": "Efficient Hybrid Vector Search with Attribute Constraints: Enhancing SIGMOD Contest Baselines"
+    },
+    "3947": {
+      "originalTitle": "Multimodal Personality Prediction",
+      "improvedTitle": "Multimodal AI for Predicting Personality from Video Interviews and Online Profiles"
+    },
+    "3948": {
+      "originalTitle": "Vision Mamba for Advanced Medical Image Analysis",
+      "improvedTitle": "Vision Mamba for Medical Image Analysis: Benchmarking and Novel Architectures"
+    },
+    "3949": {
+      "originalTitle": "E-Assessment in Higher Education with the Support of Large Language Models",
+      "improvedTitle": "LLM-Generated Assessments: Evaluating Question Quality and Feedback Efficacy"
+    },
+    "3950": {
+      "originalTitle": "Bloom's learning outcomes classification: comparative analysis of different LLMs potential",
+      "improvedTitle": "LLMs and Bloom's Taxonomy: Classifying Learning Objectives"
+    },
+    "3951": {
+      "originalTitle": "Dive into how models for animal classification & detection works under the hood",
+      "improvedTitle": "Underwater Animal Detection: Improving Precision in Dynamic Environments Through Explainable AI and Synthetic Data Augmentation"
+    },
+    "3952": {
+      "originalTitle": "Graphics Content Generation for Ad Campaign:",
+      "improvedTitle": "LLM-Powered Ad Campaign Graphics Generation"
+    },
+    "3955": {
+      "originalTitle": "Cross-Lingual Sentence Simplification with Large Language Models",
+      "improvedTitle": "LLM Sentence Splitting for Cross-Lingual Simplification"
+    },
+    "3957": {
+      "originalTitle": "Solving Cryptic Crosswords with Large Language Models",
+      "improvedTitle": "LLMs vs. Cryptic Crosswords: Benchmarking Reasoning Performance and Norwegian Dataset Creation"
+    },
+    "3958": {
+      "originalTitle": "Comparing Synthetic to Real Alignment Data",
+      "improvedTitle": "Synthetic vs. Real Data for Aligning Norwegian LLMs"
+    },
+    "3959": {
+      "originalTitle": "Uncertainty Quantification for Language Models in Safety-Critical Systems",
+      "improvedTitle": "Quantifying Uncertainty in Language Models for Safety-Critical Applications"
+    },
+    "3960": {
+      "originalTitle": "Driving with NeRFs: Simulating sensor inputs for autonomous driving agents",
+      "improvedTitle": "NeRF-Enhanced nuPlan: Closed-Loop Autonomous Driving Simulation with Novel View Synthesis"
+    },
+    "3961": {
+      "originalTitle": "High quality interactive digital twins in VR",
+      "improvedTitle": "VR Interface for Interactive Digital Twin Visualization"
+    },
+    "3962": {
+      "originalTitle": "Recognizing meta-data on car tires",
+      "improvedTitle": "Automated Tire Metadata Extraction and Damage Detection using Computer Vision"
+    },
+    "3963": {
+      "originalTitle": "Effects of fully immersive VR games for people with intellectual disability",
+      "improvedTitle": "VR Games for Intellectual Disability: Repetition and Task Learning"
+    },
+    "3965": {
+      "originalTitle": "Processing and analysing ice data",
+      "improvedTitle": "Satellite Data Use in Arctic and Baltic Shipping: Needs and Applications"
+    },
+    "3966": {
+      "originalTitle": "Efficient assembly of software MVPs through reuse of services and components",
+      "improvedTitle": "Rapid MVP Assembly via Service and Component Reuse: A Prototype Tool"
+    },
+    "3967": {
+      "originalTitle": "NBA Excitement Rater - Development of an data-driven pipeline to calculate the excitement of NBA games for Sportradar",
+      "improvedTitle": "Excitement Score: Rating NBA Games with Real-Time Data"
+    },
+    "3975": {
+      "originalTitle": "Define your own topic in software and system reliability",
+      "improvedTitle": "Master's Projects in Software and System Reliability: Modeling, Formal Methods, and Testing"
+    },
+    "3978": {
+      "originalTitle": "Architecture-based modeling of security aspects in evolving systems",
+      "improvedTitle": "Security-Aware Architectural Modeling for Evolving Systems"
+    },
+    "3979": {
+      "originalTitle": "Mestringslæring i Intro programmering",
+      "improvedTitle": "Mastery Learning in Introductory Programming: A Mixed-Methods Study"
+    },
+    "3980": {
+      "originalTitle": "FlexEEG decoding of hand movement intention",
+      "improvedTitle": "Decoding Hand Movement Intention from Low-Density EEG via Source Reconstruction"
+    },
+    "3981": {
+      "originalTitle": "Learning programming",
+      "improvedTitle": "Programming Pedagogy: How Student Prerequisites Shape Teacher Approaches"
+    },
+    "3982": {
+      "originalTitle": "Developing an autofocus for 3D shape matching algorithms",
+      "improvedTitle": "Autoscaling 3D Shape Matching: Parameter Estimation for Surface Correspondence"
+    },
+    "3983": {
+      "originalTitle": "Next-Gen Report Service Project Management Application",
+      "improvedTitle": "Modernizing Project Reporting: API-Driven, Multi-Format Generation with Advanced Visualizations"
+    },
+    "3986": {
+      "originalTitle": "AI and Game based learning (multiple projects)",
+      "improvedTitle": "AI-Driven Math Learning Games: Overcoming the Cold Start Problem with Difficulty Detection"
+    },
+    "3987": {
+      "originalTitle": "Enhancing Online Laboratory Simulations Through AI-Powered Learning Analytics",
+      "improvedTitle": "AI-Driven Analytics for STEM Simulation: Boosting Engagement and Performance"
+    },
+    "3988": {
+      "originalTitle": "Integrating AI Chatbots into Articulate Storyline 360 for Scaffolding Online Learning",
+      "improvedTitle": "AI Chatbots in Storyline 360: Scaffolding Simulations & Learner Outcomes"
+    },
+    "3989": {
+      "originalTitle": "Evaluating the Role of Gamified Simulations in Enhancing Learner Motivation and Retention",
+      "improvedTitle": "Gamified Simulations in Articulate Storyline: Boosting Motivation and Retention with Adaptive AI."
+    },
+    "3990": {
+      "originalTitle": "Smidig transformasjon",
+      "improvedTitle": "Navigating Agile Transformation: Challenges and Strategies"
+    },
+    "3991": {
+      "originalTitle": "Teamwork in software development",
+      "improvedTitle": "Teamwork Models and Agile Software Development: A Literature Review"
+    },
+    "3992": {
+      "originalTitle": "Customized Master Projects in Basic Machine Learning Research",
+      "improvedTitle": "Master Thesis Projects in Foundational Machine Learning"
+    },
+    "3993": {
+      "originalTitle": "Scaling algorithms for databases",
+      "improvedTitle": "Hashing Algorithms for Scalable Distributed Databases: A Practical Evaluation"
+    },
+    "3994": {
+      "originalTitle": "XAI og bakdører i maskinlæringsmodeller",
+      "improvedTitle": "Backdoor Detection in Machine Learning Models via Explainable AI"
+    },
+    "3996": {
+      "originalTitle": "MySQL related projects 2025",
+      "improvedTitle": "MySQL Project Opportunities: Algorithms, Implementation, and Evaluation (Oracle Trondheim)"
+    },
+    "3997": {
+      "originalTitle": "VIRTUAL DEVICES ACROSS OPERATING SYSTEMS",
+      "improvedTitle": "Cross-Platform Virtual Camera and Microphone Development"
+    },
+    "3998": {
+      "originalTitle": "RECONSTRUCTION OF NIDAROSDOMEN BASED ON GAUSSIAN PRIMITIVES",
+      "improvedTitle": "Nidaros Cathedral: 3D Gaussian Splatting from Photographs"
+    },
+    "3999": {
+      "originalTitle": "FACIAL DATA PROCESSING USING ZOOM SDK",
+      "improvedTitle": "Real-time Facial Analysis with Zoom SDK"
+    },
+    "4000": {
+      "originalTitle": "VISUALIZATION LIBRARIES IN PYTHON",
+      "improvedTitle": "Benchmarking Python Visualization Libraries"
+    },
+    "4003": {
+      "originalTitle": "On the relation between software engineering and AI in Norway",
+      "improvedTitle": "Developing AI Systems in Norway: An Empirical Study of Current Practices"
+    },
+    "4004": {
+      "originalTitle": "Customized Query Execution Plans in Graph Databases",
+      "improvedTitle": "PgCuckoo for Graphs: Injecting Custom Query Plans in Property Graph Databases"
+    },
+    "4005": {
+      "originalTitle": "Locality of Access in Graph Databases",
+      "improvedTitle": "Graph Ordering for Efficient Querying in Graph Databases"
+    },
+    "4006": {
+      "originalTitle": "Exploration of GraphRAG-extracted Knowledge Graphs",
+      "improvedTitle": "Evaluating Knowledge Graph Extraction in GraphRAG for Enhanced Reasoning"
+    },
+    "4007": {
+      "originalTitle": "Evaluation of Streaming Graph Processing Frameworks",
+      "improvedTitle": "Benchmarking Streaming Graph Frameworks for Real-Time Analytics"
+    },
+    "4008": {
+      "originalTitle": "Bærekraftsrapportering (sustainability reporting)",
+      "improvedTitle": "Navigating CSRD: Challenges in Sustainability Data Reporting at Aneo"
+    },
+    "4009": {
+      "originalTitle": "Digitalisering i olje og gass - IoT",
+      "improvedTitle": "IoT Reliability in Remote Subsea Oil & Gas Operations"
+    },
+    "4010": {
+      "originalTitle": "Health information systems in developing countries",
+      "improvedTitle": "DHIS2 Implementation in Developing Countries: Optimizing Health Services Through Mobile Technologies"
+    },
+    "4011": {
+      "originalTitle": "Samarbeide og kommunikasjon i helsesektoren",
+      "improvedTitle": "Breaking Silos: Digital Service Implementation for Integrated Healthcare"
+    },
+    "4012": {
+      "originalTitle": "Compilers for Approximate Computing",
+      "improvedTitle": "Precision Tuning Compilers for Approximate Computing"
+    },
+    "4013": {
+      "originalTitle": "Chop my Chip! Dynamic Compilation Targets for Hardware-Software Codesign",
+      "improvedTitle": "Dynamic Compiler Targets for RISC-V Hardware-Software Codesign"
+    },
+    "4014": {
+      "originalTitle": "Human-Centered AI for Responsible Digital Transformation",
+      "improvedTitle": "Human-Centered AI: Balancing Values and Business in Digital Transformation"
+    },
+    "4015": {
+      "originalTitle": "Unlocking Insights from Video Content – A Large Language Model Approach",
+      "improvedTitle": "LLM-Powered YouTube Transcript Analysis: Automating Insights from Video Playlists"
+    },
+    "4017": {
+      "originalTitle": "Extending hybrid vector search (multiple projects)",
+      "improvedTitle": "GPU-Accelerated Hybrid Vector Search Algorithms and Indexing"
+    },
+    "4018": {
+      "originalTitle": "Exploring Meta-Learning Strategies for Few-Shot Graph Learning Tasks",
+      "improvedTitle": "Few-Shot Graph Learning via Meta-Learned Graph Neural Networks"
+    },
+    "4019": {
+      "originalTitle": "Examining Adaptation Shifting in Graph Domain Adaptation Tasks",
+      "improvedTitle": "Graph Domain Adaptation: Characterizing and Mitigating Adaptation Shift"
+    },
+    "4021": {
+      "originalTitle": "How well do deep learning 3D object classification methods work with large datasets?",
+      "improvedTitle": "Deep Learning for 3D Object Classification: Benchmarking Performance on Large Datasets"
+    },
+    "4022": {
+      "originalTitle": "Anomaly detection using foundational time-series models",
+      "improvedTitle": "Zero-Shot Time-Series Anomaly Detection with Foundational Models"
+    },
+    "4023": {
+      "originalTitle": "Probabilistic models for Generative AI",
+      "improvedTitle": "Generative AI: Diffusion Models and Beyond"
+    },
+    "4024": {
+      "originalTitle": "[Collaboration with Maritime Robotics] Efficient Vision Transformers for Real-Time Object Segmentation and Deployment on NVIDIA AGX Orin",
+      "improvedTitle": "Real-Time Vision Transformers on NVIDIA Orin for Maritime Object Segmentation"
+    },
+    "4025": {
+      "originalTitle": "[Collaboration with Maritime Robotics] Optimising RTMDet / RTMDet-Ins on NVIDIA AGX Orin",
+      "improvedTitle": "Real-time RTMDet on NVIDIA Orin for Maritime Robotics' SeaSight"
+    },
+    "4026": {
+      "originalTitle": "Diversity Equity and Inclusion (DEI) in software development",
+      "improvedTitle": "Disclosing Diversity: Practices and Impact in Norwegian Software Development"
+    },
+    "4027": {
+      "originalTitle": "Employee-driven digital transformation",
+      "improvedTitle": "Empowering Employees in Digital Transformation: Best Practices and Challenges"
+    },
+    "4028": {
+      "originalTitle": "Qualitative study of Microsoft Copilot use by computing students",
+      "improvedTitle": "Copilot in Computing: A Qualitative Study of Student Practices"
+    },
+    "4029": {
+      "originalTitle": "[ExerGames] Exercise Bike Game Development and User Evaluation 2025/2026",
+      "improvedTitle": "Pedal-Powered Play: Designing Exergames for Sustained Engagement"
+    },
+    "4030": {
+      "originalTitle": "[ExerGames] Play to get fit 2025/2026",
+      "improvedTitle": "Exergame Prototypes: Balancing Fun and Fitness"
+    },
+    "4031": {
+      "originalTitle": "[BitPet]  AI Integration in a Location-Based AR Game for Socialization and Physical Activity (2025/2026)",
+      "improvedTitle": "AI-Powered Pets: Enhancing Social AR Games with Intelligent Companions"
+    },
+    "4032": {
+      "originalTitle": "[BitPet]  Empirical Study on the Physical and Social Health Effects of Playing BitPet (2025/2026)",
+      "improvedTitle": "BitPet: Augmenting Physical and Social Health Through Play"
+    },
+    "4033": {
+      "originalTitle": "A computer game to teach EU AI Act for the healthcare domain users",
+      "improvedTitle": "Serious Games for EU AI Act Education in Healthcare: A Design Science Approach"
+    },
+    "4034": {
+      "originalTitle": "Agentic AI security vulnerabilities identification and mitigation",
+      "improvedTitle": "Securing Agentic AI: Vulnerability Identification and Mitigation Strategies"
+    },
+    "4039": {
+      "originalTitle": "RAY TRACING DATA STRUCTURES (with ARM Trondheim)",
+      "improvedTitle": "Real-Time Ray Tracing: BVH Construction and Performance Evaluation on ARM Hardware"
+    },
+    "4042": {
+      "originalTitle": "Memetic and Multimethod Stochastic Optimization Algorithms",
+      "improvedTitle": "Memetic Algorithms for Stochastic Optimization: Integrating Local Search and Evolutionary Strategies"
+    },
+    "4043": {
+      "originalTitle": "Implementation and Evaluation of Scalar Evolution Analysis",
+      "improvedTitle": "Scalar Evolution in JLM: Loop Optimization via RVSDG Analysis"
+    },
+    "4045": {
+      "originalTitle": "Explaining AI-based Recommendations (with Sparebank 1 SMN)",
+      "improvedTitle": "Explainable AI for Banking: Product Recommendation Transparency at Sparebank 1 SMN"
+    },
+    "4048": {
+      "originalTitle": "Rare Anomaly Detection in Time Series (with SINTEF, Statnett)",
+      "improvedTitle": "Detecting Voltage Transformer Anomalies Using Time Series Analysis"
+    },
+    "4049": {
+      "originalTitle": "LLMs for Maritime language",
+      "improvedTitle": "LLMs Navigate the Seas: Augmenting Language Models for Maritime Applications"
+    },
+    "4050": {
+      "originalTitle": "AI-powered Data Extraction from Archival Records (with Arkivverket)",
+      "improvedTitle": "LLMs and Image Recognition for Enhancing Access to National Archives Data"
+    },
+    "4051": {
+      "originalTitle": "Interoperability of Learning Systems",
+      "improvedTitle": "Unifying Learning Data in Norway: An xAPI and LTI Dashboard Prototype"
+    },
+    "4052": {
+      "originalTitle": "AI-Powered Processing of Public Consultation Responses",
+      "improvedTitle": "AI-Driven Analysis of Public Feedback for Urban Planning in Oslo"
+    },
+    "4053": {
+      "originalTitle": "Control and monitoring of robots through intuitive and natural language interactions",
+      "improvedTitle": "LLM-Driven Robot Control: Generating PDDL Mission Plans from Natural Language"
+    },
+    "4054": {
+      "originalTitle": "Applying ChatGPT for Data Integration",
+      "improvedTitle": "ChatGPT for Data Integration: A Prompt Engineering and Fine-Tuning Approach"
+    },
+    "4055": {
+      "originalTitle": "From Interview Transcription to Article Draft",
+      "improvedTitle": "AI-Assisted News: LLM-Powered Article Generation from Norwegian Interviews"
+    },
+    "4056": {
+      "originalTitle": "GPU adaptations of 3D shape matching algorithms",
+      "improvedTitle": "GPU-Accelerated 3D Shape Matching: Algorithm Adaptation and Optimization"
+    },
+    "4058": {
+      "originalTitle": "Simulation of artefacts caused by 3D capturing devices",
+      "improvedTitle": "Simulating 3D Scanning Artefacts for Shape Matching Benchmark Datasets"
+    },
+    "4059": {
+      "originalTitle": "Keypoint detection through destructive clustering for 3D shape recognition",
+      "improvedTitle": "Destructive Clustering for Unique 3D Keypoint Detection in SLAM"
+    }
+  },
+  "originalDataFile": "projects-2025-03-28T16-27-29-486Z.json",
+  "generatedAt": "2025-03-28T17:29:24.184Z",
+  "totalTitles": 330
+}

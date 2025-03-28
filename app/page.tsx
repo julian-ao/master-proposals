@@ -19,6 +19,8 @@ import {
     errorAtom,
     selectedProgramsAtom,
     summariesAtom,
+    improvedTitlesAtom,
+    showImprovedTitlesAtom,
 } from "../lib/atoms";
 
 export default function ProjectBrowser() {
@@ -29,6 +31,10 @@ export default function ProjectBrowser() {
     const error = useAtomValue(errorAtom);
     const availableSupervisors = useAtomValue(availableSupervisorsAtom);
     const summaries = useAtomValue(summariesAtom);
+    const improvedTitles = useAtomValue(improvedTitlesAtom);
+    const [showImprovedTitles, setShowImprovedTitles] = useAtom(
+        showImprovedTitlesAtom
+    );
 
     const [showAiSummaries, setShowAiSummaries] = useState(false);
 
@@ -375,6 +381,23 @@ export default function ProjectBrowser() {
                                     Show AI summaries
                                 </label>
                             </div>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    id="show-improved-titles"
+                                    checked={showImprovedTitles}
+                                    onChange={() =>
+                                        setShowImprovedTitles((prev) => !prev)
+                                    }
+                                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                />
+                                <label
+                                    htmlFor="show-improved-titles"
+                                    className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                                >
+                                    Show AI improved titles
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -508,6 +531,11 @@ export default function ProjectBrowser() {
                                                 ? summaries[project.title]
                                                 : undefined
                                         }
+                                        improvedTitle={
+                                            improvedTitles[project.id]
+                                                ?.improvedTitle
+                                        }
+                                        showImprovedTitle={showImprovedTitles}
                                     />
                                 ))
                             ) : (

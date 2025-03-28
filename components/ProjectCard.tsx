@@ -5,22 +5,17 @@ import { track } from "@vercel/analytics";
 // Helper function to format AI summary text
 function formatAiSummary(summary: string): string {
     if (!summary) return "";
-
     // Remove the introductory text before the actual summary
     let cleanSummary = summary.replace(/^Okay,.*?summary.*?:\s*\n\n/i, "");
-
     // Format markdown bold text to HTML
     cleanSummary = cleanSummary.replace(
         /\*\*(.*?)\*\*/g,
-        '<strong class="text-indigo-700 dark:text-indigo-300">$1</strong>'
+        '<strong class="text-teal-600 dark:text-teal-400">$1</strong>'
     );
-
     // Handle paragraph breaks
     cleanSummary = cleanSummary.replace(/\n\n/g, "<br/><br/>");
-
     // Remove any remaining markdown artifacts
     cleanSummary = cleanSummary.replace(/\n/g, " ");
-
     return cleanSummary;
 }
 
@@ -33,6 +28,8 @@ interface ProjectCardProps {
     isHidden?: boolean;
     autoExpand?: boolean;
     aiSummary?: string;
+    improvedTitle?: string;
+    showImprovedTitle?: boolean;
 }
 
 export function ProjectCard({
@@ -44,9 +41,10 @@ export function ProjectCard({
     isHidden,
     autoExpand = false,
     aiSummary,
+    improvedTitle,
+    showImprovedTitle = false,
 }: ProjectCardProps) {
     const [expanded, setExpanded] = useState(autoExpand);
-
     // Update expanded state when autoExpand changes
     useEffect(() => {
         setExpanded(autoExpand);
@@ -63,9 +61,22 @@ export function ProjectCard({
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
             <div className="p-6">
                 <div className="flex items-start justify-between">
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                        {project.title}
-                    </h3>
+                    <div>
+                        {showImprovedTitle && improvedTitle && (
+                            <h3 className="text-lg font-medium text-teal-600 dark:text-teal-400 mb-1">
+                                {improvedTitle}
+                            </h3>
+                        )}
+                        <h3
+                            className={`text-lg font-medium text-gray-900 dark:text-white mb-2 ${
+                                showImprovedTitle && improvedTitle
+                                    ? "text-sm text-gray-500 dark:text-gray-400"
+                                    : ""
+                            }`}
+                        >
+                            {project.title}
+                        </h3>
+                    </div>
                     <button
                         onClick={() => {
                             track("My Event", {}, { flags: ["summer-sale"] });
@@ -79,8 +90,8 @@ export function ProjectCard({
 
                 {/* AI Summary - displayed when enabled */}
                 {aiSummary && (
-                    <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-lg p-4 mb-4 border-l-4 border-indigo-400 dark:border-indigo-600">
-                        <h4 className="font-medium text-indigo-700 dark:text-indigo-300 text-sm mb-1 flex items-center">
+                    <div className="bg-teal-50 dark:bg-teal-900/20 rounded-lg p-4 mb-4 border-l-4 border-teal-400 dark:border-teal-600">
+                        <h4 className="font-medium text-teal-600 dark:text-teal-400 text-sm mb-1 flex items-center">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="h-4 w-4 mr-1"
@@ -107,6 +118,7 @@ export function ProjectCard({
                 <p className="text-gray-600 dark:text-gray-300 mb-4">
                     {project.shortDescription}
                 </p>
+
                 <div className="flex flex-wrap gap-2 mb-4">
                     {project.programs.map((programId) => (
                         <span
@@ -133,6 +145,7 @@ export function ProjectCard({
                         />
                     </div>
                 )}
+
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 text-sm">
                         <div className="flex flex-wrap items-center gap-3">
@@ -194,7 +207,6 @@ export function ProjectCard({
                                 </a>
                             </span>
                         </div>
-
                         {/* Action buttons - will appear below on mobile, to the right on desktop */}
                         <div className="flex w-full gap-2 mt-3 sm:mt-0 sm:w-auto sm:ml-auto">
                             {onHideToggle && (

@@ -6,6 +6,8 @@ import {
     projectsAtom,
     summariesAtom,
     projectsEloAtom,
+    improvedTitlesAtom,
+    showImprovedTitlesAtom,
 } from "@/lib/atoms";
 import { useAtom, useAtomValue } from "jotai";
 import { RESET } from "jotai/utils";
@@ -61,6 +63,10 @@ export default function Page() {
     const loading = useAtomValue(loadingProjectsAtom);
     const error = useAtomValue(errorAtom);
     const summaries = useAtomValue(summariesAtom);
+    const improvedTitles = useAtomValue(improvedTitlesAtom);
+    const [showImprovedTitles, setShowImprovedTitles] = useAtom(
+        showImprovedTitlesAtom
+    );
     const isMobile = useIsMobile();
     const { toast } = useToast();
 
@@ -326,18 +332,37 @@ export default function Page() {
                                     <span className="text-gray-500 mr-3 font-semibold">
                                         {index + 1}.
                                     </span>
-                                    <a
-                                        href={
-                                            "https://www.idi.ntnu.no/education/" +
-                                            project.link
-                                        }
-                                        className="font-medium break-words pr-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
-                                        style={{ wordBreak: "break-word" }}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {project.title}
-                                    </a>
+                                    <div className="flex flex-col">
+                                        {showImprovedTitles &&
+                                            improvedTitles[project.id]
+                                                ?.improvedTitle && (
+                                                <span className="font-medium break-words pr-2 text-teal-600 dark:text-teal-400 text-sm">
+                                                    {
+                                                        improvedTitles[
+                                                            project.id
+                                                        ].improvedTitle
+                                                    }
+                                                </span>
+                                            )}
+                                        <a
+                                            href={
+                                                "https://www.idi.ntnu.no/education/" +
+                                                project.link
+                                            }
+                                            className={`font-medium break-words pr-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline ${
+                                                showImprovedTitles &&
+                                                improvedTitles[project.id]
+                                                    ?.improvedTitle
+                                                    ? "text-xs text-gray-500 dark:text-gray-400"
+                                                    : ""
+                                            }`}
+                                            style={{ wordBreak: "break-word" }}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {project.title}
+                                        </a>
+                                    </div>
                                 </div>
                                 <div className="flex items-center gap-2 flex-shrink-0">
                                     <span className="text-blue-600 font-semibold">
@@ -413,6 +438,23 @@ export default function Page() {
                                 Show AI summaries
                             </label>
                         </div>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="show-improved-titles-elo"
+                                checked={showImprovedTitles}
+                                onChange={() =>
+                                    setShowImprovedTitles((prev) => !prev)
+                                }
+                                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            />
+                            <label
+                                htmlFor="show-improved-titles-elo"
+                                className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                            >
+                                Show AI improved titles
+                            </label>
+                        </div>
                     </div>
 
                     {/* Draw and Skip buttons row - adaptable to mobile */}
@@ -476,6 +518,10 @@ export default function Page() {
                                     handleUnfavorite(projectA.title)
                                 }
                                 getProgramName={getProgramName}
+                                improvedTitle={
+                                    improvedTitles[projectA.id]?.improvedTitle
+                                }
+                                showImprovedTitle={showImprovedTitles}
                             />
                         )}
 
@@ -493,6 +539,10 @@ export default function Page() {
                                     handleUnfavorite(projectB.title)
                                 }
                                 getProgramName={getProgramName}
+                                improvedTitle={
+                                    improvedTitles[projectB.id]?.improvedTitle
+                                }
+                                showImprovedTitle={showImprovedTitles}
                             />
                         )}
                     </div>

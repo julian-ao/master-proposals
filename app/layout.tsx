@@ -7,7 +7,7 @@ import { ProjectDataProvider } from "@/components/ProjectDataProvider";
 import { AISummaryProvider } from "@/components/AISummaryProvider";
 import { ImprovedTitlesProvider } from "@/components/ImprovedTitlesProvider";
 import { Provider } from "jotai";
-import {DarkModeToggle} from '@/components/DarkModeToggle';
+
 
 export const metadata: Metadata = {
     title: "MSIT Master Proposals 2025",
@@ -29,7 +29,7 @@ export default function RootLayout({
                         <AISummaryProvider>
                             <ImprovedTitlesProvider>
                                 <Analytics />
-                                <DarkModeToggle />
+                                
                                 {children}
                                 <Footer />
                                 <Toaster />

@@ -6,7 +6,8 @@ interface ProjectComparisonCardProps {
     showAiSummaries: boolean;
     summaries: Record<string, string>;
     eloRating: number;
-    onUnfavorite?: () => void; // New prop for unfavorite callback
+    onUnfavorite?: () => void;
+    getProgramName: (programId: string) => string;
 }
 
 export function ProjectComparisonCard({
@@ -16,7 +17,15 @@ export function ProjectComparisonCard({
     summaries,
     eloRating,
     onUnfavorite,
+    getProgramName,
 }: ProjectComparisonCardProps) {
+    const programColors: Record<string, string> = {
+        p2_6: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100",
+        p2_7: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100",
+        p2_9: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100",
+        p2_10: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100",
+    };
+
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col h-full">
             <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
@@ -24,6 +33,21 @@ export function ProjectComparisonCard({
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
                 Supervisor: {project.teacher}
             </p>
+
+            {/* Program specializations */}
+            <div className="flex flex-wrap gap-2 mb-4">
+                {project.programs.map((programId) => (
+                    <span
+                        key={programId}
+                        className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            programColors[programId] ||
+                            "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                        }`}
+                    >
+                        {getProgramName(programId)}
+                    </span>
+                ))}
+            </div>
 
             {/* AI Summary - above short description */}
             {showAiSummaries && summaries[project.title] && (

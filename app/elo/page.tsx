@@ -11,7 +11,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { RESET } from "jotai/utils";
 import { useLocalStorage } from "usehooks-ts";
 import { useEffect, useState } from "react";
-import { IProject } from "@/lib/constants";
+import { IProject, STUDY_PROGRAMS } from "@/lib/constants";
 import {
     ArrowLeftIcon,
     ArrowRightIcon,
@@ -75,6 +75,12 @@ export default function Page() {
     // Add state for showing full descriptions and AI summaries
     const [showFullDescriptions, setShowFullDescriptions] = useState(false);
     const [showAiSummaries, setShowAiSummaries] = useState(false);
+
+    // Function to get program name from program ID
+    const getProgramName = (programId: string): string => {
+        const program = STUDY_PROGRAMS.find((p) => p.id === programId);
+        return program ? program.name : programId;
+    };
 
     // Get projects by favorite titles
     const favoriteProjects = projects.filter((p) =>
@@ -439,6 +445,7 @@ export default function Page() {
                                 onUnfavorite={() =>
                                     handleUnfavorite(projectA.title)
                                 }
+                                getProgramName={getProgramName}
                             />
                         )}
 
@@ -455,6 +462,7 @@ export default function Page() {
                                 onUnfavorite={() =>
                                     handleUnfavorite(projectB.title)
                                 }
+                                getProgramName={getProgramName}
                             />
                         )}
                     </div>

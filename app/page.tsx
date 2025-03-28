@@ -6,32 +6,32 @@ import { StudyProgramFilter } from "../components/StudyProgramFilter";
 import { SortAndFilterControls } from "../components/SortAndFilterControls";
 import { LoadingSkeleton } from "../components/LoadingSkeleton";
 import { ErrorMessage } from "../components/ErrorMessage";
-import { IProject, STUDY_PROGRAMS } from "../lib/constants";
+import { STUDY_PROGRAMS } from "../lib/constants";
 import { SupervisorFilter } from "../components/SupervisorFilter";
 import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
 import { useLocalStorage } from "usehooks-ts";
 import { useToast } from "../hooks/use-toast";
-
-const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce((acc, program) => {
-    acc[program.id] = true;
-    return acc;
-}, {} as Record<string, boolean>);
-
-// Interface for summaries
-interface ISummaries {
-    summaries: Record<string, string>;
-    originalDataFile: string;
-    generatedAt: string;
-    totalSummaries: number;
-}
+import { useAtom, useAtomValue } from "jotai";
+import {
+    projectsAtom,
+    availableSupervisorsAtom,
+    loadingProjectsAtom,
+    errorAtom,
+    selectedProgramsAtom,
+    summariesAtom,
+} from "../lib/atoms";
 
 export default function ProjectBrowser() {
-    const [selectedPrograms, setSelectedPrograms] = useState(
-        DEFAULT_SELECTED_PROGRAMS
-    );
-    const [projects, setProjects] = useState<IProject[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [selectedPrograms, setSelectedPrograms] =
+        useAtom(selectedProgramsAtom);
+    const projects = useAtomValue(projectsAtom);
+    const loading = useAtomValue(loadingProjectsAtom);
+    const error = useAtomValue(errorAtom);
+    const availableSupervisors = useAtomValue(availableSupervisorsAtom);
+    const summaries = useAtomValue(summariesAtom);
+
+    const [showAiSummaries, setShowAiSummaries] = useState(false);
+
     const [filterMode, setFilterMode] = useState<"union" | "intersection">(
         "union"
     );
@@ -40,16 +40,9 @@ export default function ProjectBrowser() {
         "all" | "single" | "duo"
     >("all");
 
-    // Add state for AI summaries
-    const [summaries, setSummaries] = useState<Record<string, string>>({});
-    const [showAiSummaries, setShowAiSummaries] = useState(false);
-
     const [selectedSupervisors, setSelectedSupervisors] = useState<
         Record<string, boolean>
     >({});
-    const [availableSupervisors, setAvailableSupervisors] = useState<string[]>(
-        []
-    );
     const [excludedSupervisors, setExcludedSupervisors] = useState<
         Record<string, boolean>
     >({});
@@ -94,149 +87,6 @@ export default function ProjectBrowser() {
         },
         [toast]
     );
-
-    const fetchProjects = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-            const programPromises = Object.entries(selectedPrograms)
-                .filter(([_, isSelected]) => isSelected)
-                .map(async ([programId]) => {
-                    const response = await fetch(`/api/idi?${programId}=1`);
-                    if (!response.ok)
-                        throw new Error(`Failed to fetch ${programId}`);
-                    return { programId, html: await response.text() };
-                });
-
-            const programResults = await Promise.all(programPromises);
-            const allProjects: IProject[] = [];
-            const supervisors = new Set<string>();
-
-            programResults.forEach(({ programId, html }) => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, "text/html");
-                const projectElements = doc.querySelectorAll(".oppgave");
-
-                projectElements.forEach((element) => {
-                    const title =
-                        element.querySelector("h3")?.textContent?.trim() ||
-                        "Untitled Project";
-                    const description =
-                        element.querySelector("p")?.textContent?.trim() || "";
-                    const teacher =
-                        element
-                            .querySelector(".status a")
-                            ?.textContent?.trim() || "Unknown";
-                    supervisors.add(teacher);
-                    const status =
-                        element
-                            .querySelector(".status i")
-                            ?.textContent?.trim() || "Unknown";
-                    const link =
-                        element
-                            .querySelector('.status a[href^="oppgaveforslag"]')
-                            ?.getAttribute("href") || "#";
-
-                    let shownDesc = "";
-                    let hiddenDesc = "";
-                    const divs = element.querySelectorAll(
-                        'div[id^="shown_"], div[id^="hidden_"]'
-                    );
-
-                    const statusDiv = element.querySelector(".status");
-                    const studentImg = statusDiv?.querySelector(
-                        'img[src*="student_"]'
-                    );
-
-                    let type: "single" | "duo" = "single"; // default to single
-                    if (studentImg) {
-                        if (
-                            studentImg
-                                .getAttribute("src")
-                                ?.includes("student_group")
-                        ) {
-                            type = "duo";
-                        } else if (
-                            studentImg
-                                .getAttribute("src")
-                                ?.includes("student_singel")
-                        ) {
-                            type = "single";
-                        }
-                    }
-
-                    divs.forEach((div) => {
-                        if (div.id.startsWith("shown_"))
-                            shownDesc = div.innerHTML;
-                        else if (div.id.startsWith("hidden_"))
-                            hiddenDesc = div.innerHTML;
-                    });
-
-                    const project = {
-                        id: link.split("oid=")[1] || crypto.randomUUID(),
-                        title,
-                        shortDescription: description,
-                        fullDescription: hiddenDesc || shownDesc,
-                        teacher,
-                        status,
-                        link,
-                        programs: [programId],
-                        type,
-                    };
-
-                    const existingIndex = allProjects.findIndex(
-                        (p) => p.title === title && p.teacher === teacher
-                    );
-                    if (existingIndex >= 0) {
-                        allProjects[existingIndex].programs = [
-                            ...new Set([
-                                ...allProjects[existingIndex].programs,
-                                ...project.programs,
-                            ]),
-                        ];
-                    } else {
-                        allProjects.push(project);
-                    }
-                });
-            });
-
-            console.log(Array.from(supervisors).sort());
-
-            setAvailableSupervisors(Array.from(supervisors).sort());
-            setProjects(allProjects);
-        } catch (err) {
-            setError(
-                err instanceof Error ? err.message : "Failed to fetch projects"
-            );
-            console.error("Fetch error:", err);
-        } finally {
-            setLoading(false);
-        }
-    }, [selectedPrograms]);
-
-    useEffect(() => {
-        fetchProjects();
-    }, [fetchProjects]);
-
-    // Load AI summaries from the JSON file
-    useEffect(() => {
-        const loadSummaries = async () => {
-            try {
-                const response = await fetch("json/summaries-gemini.json");
-                if (!response.ok) {
-                    console.error("Failed to load AI summaries");
-                    return;
-                }
-                const data: ISummaries = await response.json();
-                setSummaries(data.summaries);
-            } catch (error) {
-                console.error("Error loading AI summaries:", error);
-            }
-        };
-
-        loadSummaries();
-    }, []);
 
     const toggleProgram = (programId: string) => {
         setSelectedPrograms((prev) => ({
@@ -352,6 +202,44 @@ export default function ProjectBrowser() {
                         </div>
                     </div>
                 </div>
+
+                {/* ELO Ranking Link */}
+                {isMounted && favorites.length >= 2 && (
+                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0">
+                                <svg
+                                    className="h-8 w-8 text-blue-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                    />
+                                </svg>
+                            </div>
+                            <div className="ml-3">
+                                <p className="text-sm text-blue-700">
+                                    You have {favorites.length} favorited
+                                    projects! Compare them and create your
+                                    personal ranking.
+                                </p>
+                                <p className="mt-1">
+                                    <a
+                                        href="/elo"
+                                        className="text-blue-600 font-medium hover:underline"
+                                    >
+                                        Go to ELO Ranking →
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -537,7 +425,7 @@ export default function ProjectBrowser() {
 
                     {loading && <LoadingSkeleton count={5} />}
                     {error && (
-                        <ErrorMessage message={error} onRetry={fetchProjects} />
+                        <ErrorMessage message={error} onRetry={() => {}} />
                     )}
 
                     {!loading && !error && (

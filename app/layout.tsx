@@ -8,7 +8,6 @@ import { AISummaryProvider } from "@/components/AISummaryProvider";
 import { ImprovedTitlesProvider } from "@/components/ImprovedTitlesProvider";
 import { Provider } from "jotai";
 
-
 export const metadata: Metadata = {
     title: "MSIT Master Proposals 2025",
     icons: {

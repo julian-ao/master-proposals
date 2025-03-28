@@ -6,7 +6,7 @@ import { StudyProgramFilter } from "../components/StudyProgramFilter";
 import { SortAndFilterControls } from "../components/SortAndFilterControls";
 import { LoadingSkeleton } from "../components/LoadingSkeleton";
 import { ErrorMessage } from "../components/ErrorMessage";
-import { IProject, STUDY_PROGRAMS } from "../lib/constants";
+import { STUDY_PROGRAMS } from "../lib/constants";
 import { SupervisorFilter } from "../components/SupervisorFilter";
 import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
 import { useLocalStorage } from "usehooks-ts";

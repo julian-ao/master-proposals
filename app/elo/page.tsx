@@ -1,7 +1,6 @@
 "use client";
 
 import {
-    availableSupervisorsAtom,
     errorAtom,
     loadingProjectsAtom,
     projectsAtom,
@@ -69,7 +68,6 @@ export default function Page() {
     const projects = useAtomValue(projectsAtom);
     const loading = useAtomValue(loadingProjectsAtom);
     const error = useAtomValue(errorAtom);
-    const availableSupervisors = useAtomValue(availableSupervisorsAtom);
     const summaries = useAtomValue(summariesAtom);
     const isMobile = useIsMobile();
 

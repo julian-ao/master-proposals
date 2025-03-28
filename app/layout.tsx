@@ -28,7 +28,6 @@ export default function RootLayout({
                         <AISummaryProvider>
                             <ImprovedTitlesProvider>
                                 <Analytics />
-                                
                                 {children}
                                 <Footer />
                                 <Toaster />

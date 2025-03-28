@@ -6,7 +6,6 @@ import {
     projectsAtom,
     summariesAtom,
     projectsEloAtom,
-    ProjectsEloState,
 } from "@/lib/atoms";
 import { useAtom, useAtomValue } from "jotai";
 import { useLocalStorage } from "usehooks-ts";

@@ -12,8 +12,14 @@ import { atomWithStorage } from "jotai/utils";
 import { useLocalStorage } from "usehooks-ts";
 import { useEffect, useState } from "react";
 import { IProject } from "@/lib/constants";
-import { ArrowLeftIcon, ArrowRightIcon, ArrowUpIcon, ArrowDownIcon } from "lucide-react";
+import {
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    ArrowUpIcon,
+    ArrowDownIcon,
+} from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ProjectComparisonCard } from "@/components/ProjectComparisonCard";
 
 interface ProjectsEloState {
     ratings: Record<string, number>;
@@ -247,25 +253,25 @@ export default function Page() {
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 text-center">
                 ELO Comparison
             </h1>
-            
+
             {/* Backlink to main page */}
             <div className="flex justify-center mb-8">
-                <a 
-                    href="/" 
+                <a
+                    href="/"
                     className="flex items-center text-blue-600 hover:text-blue-800 transition"
                 >
-                    <svg 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        className="h-4 w-4 mr-1" 
-                        fill="none" 
-                        viewBox="0 0 24 24" 
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 mr-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
                         stroke="currentColor"
                     >
-                        <path 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth={2} 
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" 
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"
                         />
                     </svg>
                     Back to Projects
@@ -292,7 +298,10 @@ export default function Page() {
                                     <span className="text-gray-500 mr-3 font-semibold">
                                         {index + 1}.
                                     </span>
-                                    <span className="font-medium break-words pr-2" style={{wordBreak: "break-word"}}>
+                                    <span
+                                        className="font-medium break-words pr-2"
+                                        style={{ wordBreak: "break-word" }}
+                                    >
                                         {project.title}
                                     </span>
                                 </div>
@@ -383,7 +392,9 @@ export default function Page() {
                             onClick={() => handleSelection("B")}
                             className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-md transition flex items-center justify-center"
                         >
-                            {isMobile ? "Prefer Second" : "Prefer Right Project"}
+                            {isMobile
+                                ? "Prefer Second"
+                                : "Prefer Right Project"}
                             {isMobile ? (
                                 <ArrowDownIcon className="h-5 w-5 ml-2" />
                             ) : (
@@ -395,106 +406,28 @@ export default function Page() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         {/* Project A */}
                         {projectA && (
-                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col h-full">
-                                <h3 className="text-xl font-semibold mb-3">
-                                    {projectA.title}
-                                </h3>
-
-                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                                    Supervisor: {projectA.teacher}
-                                </p>
-
-                                {/* AI Summary - above short description */}
-                                {showAiSummaries &&
-                                    summaries[projectA.title] && (
-                                        <div className="mb-4 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md">
-                                            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
-                                                AI Summary:
-                                            </p>
-                                            <p className="text-sm italic text-gray-600 dark:text-gray-300">
-                                                {summaries[projectA.title]}
-                                            </p>
-                                        </div>
-                                    )}
-
-                                {/* Short description */}
-                                <p className="text-sm mb-4 flex-grow-0">
-                                    {projectA.shortDescription}
-                                </p>
-
-                                {/* Full description */}
-                                {showFullDescriptions && (
-                                    <div className="mb-4 flex-grow overflow-auto max-h-64 border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
-                                        <p className="text-xs font-semibold text-gray-500 mb-1">
-                                            Full Description:
-                                        </p>
-                                        <div
-                                            className="text-sm prose prose-sm dark:prose-invert max-w-none"
-                                            dangerouslySetInnerHTML={{
-                                                __html: projectA.fullDescription,
-                                            }}
-                                        />
-                                    </div>
-                                )}
-
-                                <p className="text-xs text-gray-500 mt-auto pt-3">
-                                    Current ELO:{" "}
-                                    {projectsElo.ratings[projectA.title] ||
-                                        1000}
-                                </p>
-                            </div>
+                            <ProjectComparisonCard
+                                project={projectA}
+                                showFullDescriptions={showFullDescriptions}
+                                showAiSummaries={showAiSummaries}
+                                summaries={summaries}
+                                eloRating={
+                                    projectsElo.ratings[projectA.title] || 1000
+                                }
+                            />
                         )}
 
                         {/* Project B */}
                         {projectB && (
-                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col h-full">
-                                <h3 className="text-xl font-semibold mb-3">
-                                    {projectB.title}
-                                </h3>
-
-                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                                    Supervisor: {projectB.teacher}
-                                </p>
-
-                                {/* AI Summary - above short description */}
-                                {showAiSummaries &&
-                                    summaries[projectB.title] && (
-                                        <div className="mb-4 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-md">
-                                            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
-                                                AI Summary:
-                                            </p>
-                                            <p className="text-sm italic text-gray-600 dark:text-gray-300">
-                                                {summaries[projectB.title]}
-                                            </p>
-                                        </div>
-                                    )}
-
-                                {/* Short description */}
-                                <p className="text-sm mb-4 flex-grow-0">
-                                    {projectB.shortDescription}
-                                </p>
-
-                                {/* Full description */}
-                                {showFullDescriptions && (
-                                    <div className="mb-4 flex-grow overflow-auto max-h-64 border-t border-gray-200 dark:border-gray-700 pt-3 mt-3">
-                                        <p className="text-xs font-semibold text-gray-500 mb-1">
-                                            Full Description:
-                                        </p>
-                                        <div
-                                            className="text-sm prose prose-sm dark:prose-invert max-w-none"
-                                            dangerouslySetInnerHTML={{
-                                                __html: projectB.fullDescription,
-                                            }}
-                                        />
-                                    </div>
-                                )}
-
-                                <p className="text-xs text-gray-500 mt-auto pt-3">
-                                    Current ELO:{" "}
-                                    {projectsElo.ratings[projectB.title] ||
-                                        1000}
-                                </p>
-                            </div>
+                            <ProjectComparisonCard
+                                project={projectB}
+                                showFullDescriptions={showFullDescriptions}
+                                showAiSummaries={showAiSummaries}
+                                summaries={summaries}
+                                eloRating={
+                                    projectsElo.ratings[projectB.title] || 1000
+                                }
+                            />
                         )}
                     </div>
                 </div>

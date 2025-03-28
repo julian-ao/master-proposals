@@ -6,6 +6,7 @@ export interface IProject {
     teacher: string
     status: string
     link: string
+    teacherLink: string // Link to the teacher's profile
     programs: string[]
     type: 'single' | 'duo'
 }

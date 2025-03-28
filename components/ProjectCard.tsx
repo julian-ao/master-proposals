@@ -166,7 +166,18 @@ export function ProjectCard({
                             )}
                             {/* Supervisor */}
                             <span className="text-gray-600 dark:text-gray-400">
-                                {project.teacher}
+                                {project.teacherLink ? (
+                                    <a
+                                        href={project.teacherLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:underline hover:text-indigo-600 dark:hover:text-indigo-400"
+                                    >
+                                        {project.teacher}
+                                    </a>
+                                ) : (
+                                    project.teacher
+                                )}
                             </span>
                             {/* Status */}
                             <span className="text-gray-600 dark:text-gray-400">

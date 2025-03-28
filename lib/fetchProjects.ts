@@ -36,9 +36,10 @@ export async function fetchProjects(
                     "Untitled Project";
                 const description =
                     element.querySelector("p")?.textContent?.trim() || "";
+                const teacherElement = element.querySelector(".status a");
                 const teacher =
-                    element.querySelector(".status a")?.textContent?.trim() ||
-                    "Unknown";
+                    teacherElement?.textContent?.trim() || "Unknown";
+                const teacherLink = teacherElement?.getAttribute("href") || "";
                 supervisors.add(teacher);
                 const status =
                     element.querySelector(".status i")?.textContent?.trim() ||
@@ -88,6 +89,7 @@ export async function fetchProjects(
                     shortDescription: description,
                     fullDescription: hiddenDesc || shownDesc,
                     teacher,
+                    teacherLink, // Added teacher link
                     status,
                     link,
                     programs: [programId],

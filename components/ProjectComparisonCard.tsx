@@ -31,7 +31,19 @@ export function ProjectComparisonCard({
             <h3 className="text-xl font-semibold mb-3">{project.title}</h3>
 
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                Supervisor: {project.teacher}
+                Supervisor:{" "}
+                {project.teacherLink ? (
+                    <a
+                        href={project.teacherLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline hover:text-indigo-600 dark:hover:text-indigo-400"
+                    >
+                        {project.teacher}
+                    </a>
+                ) : (
+                    project.teacher
+                )}
             </p>
 
             {/* Program specializations */}

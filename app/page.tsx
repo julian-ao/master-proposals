@@ -22,6 +22,7 @@ import {
     improvedTitlesAtom,
     showImprovedTitlesAtom,
 } from "../lib/atoms";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 export default function ProjectBrowser() {
     const [selectedPrograms, setSelectedPrograms] =
@@ -263,6 +264,7 @@ export default function ProjectBrowser() {
                             Other Options
                         </h3>
                         <div className="flex mt-2 flex-col space-y-2">
+                        <DarkModeToggle />
                             <div>
                                 <input
                                     type="checkbox"

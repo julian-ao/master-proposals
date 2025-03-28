@@ -17,7 +17,6 @@ export const DarkModeToggle: React.FC = () => {
 
     return (
         <div>
-            
             <input
                 type="checkbox"
                 id="darkModeToggle"

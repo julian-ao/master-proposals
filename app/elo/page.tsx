@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ProjectComparisonCard } from "@/components/ProjectComparisonCard";
+import { useToast } from "@/hooks/use-toast";
 
 // Function to calculate new ELO ratings
 function calculateElo(
@@ -61,10 +62,13 @@ export default function Page() {
     const error = useAtomValue(errorAtom);
     const summaries = useAtomValue(summariesAtom);
     const isMobile = useIsMobile();
+    const { toast } = useToast();
 
     const [projectsElo, setProjectsElo] = useAtom(projectsEloAtom);
-    const [favorites] = useLocalStorage<string[]>("favorites", []);
-
+    const [favorites, setFavorites] = useLocalStorage<string[]>(
+        "favorites",
+        []
+    );
     const [projectA, setProjectA] = useState<IProject | null>(null);
     const [projectB, setProjectB] = useState<IProject | null>(null);
 
@@ -76,6 +80,24 @@ export default function Page() {
     const favoriteProjects = projects.filter((p) =>
         favorites.includes(p.title)
     );
+
+    // Handle unfavoriting a project
+    const handleUnfavorite = (projectTitle: string) => {
+        // Remove the project from favorites
+        const newFavorites = favorites.filter(
+            (title) => title !== projectTitle
+        );
+        setFavorites(newFavorites);
+
+        // Show toast notification
+        toast({
+            title: "Project unfavorited",
+            description: "The project has been removed from your favorites",
+        });
+
+        // Select new projects for comparison
+        selectRandomProjects();
+    };
 
     // Select projects for comparison with a bias toward higher-rated projects
     const selectRandomProjects = () => {
@@ -138,7 +160,7 @@ export default function Page() {
 
     const resetElo = () => {
         setProjectsElo(RESET);
-    }
+    };
 
     // Initialize ELO ratings for new projects
     useEffect(() => {
@@ -414,6 +436,9 @@ export default function Page() {
                                 eloRating={
                                     projectsElo.ratings[projectA.title] || 1000
                                 }
+                                onUnfavorite={() =>
+                                    handleUnfavorite(projectA.title)
+                                }
                             />
                         )}
 
@@ -426,6 +451,9 @@ export default function Page() {
                                 summaries={summaries}
                                 eloRating={
                                     projectsElo.ratings[projectB.title] || 1000
+                                }
+                                onUnfavorite={() =>
+                                    handleUnfavorite(projectB.title)
                                 }
                             />
                         )}

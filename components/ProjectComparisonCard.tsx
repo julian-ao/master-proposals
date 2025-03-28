@@ -6,6 +6,7 @@ interface ProjectComparisonCardProps {
     showAiSummaries: boolean;
     summaries: Record<string, string>;
     eloRating: number;
+    onUnfavorite?: () => void; // New prop for unfavorite callback
 }
 
 export function ProjectComparisonCard({
@@ -14,6 +15,7 @@ export function ProjectComparisonCard({
     showAiSummaries,
     summaries,
     eloRating,
+    onUnfavorite,
 }: ProjectComparisonCardProps) {
     return (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 flex flex-col h-full">
@@ -69,9 +71,36 @@ export function ProjectComparisonCard({
                 </div>
             )}
 
-            <p className="text-xs text-gray-500 mt-auto pt-3">
-                Current ELO: {eloRating || 1000}
-            </p>
+            <div className="mt-auto pt-3 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <p className="text-xs text-gray-500">
+                    Current ELO: {eloRating || 1000}
+                </p>
+
+                {/* Unfavorite button */}
+                {onUnfavorite && (
+                    <button
+                        onClick={onUnfavorite}
+                        className="px-3 py-1.5 rounded-md flex items-center justify-center text-xs font-medium transition-colors bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-800/50"
+                        title="Remove from favorites"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                        Unfavorite
+                    </button>
+                )}
+            </div>
         </div>
     );
 }

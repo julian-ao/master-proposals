@@ -286,7 +286,6 @@ export default function ProjectBrowser() {
                                     Show only favorites
                                 </label>
                             </div>
-                            
                             <div>
                                 <input
                                     type="checkbox"

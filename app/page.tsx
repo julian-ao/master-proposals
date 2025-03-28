@@ -202,6 +202,44 @@ export default function ProjectBrowser() {
                         </div>
                     </div>
                 </div>
+
+                {/* ELO Ranking Link */}
+                {isMounted && favorites.length >= 2 && (
+                    <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0">
+                                <svg
+                                    className="h-8 w-8 text-blue-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                                    />
+                                </svg>
+                            </div>
+                            <div className="ml-3">
+                                <p className="text-sm text-blue-700">
+                                    You have {favorites.length} favorited
+                                    projects! Compare them and create your
+                                    personal ranking.
+                                </p>
+                                <p className="mt-1">
+                                    <a
+                                        href="/elo"
+                                        className="text-blue-600 font-medium hover:underline"
+                                    >
+                                        Go to ELO Ranking →
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </header>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

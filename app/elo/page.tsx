@@ -326,12 +326,18 @@ export default function Page() {
                                     <span className="text-gray-500 mr-3 font-semibold">
                                         {index + 1}.
                                     </span>
-                                    <span
-                                        className="font-medium break-words pr-2"
+                                    <a
+                                        href={
+                                            "https://www.idi.ntnu.no/education/" +
+                                            project.link
+                                        }
+                                        className="font-medium break-words pr-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
                                         style={{ wordBreak: "break-word" }}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                     >
                                         {project.title}
-                                    </span>
+                                    </a>
                                 </div>
                                 <span className="text-blue-600 font-semibold flex-shrink-0">
                                     {project.elo}

@@ -408,10 +408,15 @@ export default function ProjectBrowser() {
                         selected={selectedSupervisors}
                         excluded={excludedSupervisors}
                         onToggle={(supervisor) => {
-                            setSelectedSupervisors((prev) => ({
-                                ...prev,
-                                [supervisor]: !prev[supervisor],
-                            }));
+                            setSelectedSupervisors((prev) => {
+                                const newSelected = { ...prev };
+                                if (prev[supervisor]) {
+                                    delete newSelected[supervisor];
+                                } else {
+                                    newSelected[supervisor] = true;
+                                }
+                                return newSelected;
+                            });
                             setExcludedSupervisors((prev) => {
                                 const newExcluded = { ...prev };
                                 delete newExcluded[supervisor];
@@ -421,7 +426,7 @@ export default function ProjectBrowser() {
                         onExclude={(supervisor) => {
                             setExcludedSupervisors((prev) => ({
                                 ...prev,
-                                [supervisor]: true,
+                                [supervisor]: !prev[supervisor],
                             }));
                             setSelectedSupervisors((prev) => {
                                 const newSelected = { ...prev };

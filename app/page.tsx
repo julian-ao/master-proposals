@@ -426,7 +426,7 @@ export default function ProjectBrowser() {
                         onExclude={(supervisor) => {
                             setExcludedSupervisors((prev) => ({
                                 ...prev,
-                                [supervisor]: true,
+                                [supervisor]: !prev[supervisor],
                             }));
                             setSelectedSupervisors((prev) => {
                                 const newSelected = { ...prev };

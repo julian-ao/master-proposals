@@ -13,6 +13,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { RESET } from "jotai/utils";
 import { useLocalStorage } from "usehooks-ts";
 import { useEffect, useState } from "react";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 import { IProject, STUDY_PROGRAMS } from "@/lib/constants";
 import {
     ArrowLeftIcon,
@@ -454,6 +455,9 @@ export default function Page() {
                             >
                                 Show AI improved titles
                             </label>
+                        </div>
+                        <div className="flex items-center">
+                            <DarkModeToggle />
                         </div>
                     </div>
 

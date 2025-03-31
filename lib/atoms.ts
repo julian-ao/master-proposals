@@ -79,6 +79,12 @@ export const showImprovedTitlesAtom = atomWithStorage<boolean>(
     false
 );
 
+// Add showAiSummariesAtom for persisting AI summaries preference
+export const showAiSummariesAtom = atomWithStorage<boolean>(
+    "show_ai_summaries",
+    false
+);
+
 // Interface for summaries
 export interface ISummaries {
     summaries: Record<string, string>;

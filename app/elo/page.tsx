@@ -10,6 +10,7 @@ import {
     loadingProjectsAtom,
     projectsAtom,
     projectsEloAtom,
+    showAiSummariesAtom,
     showImprovedTitlesAtom,
     summariesAtom,
 } from "@/lib/atoms";
@@ -68,6 +69,7 @@ export default function Page() {
     const [showImprovedTitles, setShowImprovedTitles] = useAtom(
         showImprovedTitlesAtom
     );
+    const [showAiSummaries, setShowAiSummaries] = useAtom(showAiSummariesAtom);
     const isMobile = useIsMobile();
     const { toast } = useToast();
 
@@ -81,7 +83,6 @@ export default function Page() {
 
     // Add state for showing full descriptions and AI summaries
     const [showFullDescriptions, setShowFullDescriptions] = useState(false);
-    const [showAiSummaries, setShowAiSummaries] = useState(false);
 
     // Function to get program name from program ID
     const getProgramName = (programId: string): string => {

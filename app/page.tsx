@@ -19,6 +19,7 @@ import {
     loadingProjectsAtom,
     projectsAtom,
     selectedProgramsAtom,
+    showAiSummariesAtom,
     showImprovedTitlesAtom,
     summariesAtom,
 } from "../lib/atoms";
@@ -36,8 +37,7 @@ export default function ProjectBrowser() {
     const [showImprovedTitles, setShowImprovedTitles] = useAtom(
         showImprovedTitlesAtom
     );
-
-    const [showAiSummaries, setShowAiSummaries] = useState(false);
+    const [showAiSummaries, setShowAiSummaries] = useAtom(showAiSummariesAtom);
 
     const [filterMode, setFilterMode] = useState<"union" | "intersection">(
         "union"

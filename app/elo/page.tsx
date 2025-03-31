@@ -1,29 +1,29 @@
 "use client";
 
+import { DarkModeToggle } from "@/components/DarkModeToggle";
+import { ProjectComparisonCard } from "@/components/ProjectComparisonCard";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useToast } from "@/hooks/use-toast";
 import {
-    errorAtom,
+    errorLoadingProjectsAtom,
+    improvedTitlesAtom,
     loadingProjectsAtom,
     projectsAtom,
-    summariesAtom,
     projectsEloAtom,
-    improvedTitlesAtom,
     showImprovedTitlesAtom,
+    summariesAtom,
 } from "@/lib/atoms";
+import { IProject, STUDY_PROGRAMS } from "@/lib/constants";
 import { useAtom, useAtomValue } from "jotai";
 import { RESET } from "jotai/utils";
-import { useLocalStorage } from "usehooks-ts";
-import { useEffect, useState } from "react";
-import { DarkModeToggle } from "@/components/DarkModeToggle";
-import { IProject, STUDY_PROGRAMS } from "@/lib/constants";
 import {
+    ArrowDownIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
     ArrowUpIcon,
-    ArrowDownIcon,
 } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { ProjectComparisonCard } from "@/components/ProjectComparisonCard";
-import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 // Function to calculate new ELO ratings
 function calculateElo(
@@ -62,7 +62,7 @@ function calculateElo(
 export default function Page() {
     const projects = useAtomValue(projectsAtom);
     const loading = useAtomValue(loadingProjectsAtom);
-    const error = useAtomValue(errorAtom);
+    const error = useAtomValue(errorLoadingProjectsAtom);
     const summaries = useAtomValue(summariesAtom);
     const improvedTitles = useAtomValue(improvedTitlesAtom);
     const [showImprovedTitles, setShowImprovedTitles] = useAtom(

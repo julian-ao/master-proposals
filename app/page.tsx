@@ -14,7 +14,7 @@ import { SupervisorFilter } from "../components/SupervisorFilter";
 import { useToast } from "../hooks/use-toast";
 import {
     availableSupervisorsAtom,
-    errorAtom,
+    errorLoadingProjectsAtom,
     improvedTitlesAtom,
     loadingProjectsAtom,
     projectsAtom,
@@ -29,7 +29,7 @@ export default function ProjectBrowser() {
         useAtom(selectedProgramsAtom);
     const projects = useAtomValue(projectsAtom);
     const loading = useAtomValue(loadingProjectsAtom);
-    const error = useAtomValue(errorAtom);
+    const error = useAtomValue(errorLoadingProjectsAtom);
     const availableSupervisors = useAtomValue(availableSupervisorsAtom);
     const summaries = useAtomValue(summariesAtom);
     const improvedTitles = useAtomValue(improvedTitlesAtom);

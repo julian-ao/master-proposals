@@ -112,8 +112,6 @@ export async function fetchProjects(
             });
         });
 
-        console.log(Array.from(supervisors).sort());
-
         return {
             projects: allProjects,
             availableSupervisors: Array.from(supervisors).sort(),

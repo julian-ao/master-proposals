@@ -1,28 +1,28 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { ProjectCard } from "../components/ProjectCard";
-import { StudyProgramFilter } from "../components/StudyProgramFilter";
-import { SortAndFilterControls } from "../components/SortAndFilterControls";
-import { LoadingSkeleton } from "../components/LoadingSkeleton";
-import { ErrorMessage } from "../components/ErrorMessage";
-import { STUDY_PROGRAMS } from "../lib/constants";
-import { SupervisorFilter } from "../components/SupervisorFilter";
-import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
-import { useLocalStorage } from "usehooks-ts";
-import { useToast } from "../hooks/use-toast";
-import { useAtom, useAtomValue } from "jotai";
-import {
-    projectsAtom,
-    availableSupervisorsAtom,
-    loadingProjectsAtom,
-    errorAtom,
-    selectedProgramsAtom,
-    summariesAtom,
-    improvedTitlesAtom,
-    showImprovedTitlesAtom,
-} from "../lib/atoms";
 import { DarkModeToggle } from "@/components/DarkModeToggle";
+import { useAtom, useAtomValue } from "jotai";
+import { useCallback, useEffect, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
+import { ErrorMessage } from "../components/ErrorMessage";
+import { LoadingSkeleton } from "../components/LoadingSkeleton";
+import { ProjectCard } from "../components/ProjectCard";
+import { ProjectTypeFilter } from "../components/ProjectTypeFilter";
+import { SortAndFilterControls } from "../components/SortAndFilterControls";
+import { StudyProgramFilter } from "../components/StudyProgramFilter";
+import { SupervisorFilter } from "../components/SupervisorFilter";
+import { useToast } from "../hooks/use-toast";
+import {
+    availableSupervisorsAtom,
+    errorAtom,
+    improvedTitlesAtom,
+    loadingProjectsAtom,
+    projectsAtom,
+    selectedProgramsAtom,
+    showImprovedTitlesAtom,
+    summariesAtom,
+} from "../lib/atoms";
+import { STUDY_PROGRAMS } from "../lib/constants";
 
 export default function ProjectBrowser() {
     const [selectedPrograms, setSelectedPrograms] =
@@ -264,7 +264,7 @@ export default function ProjectBrowser() {
                             Other Options
                         </h3>
                         <div className="flex mt-2 flex-col space-y-2">
-                        <DarkModeToggle />
+                            <DarkModeToggle />
                             <div>
                                 <input
                                     type="checkbox"

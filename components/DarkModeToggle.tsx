@@ -7,7 +7,7 @@ export const DarkModeToggle: React.FC = () => {
     const [darkMode, setDarkMode] = useLocalStorage("darkMode", false);
 
     const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
+        setDarkMode(prev => !prev);
     };
 
     useEffect(() => {

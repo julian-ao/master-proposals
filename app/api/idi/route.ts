@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     try {
         const response = await fetch(url.toString(), {
             cache: "force-cache",
-            next: { revalidate: 86400 },
+            next: { revalidate: 3600 },
         });
 
         if (!response.ok) {

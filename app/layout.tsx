@@ -6,27 +6,27 @@ import { Footer } from "../components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "MSIT Master Proposals 2025",
-    icons: {
-        icon: "/ntnu.png",
-    },
+  title: "MSIT Master Proposals 2025",
+  icons: {
+    icon: "/ntnu.png",
+  },
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en" suppressHydrationWarning>
-            <body>
-                <Providers>
-                    <Analytics />
-                    {children}
-                    <Footer />
-                    <Toaster />
-                </Providers>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <Providers>
+          <Analytics />
+          {children}
+          <Footer />
+          <Toaster />
+        </Providers>
+      </body>
+    </html>
+  );
 }

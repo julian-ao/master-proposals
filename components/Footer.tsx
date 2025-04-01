@@ -3,7 +3,7 @@ export function Footer() {
     <footer className="mt-12 py-2 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 w-full bg-white dark:bg-gray-800">
       <div className="container mx-auto px-4 text-center">
         <p className="text-xs text-gray-600 dark:text-gray-400">
-          data scraped from{' '}
+          data scraped from{" "}
           <a
             href="https://www.idi.ntnu.no/education/fordypningsprosjekt.php"
             target="_blank"
@@ -15,5 +15,5 @@ export function Footer() {
         </p>
       </div>
     </footer>
-  )
+  );
 }

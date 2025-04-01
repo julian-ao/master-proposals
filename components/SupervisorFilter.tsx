@@ -1,14 +1,14 @@
-import { useState } from "react"
-import { track } from '@vercel/analytics';
+import { useState } from "react";
+import { track } from "@vercel/analytics";
 
 interface SupervisorFilterProps {
-  supervisors: string[]
-  selected: Record<string, boolean>
-  excluded: Record<string, boolean>
-  onToggle: (supervisor: string) => void
-  onExclude: (supervisor: string) => void
-  onClear: () => void
-  loading: boolean
+  supervisors: string[];
+  selected: Record<string, boolean>;
+  excluded: Record<string, boolean>;
+  onToggle: (supervisor: string) => void;
+  onExclude: (supervisor: string) => void;
+  onClear: () => void;
+  loading: boolean;
 }
 
 export function SupervisorFilter({
@@ -20,46 +20,47 @@ export function SupervisorFilter({
   onClear,
   loading,
 }: SupervisorFilterProps) {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [viewMode, setViewMode] = useState<'include' | 'exclude'>('include')
+  const [searchTerm, setSearchTerm] = useState("");
+  const [viewMode, setViewMode] = useState<"include" | "exclude">("include");
 
-  const filteredSupervisors = supervisors.filter(supervisor =>
-    supervisor.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredSupervisors = supervisors.filter((supervisor) =>
+    supervisor.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
-  const hasSelections = Object.keys(selected).length > 0 || Object.keys(excluded).length > 0
+  const hasSelections =
+    Object.keys(selected).length > 0 || Object.keys(excluded).length > 0;
 
   const handleToggle = (supervisor: string) => {
-    track('Supervisor Filter', {
-      action: 'include',
+    track("Supervisor Filter", {
+      action: "include",
       supervisor,
-      state: !selected[supervisor] ? 'added' : 'removed'
+      state: !selected[supervisor] ? "added" : "removed",
     });
     onToggle(supervisor);
   };
 
   const handleExclude = (supervisor: string) => {
-    track('Supervisor Filter', {
-      action: 'exclude',
+    track("Supervisor Filter", {
+      action: "exclude",
       supervisor,
-      state: !excluded[supervisor] ? 'added' : 'removed'
+      state: !excluded[supervisor] ? "added" : "removed",
     });
     onExclude(supervisor);
   };
 
   const handleClear = () => {
-    track('Supervisor Filter', {
-      action: 'clear_all',
+    track("Supervisor Filter", {
+      action: "clear_all",
       previously_included: Object.keys(selected).length,
-      previously_excluded: Object.keys(excluded).length
+      previously_excluded: Object.keys(excluded).length,
     });
     onClear();
   };
 
-  const handleViewModeChange = (mode: 'include' | 'exclude') => {
-    track('Supervisor Filter UI', {
-      action: 'view_mode_change',
-      mode
+  const handleViewModeChange = (mode: "include" | "exclude") => {
+    track("Supervisor Filter UI", {
+      action: "view_mode_change",
+      mode,
     });
     setViewMode(mode);
   };
@@ -67,7 +68,9 @@ export function SupervisorFilter({
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-sm font-medium text-gray-900 dark:text-white">Supervisors</h3>
+        <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+          Supervisors
+        </h3>
         {hasSelections && (
           <button
             onClick={handleClear}
@@ -80,20 +83,22 @@ export function SupervisorFilter({
 
       <div className="flex space-x-2 mb-3">
         <button
-          onClick={() => handleViewModeChange('include')}
-          className={`text-xs px-3 py-1 rounded-md ${viewMode === 'include'
-              ? 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100'
-              : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-            }`}
+          onClick={() => handleViewModeChange("include")}
+          className={`text-xs px-3 py-1 rounded-md ${
+            viewMode === "include"
+              ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100"
+              : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+          }`}
         >
           Include
         </button>
         <button
-          onClick={() => handleViewModeChange('exclude')}
-          className={`text-xs px-3 py-1 rounded-md ${viewMode === 'exclude'
-              ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
-              : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-            }`}
+          onClick={() => handleViewModeChange("exclude")}
+          className={`text-xs px-3 py-1 rounded-md ${
+            viewMode === "exclude"
+              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
+              : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+          }`}
         >
           Exclude
         </button>
@@ -107,9 +112,9 @@ export function SupervisorFilter({
           value={searchTerm}
           onChange={(e) => {
             if (e.target.value.length > 0) {
-              track('Supervisor Filter UI', {
-                action: 'search',
-                query: e.target.value
+              track("Supervisor Filter UI", {
+                action: "search",
+                query: e.target.value,
               });
             }
             setSearchTerm(e.target.value);
@@ -121,7 +126,12 @@ export function SupervisorFilter({
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
         </svg>
       </div>
 
@@ -144,7 +154,8 @@ export function SupervisorFilter({
                 />
                 <label
                   className="ml-2 text-sm text-gray-700 dark:text-gray-300 truncate"
-                  htmlFor={`supervisor-${supervisor}`}>
+                  htmlFor={`supervisor-${supervisor}`}
+                >
                   {supervisor}
                 </label>
               </div>
@@ -159,10 +170,10 @@ export function SupervisorFilter({
           ))
         ) : (
           <p className="text-sm text-gray-500 dark:text-gray-400 py-1">
-            {loading ? 'Loading...' : 'No supervisors found'}
+            {loading ? "Loading..." : "No supervisors found"}
           </p>
         )}
       </div>
     </div>
-  )
+  );
 }

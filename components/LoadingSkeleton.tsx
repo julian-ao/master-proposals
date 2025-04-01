@@ -2,7 +2,10 @@ export function LoadingSkeleton({ count = 3 }: { count?: number }) {
   return (
     <div className="space-y-6">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+        <div
+          key={i}
+          className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden"
+        >
           <div className="p-6">
             <div className="animate-pulse">
               <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
@@ -26,5 +29,5 @@ export function LoadingSkeleton({ count = 3 }: { count?: number }) {
         </div>
       ))}
     </div>
-  )
+  );
 }

@@ -69,7 +69,7 @@ export default function ProjectBrowser() {
     );
     const [showHiddenProjects, setShowHiddenProjects] = useState(false);
 
-    const [showAvailableOnly, setShowTildelt] = useState(true);
+    const [showAvailableOnly, setShowTildelt] = useState(false);
 
     // Add state for auto-expand toggle
     const [autoExpandDescriptions, setAutoExpandDescriptions] = useState(false);

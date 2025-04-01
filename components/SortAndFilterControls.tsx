@@ -58,7 +58,7 @@ export function SortAndFilterControls({
             htmlFor="sort-project-id"
             className="mr-2 text-sm text-gray-700 dark:text-gray-300"
           >
-            Sort by ID (Creation Time):
+            Sort by Creation time:
           </label>
           <select
             id="sort-project-id"
@@ -68,9 +68,9 @@ export function SortAndFilterControls({
             }
             className="rounded-md border-gray-300 py-1 pl-2 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           >
-            <option value="none">None</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
+            <option value="none">Alphabetically</option>
+            <option value="asc">Old to new</option>
+            <option value="desc">New to old</option>
           </select>
         </div>
       </div>

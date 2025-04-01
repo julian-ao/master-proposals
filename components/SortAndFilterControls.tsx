@@ -4,12 +4,16 @@ interface SortAndFilterControlsProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   projectCount: number;
+  sortByProjectId: "none" | "asc" | "desc";
+  onSortByProjectIdChange: (sort: "none" | "asc" | "desc") => void;
 }
 
 export function SortAndFilterControls({
   searchQuery,
   onSearchChange,
   projectCount,
+  sortByProjectId,
+  onSortByProjectIdChange,
 }: SortAndFilterControlsProps) {
   const handleSearch = (query: string) => {
     track("Search", { query });
@@ -46,6 +50,28 @@ export function SortAndFilterControls({
               onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
+        </div>
+
+        {/* Sort by project ID controls */}
+        <div className="flex items-center">
+          <label
+            htmlFor="sort-project-id"
+            className="mr-2 text-sm text-gray-700 dark:text-gray-300"
+          >
+            Sort by ID (Creation Time):
+          </label>
+          <select
+            id="sort-project-id"
+            value={sortByProjectId}
+            onChange={(e) =>
+              onSortByProjectIdChange(e.target.value as "none" | "asc" | "desc")
+            }
+            className="rounded-md border-gray-300 py-1 pl-2 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+          >
+            <option value="none">None</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
         </div>
       </div>
       <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">

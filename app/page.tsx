@@ -46,6 +46,11 @@ export default function ProjectBrowser() {
     "all" | "single" | "duo"
   >("all");
 
+  // Add state for project ID sorting
+  const [sortByProjectId, setSortByProjectId] = useState<
+    "none" | "asc" | "desc"
+  >("none");
+
   const [selectedSupervisors, setSelectedSupervisors] = useState<
     Record<string, boolean>
   >({});
@@ -165,6 +170,18 @@ export default function ProjectBrowser() {
       hiddenStatusMatch
     );
   });
+
+  // Apply sorting by project ID if enabled
+  const sortedProjects = [...filteredProjects];
+  if (sortByProjectId !== "none") {
+    sortedProjects.sort((a, b) => {
+      if (sortByProjectId === "asc") {
+        return a.id.localeCompare(b.id);
+      } else {
+        return b.id.localeCompare(a.id);
+      }
+    });
+  }
 
   const getProgramName = (programId: string) =>
     STUDY_PROGRAMS.find((p) => p.id === programId)?.name || programId;
@@ -424,6 +441,8 @@ export default function ProjectBrowser() {
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             projectCount={filteredProjects.length}
+            sortByProjectId={sortByProjectId}
+            onSortByProjectIdChange={setSortByProjectId}
           />
           <ProjectTypeFilter
             value={projectTypeFilter}
@@ -435,8 +454,8 @@ export default function ProjectBrowser() {
 
           {!loading && !error && (
             <div className="space-y-6">
-              {filteredProjects.length > 0 ? (
-                filteredProjects.map((project) => (
+              {sortedProjects.length > 0 ? (
+                sortedProjects.map((project) => (
                   <ProjectCard
                     key={project.id}
                     project={project}

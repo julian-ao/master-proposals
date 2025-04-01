@@ -4,8 +4,8 @@ interface SortAndFilterControlsProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   projectCount: number;
-  sortByProjectId: "none" | "asc" | "desc";
-  onSortByProjectIdChange: (sort: "none" | "asc" | "desc") => void;
+  sortByProjectId: "alpha" | "asc" | "desc";
+  onSortByProjectIdChange: (sort: "alpha" | "asc" | "desc") => void;
 }
 
 export function SortAndFilterControls({
@@ -58,17 +58,19 @@ export function SortAndFilterControls({
             htmlFor="sort-project-id"
             className="mr-2 text-sm text-gray-700 dark:text-gray-300"
           >
-            Sort by Creation time:
+            Sort:
           </label>
           <select
             id="sort-project-id"
             value={sortByProjectId}
             onChange={(e) =>
-              onSortByProjectIdChange(e.target.value as "none" | "asc" | "desc")
+              onSortByProjectIdChange(
+                e.target.value as "alpha" | "asc" | "desc",
+              )
             }
             className="rounded-md border-gray-300 py-1 pl-2 pr-8 text-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
           >
-            <option value="none">Alphabetically</option>
+            <option value="alpha">Alphabetically</option>
             <option value="asc">Old to new</option>
             <option value="desc">New to old</option>
           </select>

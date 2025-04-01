@@ -48,8 +48,8 @@ export default function ProjectBrowser() {
 
   // Add state for project ID sorting
   const [sortByProjectId, setSortByProjectId] = useState<
-    "none" | "asc" | "desc"
-  >("none");
+    "alpha" | "asc" | "desc"
+  >("alpha");
 
   const [selectedSupervisors, setSelectedSupervisors] = useState<
     Record<string, boolean>
@@ -171,17 +171,19 @@ export default function ProjectBrowser() {
     );
   });
 
-  // Apply sorting by project ID if enabled
+  // Apply sorting by project ID or title
   const sortedProjects = [...filteredProjects];
-  if (sortByProjectId !== "none") {
-    sortedProjects.sort((a, b) => {
-      if (sortByProjectId === "asc") {
-        return a.id.localeCompare(b.id);
-      } else {
-        return b.id.localeCompare(a.id);
-      }
-    });
-  }
+
+  sortedProjects.sort((a, b) => {
+    if (sortByProjectId === "alpha") {
+      return a.title.toLowerCase().localeCompare(b.title.toLowerCase());
+    } else if (sortByProjectId === "asc") {
+      return parseInt(a.id) - parseInt(b.id);
+    } else if (sortByProjectId === "desc") {
+      return parseInt(b.id) - parseInt(a.id);
+    }
+    return 0;
+  });
 
   const getProgramName = (programId: string) =>
     STUDY_PROGRAMS.find((p) => p.id === programId)?.name || programId;

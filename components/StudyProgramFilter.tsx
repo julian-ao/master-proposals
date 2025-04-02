@@ -34,27 +34,58 @@ export function StudyProgramFilter({
     onFilterModeChange(mode);
   };
 
+  // Group programs by majorCourse
+  const groupedPrograms = programs.reduce(
+    (acc, program) => {
+      if (!acc[program.majorCourse]) {
+        acc[program.majorCourse] = [];
+      }
+      acc[program.majorCourse].push(program);
+      return acc;
+    },
+    {} as Record<string, typeof STUDY_PROGRAMS>,
+  );
+
+  // Format majorCourse names for display
+  const formatMajorCourseName = (majorCourse: string): string => {
+    switch (majorCourse) {
+      case "informatics":
+        return "Informatics";
+      case "computerScience":
+        return "Computer Science";
+      default:
+        return majorCourse.charAt(0).toUpperCase() + majorCourse.slice(1);
+    }
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
       <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
         Specializations
       </h2>
-      <div className="space-y-3">
-        {programs.map((program) => (
-          <div key={program.id} className="flex items-center">
-            <input
-              id={program.id}
-              type="checkbox"
-              checked={selectedPrograms[program.id]}
-              onChange={() => handleToggleProgram(program.id)}
-              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label
-              htmlFor={program.id}
-              className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-            >
-              {program.name}
-            </label>
+      <div className="space-y-6">
+        {Object.entries(groupedPrograms).map(([majorCourse, majorPrograms]) => (
+          <div key={majorCourse} className="space-y-3">
+            <h3 className="text-md font-medium text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 pb-1 mb-2">
+              {formatMajorCourseName(majorCourse)}
+            </h3>
+            {majorPrograms.map((program) => (
+              <div key={program.id} className="flex items-center">
+                <input
+                  id={program.id}
+                  type="checkbox"
+                  checked={selectedPrograms[program.id]}
+                  onChange={() => handleToggleProgram(program.id)}
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                />
+                <label
+                  htmlFor={program.id}
+                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
+                >
+                  {program.name}
+                </label>
+              </div>
+            ))}
           </div>
         ))}
       </div>

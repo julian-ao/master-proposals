@@ -8,13 +8,19 @@ import { fetchProjects } from "./fetchProjects";
 
 const DEFAULT_SELECTED_PROGRAMS = STUDY_PROGRAMS.reduce(
   (acc, program) => {
-    acc[program.id] = true;
+    if (program.majorCourse === "informatics") {
+      acc[program.id] = true;
+    } else {
+      acc[program.id] = false;
+    }
+
     return acc;
   },
   {} as Record<string, boolean>,
 );
 
-export const selectedProgramsAtom = atom<Record<string, boolean>>(
+export const selectedProgramsAtom = atomWithStorage<Record<string, boolean>>(
+  "selected_programs",
   DEFAULT_SELECTED_PROGRAMS,
 );
 

@@ -23,7 +23,7 @@ import {
   showImprovedTitlesAtom,
   summariesAtom,
 } from "../lib/atoms";
-import { STUDY_PROGRAMS } from "../lib/constants";
+import { IProject, STUDY_PROGRAMS } from "../lib/constants";
 
 export default function ProjectBrowser() {
   const [selectedPrograms, setSelectedPrograms] = useAtom(selectedProgramsAtom);
@@ -44,6 +44,11 @@ export default function ProjectBrowser() {
   const [searchQuery, setSearchQuery] = useState("");
   const [projectTypeFilter, setProjectTypeFilter] = useState<
     "all" | "single" | "duo"
+  >("all");
+
+  // Add state for major course filter
+  const [majorCourseFilter, setMajorCourseFilter] = useState<
+    "all" | "computerScience" | "informatics" | "exclusive"
   >("all");
 
   // Add state for project ID sorting
@@ -103,6 +108,36 @@ export default function ProjectBrowser() {
     }));
   };
 
+  // Helper function to determine if a project is exclusive to a specific major course
+  const isProjectExclusiveToMajorCourse = (
+    project: IProject,
+    majorCourse: string,
+  ): boolean => {
+    // Get all program IDs for the specified major course
+    const majorCoursePrograms = STUDY_PROGRAMS.filter(
+      (program) => program.majorCourse === majorCourse,
+    ).map((program) => program.id);
+
+    // Check if the project has at least one program from the major course
+    const hasCurrentMajorCourse = project.programs.some((programId) =>
+      majorCoursePrograms.includes(programId),
+    );
+
+    // Get all program IDs for the other major courses
+    const otherMajorCoursePrograms = STUDY_PROGRAMS.filter(
+      (program) => program.majorCourse !== majorCourse,
+    ).map((program) => program.id);
+
+    // Check if the project has no programs from other major courses
+    const hasNoOtherMajorCourses = !project.programs.some((programId) =>
+      otherMajorCoursePrograms.includes(programId),
+    );
+
+    // A project is exclusive to a major course if it has programs from that course
+    // and has no programs from other major courses
+    return hasCurrentMajorCourse && hasNoOtherMajorCourses;
+  };
+
   const filteredProjects = projects.filter((project) => {
     // Filter by selected programs
     const programMatch =
@@ -114,6 +149,7 @@ export default function ProjectBrowser() {
               project.programs.includes(selectedProgramId),
             );
 
+    // Filter by supervisor
     const supervisorMatch =
       (Object.keys(selectedSupervisors).length === 0 &&
         Object.keys(excludedSupervisors).length === 0) ||
@@ -121,8 +157,28 @@ export default function ProjectBrowser() {
         ? selectedSupervisors[project.teacher]
         : !excludedSupervisors[project.teacher]);
 
+    // Filter by project type
     const typeMatch =
       projectTypeFilter === "all" || project.type === projectTypeFilter;
+
+    // Filter by major course exclusivity
+    let majorCourseMatch = true;
+    if (majorCourseFilter === "computerScience") {
+      majorCourseMatch = isProjectExclusiveToMajorCourse(
+        project,
+        "computerScience",
+      );
+    } else if (majorCourseFilter === "informatics") {
+      majorCourseMatch = isProjectExclusiveToMajorCourse(
+        project,
+        "informatics",
+      );
+    } else if (majorCourseFilter === "exclusive") {
+      // For "exclusive" option, we want projects that are exclusive to either major course
+      majorCourseMatch =
+        isProjectExclusiveToMajorCourse(project, "computerScience") ||
+        isProjectExclusiveToMajorCourse(project, "informatics");
+    }
 
     // Filter by search query
     const searchMatch =
@@ -167,7 +223,8 @@ export default function ProjectBrowser() {
       searchMatch &&
       favoriteMatch &&
       tildeltMatch &&
-      hiddenStatusMatch
+      hiddenStatusMatch &&
+      majorCourseMatch
     );
   });
 
@@ -267,6 +324,8 @@ export default function ProjectBrowser() {
             onToggleProgram={toggleProgram}
             filterMode={filterMode}
             onFilterModeChange={setFilterMode}
+            majorCourseFilter={majorCourseFilter}
+            onMajorCourseFilterChange={setMajorCourseFilter}
           />
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">

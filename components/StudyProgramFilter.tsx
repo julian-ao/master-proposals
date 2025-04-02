@@ -7,6 +7,10 @@ interface StudyProgramFilterProps {
   onToggleProgram: (programId: string) => void;
   filterMode: "union" | "intersection";
   onFilterModeChange: (mode: "union" | "intersection") => void;
+  majorCourseFilter: "all" | "computerScience" | "informatics" | "exclusive";
+  onMajorCourseFilterChange: (
+    filter: "all" | "computerScience" | "informatics" | "exclusive",
+  ) => void;
 }
 
 export function StudyProgramFilter({
@@ -15,6 +19,8 @@ export function StudyProgramFilter({
   onToggleProgram,
   filterMode,
   onFilterModeChange,
+  majorCourseFilter,
+  onMajorCourseFilterChange,
 }: StudyProgramFilterProps) {
   const handleToggleProgram = (programId: string) => {
     const programName =
@@ -32,6 +38,18 @@ export function StudyProgramFilter({
   const handleFilterModeChange = (mode: "union" | "intersection") => {
     track("Filter Mode Changed", { mode });
     onFilterModeChange(mode);
+  };
+
+  const handleMajorCourseFilterChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const value = e.target.value as
+      | "all"
+      | "computerScience"
+      | "informatics"
+      | "exclusive";
+    track("Major Course Filter Changed", { value });
+    onMajorCourseFilterChange(value);
   };
 
   // Group programs by majorCourse
@@ -88,6 +106,23 @@ export function StudyProgramFilter({
             ))}
           </div>
         ))}
+      </div>
+
+      {/* Major Course Filter */}
+      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+          Major Course Filter:
+        </p>
+        <select
+          value={majorCourseFilter}
+          onChange={handleMajorCourseFilterChange}
+          className="w-full px-3 py-2 text-sm rounded-md bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 border border-gray-200 dark:border-gray-600"
+        >
+          <option value="all">Show all projects</option>
+          <option value="computerScience">Only Computer Science</option>
+          <option value="informatics">Only Informatics</option>
+          <option value="exclusive">Non-overlapping projects</option>
+        </select>
       </div>
 
       {/* Filter mode control */}

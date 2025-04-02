@@ -33,6 +33,7 @@
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.71.3",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

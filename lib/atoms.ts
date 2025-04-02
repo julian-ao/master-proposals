@@ -30,6 +30,7 @@ const _projectsDataAtom = atomWithQuery((get) => ({
   queryFn: async () => {
     return fetchProjects(get(selectedProgramsAtom));
   },
+  staleTime: 1000 * 60 * 5, // 5 minutes
 }));
 
 export const availableSupervisorsAtom = atom<string[]>(
@@ -71,6 +72,7 @@ const _improvedTitlesDataAtom = atomWithQuery(() => ({
   queryFn: async () => {
     return fetchImprovedTitles();
   },
+  staleTime: 1000 * 60 * 5, // 5 minutes
 }));
 
 // Derived atoms for improved titles
@@ -120,6 +122,8 @@ const _summariesDataAtom = atomWithQuery(() => ({
   queryFn: async () => {
     return fetchSummaries();
   },
+  staleTime: 1000 * 60 * 5, // 5 minutes
+  
 }));
 
 // Derived atoms for summaries

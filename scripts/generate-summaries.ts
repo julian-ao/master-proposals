@@ -8,12 +8,12 @@
  * Run with: npx tsx scripts/generate-summaries.ts
  */
 
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { generateText } from "ai";
+import * as dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import { generateText } from "ai";
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import * as dotenv from "dotenv";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -174,11 +174,14 @@ async function generateSummaries() {
       model = lmstudio(modelName);
     }
 
-    // Store summaries
-    const summaries: Record<string, string> = {};
+    // Store summaries by project ID
+    const summaries: Record<string, { title: string; summary: string }> = {};
 
-    // Process projects in batches to avoid overwhelming the LM
-    const batchSize = 20;
+    // Process projects in batches to avoid overwhelming the LLM
+    const batchSize = process.env.BATCH_SIZE
+      ? parseInt(process.env.BATCH_SIZE)
+      : 20;
+    console.log(`Processing in batches of ${batchSize} projects`);
 
     // Create progress bar
     const progressBar = createProgressBar(projects.length);
@@ -193,7 +196,7 @@ async function generateSummaries() {
         }/${Math.ceil(projects.length / batchSize)}`,
       );
 
-      // Process each project in the batch
+      // Process each project in the batch in parallel
       const batchPromises = batch.map(async (project) => {
         try {
           // Use both short and full descriptions for better context
@@ -232,36 +235,50 @@ async function generateSummaries() {
             maxTokens: 150,
           });
 
-          // Store the summary
-          summaries[project.title] = result.text.trim();
-
-          // Update progress
-          completedCount++;
-          progressBar.update(completedCount);
-
-          // Add a small delay to avoid overwhelming the model
-          await new Promise((resolve) => setTimeout(resolve, 100));
+          // Return results with project ID
+          return {
+            id: project.id,
+            title: project.title,
+            summary: result.text.trim(),
+          };
         } catch (error) {
-          console.error(`Error summarizing "${project.title}":`, error);
-          summaries[project.title] = "Failed to generate summary.";
-
-          // Update progress even for failed summaries
-          completedCount++;
-          progressBar.update(completedCount);
+          console.error(`Error summarizing project ID ${project.id}:`, error);
+          return {
+            id: project.id,
+            title: project.title,
+            summary: "Failed to generate summary.",
+          };
         }
       });
 
       // Wait for all projects in this batch to be processed
-      await Promise.all(batchPromises);
+      const batchResults = await Promise.all(batchPromises);
+
+      // Store results in the summaries object
+      for (const result of batchResults) {
+        summaries[result.id] = {
+          title: result.title,
+          summary: result.summary,
+        };
+      }
+
+      // Update progress
+      completedCount += batch.length;
+      progressBar.update(completedCount);
     }
 
     // Complete progress bar
     progressBar.complete();
 
     // Create output filename based on the input file
-    const inputFilename = path.basename(projectsFile);
-    const summaryFilename = inputFilename.replace("projects-", "summaries-");
-    const outputPath = path.join(path.dirname(projectsFile), summaryFilename);
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/:/g, "-")
+      .replace(/\..+/, "");
+    const outputPath = path.join(
+      path.dirname(projectsFile),
+      `summaries-${timestamp}.json`,
+    );
 
     // Save summaries to file
     fs.writeFileSync(
@@ -269,7 +286,7 @@ async function generateSummaries() {
       JSON.stringify(
         {
           summaries,
-          originalDataFile: inputFilename,
+          originalDataFile: path.basename(projectsFile),
           generatedAt: new Date().toISOString(),
           totalSummaries: Object.keys(summaries).length,
         },

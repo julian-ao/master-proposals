@@ -4,7 +4,7 @@ interface ProjectComparisonCardProps {
   project: IProject;
   showFullDescriptions: boolean;
   showAiSummaries: boolean;
-  summaries: Record<string, string>;
+  summaries: Record<string, { title: string; summary: string }>;
   eloRating: number;
   onUnfavorite?: () => void;
   getProgramName: (programId: string) => string;
@@ -78,7 +78,7 @@ export function ProjectComparisonCard({
       </div>
 
       {/* AI Summary - above short description */}
-      {showAiSummaries && summaries[project.title] && (
+      {showAiSummaries && summaries[project.id] && (
         <div className="mb-5 bg-gradient-to-r from-teal-50 to-teal-50/50 dark:from-teal-900/40 dark:to-teal-800/20 p-4 rounded-md border-l-4 border-teal-500 dark:border-teal-400 shadow-sm">
           <div className="flex items-center mb-2">
             <svg
@@ -98,7 +98,7 @@ export function ProjectComparisonCard({
             </p>
           </div>
           <p className="text-sm leading-relaxed text-gray-900 dark:text-gray-100 pl-1.5">
-            {summaries[project.title]}
+            {summaries[project.id].summary}
           </p>
         </div>
       )}

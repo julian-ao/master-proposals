@@ -8,12 +8,12 @@
  * Run with: npx tsx scripts/generate-titles.ts
  */
 
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+import { generateText } from "ai";
+import * as dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import { generateText } from "ai";
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import * as dotenv from "dotenv";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -174,74 +174,101 @@ async function generateTitles() {
       model = lmstudio(modelName);
     }
 
-    // Store titles
+    // Store titles - using project ID as key
     const titles: Record<
       string,
       { originalTitle: string; improvedTitle: string }
     > = {};
 
+    // Define batch size
+    const batchSize = process.env.BATCH_SIZE
+      ? parseInt(process.env.BATCH_SIZE)
+      : 5;
+    console.log(`Processing in batches of ${batchSize} projects`);
+
     // Create progress bar
     const progressBar = createProgressBar(projects.length);
     let completedCount = 0;
 
-    // Process projects sequentially
-    for (const project of projects) {
-      try {
-        // Use both short and full descriptions for better context
-        const shortDesc = project.shortDescription || "";
-        const fullDesc = project.fullDescription || "";
-        const originalTitle = project.title || "";
+    // Split projects into batches
+    for (let i = 0; i < projects.length; i += batchSize) {
+      const batch = projects.slice(i, i + batchSize);
+      console.log(
+        `Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(projects.length / batchSize)}`,
+      );
 
-        // Clean both descriptions by removing HTML tags
-        const cleanShortDesc = shortDesc.replace(/<[^>]*>?/gm, "");
-        const cleanFullDesc = fullDesc.replace(/<[^>]*>?/gm, "");
+      // Process batch in parallel
+      const batchPromises = batch.map(async (project) => {
+        try {
+          // Use both short and full descriptions for better context
+          const shortDesc = project.shortDescription || "";
+          const fullDesc = project.fullDescription || "";
+          const originalTitle = project.title || "";
 
-        // Combine both descriptions for better context
-        const combinedDescription =
-          cleanShortDesc +
-          (cleanShortDesc && cleanFullDesc ? "\n\n" : "") +
-          cleanFullDesc;
+          // Clean both descriptions by removing HTML tags
+          const cleanShortDesc = shortDesc.replace(/<[^>]*>?/gm, "");
+          const cleanFullDesc = fullDesc.replace(/<[^>]*>?/gm, "");
 
-        // Generate system prompt
-        const systemPrompt =
-          "You are an academic assistant that specializes in creating clear, concise, and engaging titles for academic research projects. " +
-          "Create a better, more specific title that clearly communicates the focus of the project. " +
-          "The title should be shorter than the original when possible, more specific, and more engaging. " +
-          "Avoid generic academic phrases like 'A Study of' or 'An Investigation Into'. " +
-          "Only reply with the improved title, no additional text or explanation.";
+          // Combine both descriptions for better context
+          const combinedDescription =
+            cleanShortDesc +
+            (cleanShortDesc && cleanFullDesc ? "\n\n" : "") +
+            cleanFullDesc;
 
-        // Generate user prompt from project details
-        const userPrompt =
-          `Original title: ${originalTitle}\n\n` +
-          `Project description: ${combinedDescription}\n\n` +
-          `Create a better, more concise title that clearly communicates the focus of this project.`;
+          // Generate system prompt
+          const systemPrompt =
+            "You are an academic assistant that specializes in creating clear, concise, and engaging titles for academic research projects. " +
+            "Create a better, more specific title that clearly communicates the focus of the project. " +
+            "The title should be shorter than the original when possible, more specific, and more engaging. " +
+            "Avoid generic academic phrases like 'A Study of' or 'An Investigation Into'. " +
+            "Only reply with the improved title, no additional text or explanation.";
 
-        // Call the AI model
-        const result = await generateText({
-          model: model,
-          system: systemPrompt,
-          prompt: userPrompt,
-          maxTokens: 50,
-        });
+          // Generate user prompt from project details
+          const userPrompt =
+            `Original title: ${originalTitle}\n\n` +
+            `Project description: ${combinedDescription}\n\n` +
+            `Create a better, more concise title that clearly communicates the focus of this project.`;
 
-        // Store both original and improved titles
-        titles[project.id] = {
-          originalTitle: project.title,
-          improvedTitle: result.text.trim(),
-        };
+          // Call the AI model
+          const result = await generateText({
+            model: model,
+            system: systemPrompt,
+            prompt: userPrompt,
+            maxTokens: 50,
+          });
 
-        // Add a small delay to avoid overwhelming the model
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      } catch (error) {
-        console.error(`Error generating title for "${project.title}":`, error);
-        titles[project.id] = {
-          originalTitle: project.title,
-          improvedTitle: "Failed to generate improved title.",
+          // Return results with project ID
+          return {
+            id: project.id,
+            originalTitle: project.title,
+            improvedTitle: result.text.trim(),
+          };
+        } catch (error) {
+          console.error(
+            `Error generating title for project ID ${project.id}:`,
+            error,
+          );
+          return {
+            id: project.id,
+            originalTitle: project.title,
+            improvedTitle: "Failed to generate improved title.",
+          };
+        }
+      });
+
+      // Wait for all promises in the batch to resolve
+      const batchResults = await Promise.all(batchPromises);
+
+      // Store results in the titles object
+      for (const result of batchResults) {
+        titles[result.id] = {
+          originalTitle: result.originalTitle,
+          improvedTitle: result.improvedTitle,
         };
       }
 
-      // Update progress even for failed titles
-      completedCount++;
+      // Update progress
+      completedCount += batch.length;
       progressBar.update(completedCount);
     }
 
@@ -255,7 +282,7 @@ async function generateTitles() {
       .replace(/\..+/, "");
     const outputPath = path.join(
       path.dirname(projectsFile),
-      `improved-titles-${timestamp}.json`,
+      `titles-${timestamp}.json`,
     );
 
     // Save titles to file

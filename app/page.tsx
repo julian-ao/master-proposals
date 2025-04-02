@@ -567,7 +567,9 @@ export default function ProjectBrowser() {
                     }}
                     autoExpand={autoExpandDescriptions}
                     aiSummary={
-                      showAiSummaries ? summaries[project.title] : undefined
+                      showAiSummaries
+                        ? summaries[project.id]?.summary
+                        : undefined
                     }
                     improvedTitle={improvedTitles[project.id]?.improvedTitle}
                     showImprovedTitle={showImprovedTitles}

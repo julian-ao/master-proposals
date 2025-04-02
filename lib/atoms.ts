@@ -96,14 +96,16 @@ export const showAiSummariesAtom = atomWithStorage<boolean>(
 
 // Interface for summaries
 export interface ISummaries {
-  summaries: Record<string, string>;
+  summaries: Record<string, { title: string; summary: string }>;
   originalDataFile: string;
   generatedAt: string;
   totalSummaries: number;
 }
 
 // Function to fetch AI summaries
-async function fetchSummaries(): Promise<Record<string, string>> {
+async function fetchSummaries(): Promise<
+  Record<string, { title: string; summary: string }>
+> {
   const response = await fetch("/json/summaries-gemini.json");
   if (!response.ok) {
     throw new Error("Failed to load AI summaries");
@@ -121,9 +123,9 @@ const _summariesDataAtom = atomWithQuery(() => ({
 }));
 
 // Derived atoms for summaries
-export const summariesAtom = atom<Record<string, string>>(
-  (get) => get(_summariesDataAtom).data || {},
-);
+export const summariesAtom = atom<
+  Record<string, { title: string; summary: string }>
+>((get) => get(_summariesDataAtom).data || {});
 export const summariesLoadingAtom = atom<boolean>(
   (get) => get(_summariesDataAtom).isLoading,
 );

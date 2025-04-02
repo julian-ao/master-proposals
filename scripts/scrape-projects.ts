@@ -6,30 +6,11 @@
  */
 
 import fs from "fs";
-import path from "path";
 import { JSDOM } from "jsdom";
 import fetch from "node-fetch";
-
-// Import project interfaces
-interface IProject {
-  id: string;
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  teacher: string;
-  status: string;
-  link: string;
-  programs: string[];
-  type: "single" | "duo";
-}
-
-// Study programs to scrape
-const STUDY_PROGRAMS = [
-  { id: "p2_6", name: "Programvaresystemer" },
-  { id: "p2_7", name: "Databaser og søk" },
-  { id: "p2_9", name: "Kunstig intelligens" },
-  { id: "p2_10", name: "Interaksjonsdesign, spill- og læringsteknologi" },
-];
+import path from "path";
+import { IProject, STUDY_PROGRAMS } from "../lib/constants";
+import { parseProjectsFromHTML, processProjects } from "../lib/projectParser";
 
 async function scrapeProjects() {
   console.log("Starting to scrape project data...");
@@ -56,90 +37,19 @@ async function scrapeProjects() {
     });
 
     const programResults = await Promise.all(programPromises);
-    const allProjects: IProject[] = [];
-    const supervisors = new Set<string>();
+    const projectsByProgram: IProject[][] = [];
 
+    // Parse HTML for each program
     programResults.forEach(({ programId, html }) => {
       console.log(`Processing data for program ${programId}...`);
       const dom = new JSDOM(html);
-      const doc = dom.window.document;
-      const projectElements = doc.querySelectorAll(".oppgave");
-
-      projectElements.forEach((element) => {
-        const title =
-          element.querySelector("h3")?.textContent?.trim() ||
-          "Untitled Project";
-        const description =
-          element.querySelector("p")?.textContent?.trim() || "";
-        const teacher =
-          element.querySelector(".status a")?.textContent?.trim() || "Unknown";
-        supervisors.add(teacher);
-        const status =
-          element.querySelector(".status i")?.textContent?.trim() || "Unknown";
-        const link =
-          element
-            .querySelector('.status a[href^="oppgaveforslag"]')
-            ?.getAttribute("href") || "#";
-
-        let shownDesc = "";
-        let hiddenDesc = "";
-        const divs = element.querySelectorAll(
-          'div[id^="shown_"], div[id^="hidden_"]',
-        );
-
-        const statusDiv = element.querySelector(".status");
-        const studentImg = statusDiv?.querySelector('img[src*="student_"]');
-
-        let type: "single" | "duo" = "single"; // default to single
-        if (studentImg) {
-          if (studentImg.getAttribute("src")?.includes("student_group")) {
-            type = "duo";
-          } else if (
-            studentImg.getAttribute("src")?.includes("student_singel")
-          ) {
-            type = "single";
-          }
-        }
-
-        divs.forEach((div) => {
-          if (div.id.startsWith("shown_")) shownDesc = div.innerHTML;
-          else if (div.id.startsWith("hidden_")) hiddenDesc = div.innerHTML;
-        });
-
-        // Generate an ID consistently
-        const projectId =
-          link.split("oid=")[1] ||
-          Buffer.from(`${title}-${teacher}`)
-            .toString("base64")
-            .substring(0, 12);
-
-        const project = {
-          id: projectId,
-          title,
-          shortDescription: description,
-          fullDescription: hiddenDesc || shownDesc,
-          teacher,
-          status,
-          link,
-          programs: [programId],
-          type,
-        };
-
-        const existingIndex = allProjects.findIndex(
-          (p) => p.title === title && p.teacher === teacher,
-        );
-        if (existingIndex >= 0) {
-          allProjects[existingIndex].programs = [
-            ...new Set([
-              ...allProjects[existingIndex].programs,
-              ...project.programs,
-            ]),
-          ];
-        } else {
-          allProjects.push(project);
-        }
-      });
+      const projects = parseProjectsFromHTML(dom.window.document, programId);
+      projectsByProgram.push(projects);
     });
+
+    // Process projects to get merged projects and supervisors
+    const { projects: allProjects, supervisors } =
+      processProjects(projectsByProgram);
 
     // Create output directory if it doesn't exist
     const outputDir = path.join(__dirname, "..", "data");
@@ -157,7 +67,7 @@ async function scrapeProjects() {
       JSON.stringify(
         {
           projects: allProjects,
-          supervisors: Array.from(supervisors).sort(),
+          supervisors,
           scrapedAt: new Date().toISOString(),
           totalProjects: allProjects.length,
           programCounts: STUDY_PROGRAMS.reduce(
@@ -177,7 +87,7 @@ async function scrapeProjects() {
 
     console.log(`Successfully scraped ${allProjects.length} projects!`);
     console.log(`Data saved to ${outputPath}`);
-    console.log(`Supervisors found: ${Array.from(supervisors).length}`);
+    console.log(`Supervisors found: ${supervisors.length}`);
 
     // Log project counts by program
     console.log("\nProject counts by program:");

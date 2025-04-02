@@ -12,3 +12,6 @@ npm run dev
 ```
 
 Contributions welcome!
+
+## Made by
+Students from NTNU Informatics

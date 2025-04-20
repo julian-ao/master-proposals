@@ -6,7 +6,7 @@ import { Footer } from "../components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MSIT Master Proposals 2025",
+  title: "IDI Master Proposals",
   icons: {
     icon: "/ntnu.png",
   },

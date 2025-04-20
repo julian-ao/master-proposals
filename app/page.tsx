@@ -144,10 +144,10 @@ export default function ProjectBrowser() {
       filterMode === "union"
         ? project.programs.some((programId) => selectedPrograms[programId])
         : Object.keys(selectedPrograms)
-            .filter((programId) => selectedPrograms[programId])
-            .every((selectedProgramId) =>
-              project.programs.includes(selectedProgramId),
-            );
+          .filter((programId) => selectedPrograms[programId])
+          .every((selectedProgramId) =>
+            project.programs.includes(selectedProgramId),
+          );
 
     // Filter by supervisor
     const supervisorMatch =
@@ -249,7 +249,7 @@ export default function ProjectBrowser() {
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          MSIT Master Proposals 2025
+          IDI Master Proposals {new Date(Date.now()).getFullYear()}
         </h1>
 
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
@@ -511,7 +511,7 @@ export default function ProjectBrowser() {
           />
 
           {loading && <LoadingSkeleton count={5} />}
-          {error && <ErrorMessage message={error} onRetry={() => {}} />}
+          {error && <ErrorMessage message={error} onRetry={() => { }} />}
 
           {!loading && !error && (
             <div className="space-y-6">

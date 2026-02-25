@@ -271,8 +271,8 @@ export default function ProjectBrowser() {
               <p className="text-sm text-yellow-700">
                 Project proposals can be registered from{" "}
                 <strong>April 1st</strong>.<br />
-                The deadline for submitting proposals are{" "}
-                <strong>May 21st</strong>.
+                {/* The deadline for submitting proposals are{" "}
+                <strong>May 21st</strong>. */}
               </p>
             </div>
           </div>

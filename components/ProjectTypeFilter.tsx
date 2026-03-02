@@ -17,7 +17,7 @@ export function ProjectTypeFilter({ value, onChange }: ProjectTypeFilterProps) {
   return (
     <div className="mb-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
       <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
-        Project Type
+        Group Size
       </h3>
       <div className="flex items-center space-x-4">
         <label className="inline-flex items-center">

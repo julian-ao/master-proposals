@@ -19,8 +19,8 @@ export function StudyProgramFilter({
   onToggleProgram,
   filterMode,
   onFilterModeChange,
-  majorCourseFilter,
-  onMajorCourseFilterChange,
+  /* majorCourseFilter,
+  onMajorCourseFilterChange, */
 }: StudyProgramFilterProps) {
   const handleToggleProgram = (programId: string) => {
     const programName =
@@ -40,7 +40,7 @@ export function StudyProgramFilter({
     onFilterModeChange(mode);
   };
 
-  const handleMajorCourseFilterChange = (
+  /* const handleMajorCourseFilterChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const value = e.target.value as
@@ -50,7 +50,7 @@ export function StudyProgramFilter({
       | "exclusive";
     track("Major Course Filter Changed", { value });
     onMajorCourseFilterChange(value);
-  };
+  }; */
 
   // Group programs by majorCourse
   const groupedPrograms = programs.reduce(
@@ -68,48 +68,45 @@ export function StudyProgramFilter({
   const formatMajorCourseName = (majorCourse: string): string => {
     switch (majorCourse) {
       case "informatics":
-        return "Informatics";
+        return "Informatics (Informatikk)";
       case "computerScience":
-        return "Computer Science";
+        return "Computer Science (Datateknologi)";
       default:
         return majorCourse.charAt(0).toUpperCase() + majorCourse.slice(1);
     }
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-      <h2 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-5">
+      <h2 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
         Specializations
       </h2>
-      <div className="space-y-6">
+      <div className="space-y-5">
         {Object.entries(groupedPrograms).map(([majorCourse, majorPrograms]) => (
-          <div key={majorCourse} className="space-y-3">
-            <h3 className="text-md font-medium text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 pb-1 mb-2">
+          <div key={majorCourse} className="space-y-2.5">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800 pb-1.5">
               {formatMajorCourseName(majorCourse)}
             </h3>
             {majorPrograms.map((program) => (
-              <div key={program.id} className="flex items-center">
+              <label key={program.id} htmlFor={program.id} className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   id={program.id}
                   type="checkbox"
                   checked={selectedPrograms[program.id]}
                   onChange={() => handleToggleProgram(program.id)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor={program.id}
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
                   {program.name}
-                </label>
-              </div>
+                </span>
+              </label>
             ))}
           </div>
         ))}
       </div>
 
       {/* Major Course Filter */}
-      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+      {/* <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
         <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
           Major Course Filter:
         </p>
@@ -123,21 +120,21 @@ export function StudyProgramFilter({
           <option value="informatics">Only Informatics</option>
           <option value="exclusive">Non-overlapping projects</option>
         </select>
-      </div>
+      </div> */}
 
       {/* Filter mode control */}
-      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-          Specialization-filter:
+      <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800">
+        <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+          Specialization-filter mode
         </p>
-        <div className="flex space-x-2">
+        <div className="inline-flex rounded-lg bg-gray-100 dark:bg-gray-800 p-0.5">
           <button
             type="button"
             onClick={() => handleFilterModeChange("intersection")}
-            className={`px-3 py-1 text-sm rounded-md ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
               filterMode === "intersection"
-                ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100"
-                : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
             }`}
           >
             Intersection
@@ -145,10 +142,10 @@ export function StudyProgramFilter({
           <button
             type="button"
             onClick={() => handleFilterModeChange("union")}
-            className={`px-3 py-1 text-sm rounded-md ${
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
               filterMode === "union"
-                ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100"
-                : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
             }`}
           >
             Union

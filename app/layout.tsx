@@ -2,9 +2,12 @@ import Providers from "@/components/Providers";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import Script from "next/script";
 import { Footer } from "../components/Footer";
 import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "IDI Master Proposals",
@@ -29,11 +32,17 @@ export default function RootLayout({
           })(window, document, "clarity", "script", "vpifjcbibc");
         `}</Script>
       </head>
-      <body>
+      <body
+        className={`${inter.className} bg-gray-50 dark:bg-gray-950 antialiased`}
+      >
         <Providers>
-          <Analytics />
-          {children}
-          <Footer />
+          <div className="flex flex-col min-h-screen">
+            <Analytics />
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
+          </div>
           <Toaster />
         </Providers>
       </body>

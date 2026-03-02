@@ -66,38 +66,38 @@ export function SupervisorFilter({
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-5">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
           Supervisors
         </h3>
         {hasSelections && (
           <button
             onClick={handleClear}
-            className="text-xs text-indigo-600 hover:text-indigo-500 dark:text-indigo-400"
+            className="text-xs font-medium text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors"
           >
             Clear all
           </button>
         )}
       </div>
 
-      <div className="flex space-x-2 mb-3">
+      <div className="inline-flex rounded-lg bg-gray-100 dark:bg-gray-800 p-0.5 mb-3">
         <button
           onClick={() => handleViewModeChange("include")}
-          className={`text-xs px-3 py-1 rounded-md ${
+          className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
             viewMode === "include"
-              ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100"
-              : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+              ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+              : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           }`}
         >
           Include
         </button>
         <button
           onClick={() => handleViewModeChange("exclude")}
-          className={`text-xs px-3 py-1 rounded-md ${
+          className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
             viewMode === "exclude"
-              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
-              : "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+              ? "bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 shadow-sm"
+              : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
           }`}
         >
           Exclude
@@ -108,7 +108,7 @@ export function SupervisorFilter({
         <input
           type="text"
           placeholder="Search supervisors..."
-          className="w-full pl-8 pr-3 py-1.5 text-sm border rounded-md dark:bg-gray-700 dark:border-gray-600"
+          className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400 transition-colors"
           value={searchTerm}
           onChange={(e) => {
             if (e.target.value.length > 0) {
@@ -135,11 +135,11 @@ export function SupervisorFilter({
         </svg>
       </div>
 
-      <div className="space-y-2 max-h-60 overflow-y-auto">
+      <div className="space-y-1.5 max-h-60 overflow-y-auto">
         {filteredSupervisors.length > 0 ? (
           filteredSupervisors.map((supervisor) => (
-            <div key={supervisor} className="flex items-center justify-between">
-              <div className="flex items-center">
+            <div key={supervisor} className="flex items-center justify-between py-0.5">
+              <label htmlFor={`supervisor-${supervisor}`} className="flex items-center gap-2 cursor-pointer group min-w-0">
                 <input
                   id={`supervisor-${supervisor}`}
                   name={supervisor}
@@ -150,26 +150,25 @@ export function SupervisorFilter({
                       ? handleToggle(supervisor)
                       : handleExclude(supervisor)
                   }
-                  className="h-4 w-4 text-red-600 rounded border-gray-300 focus:ring-red-500"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25 flex-shrink-0"
                 />
-                <label
-                  className="ml-2 text-sm text-gray-700 dark:text-gray-300 truncate"
-                  htmlFor={`supervisor-${supervisor}`}
-                >
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 truncate transition-colors">
                   {supervisor}
-                </label>
-              </div>
-              <span className="text-xs text-gray-500">
-                {selected[supervisor] ? (
-                  <span className="text-indigo-600">Included</span>
-                ) : excluded[supervisor] ? (
-                  <span className="text-red-600">Excluded</span>
-                ) : null}
-              </span>
+                </span>
+              </label>
+              {(selected[supervisor] || excluded[supervisor]) && (
+                <span className={`text-xs font-medium flex-shrink-0 ml-2 ${
+                  selected[supervisor]
+                    ? "text-indigo-500"
+                    : "text-red-500"
+                }`}>
+                  {selected[supervisor] ? "Included" : "Excluded"}
+                </span>
+              )}
             </div>
           ))
         ) : (
-          <p className="text-sm text-gray-500 dark:text-gray-400 py-1">
+          <p className="text-sm text-gray-400 dark:text-gray-500 py-2">
             {loading ? "Loading..." : "No supervisors found"}
           </p>
         )}

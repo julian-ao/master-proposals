@@ -1,14 +1,14 @@
 export function Footer() {
   return (
-    <footer className="mt-12 py-2 border-t border-gray-200 dark:border-gray-700 sticky bottom-0 w-full bg-white dark:bg-gray-800">
+    <footer className="mt-auto py-3 border-t border-gray-200 dark:border-gray-800 w-full bg-gray-50/80 dark:bg-gray-950/80 backdrop-blur-sm">
       <div className="container mx-auto px-4 text-center">
-        <p className="text-xs text-gray-600 dark:text-gray-400">
-          This website does not guarantee data accuracy. Information sourced from{" "}
+        <p className="text-xs text-gray-400 dark:text-gray-500">
+          Data accuracy not guaranteed. Sourced from{" "}
           <a
             href="https://www.idi.ntnu.no/education/fordypningsprosjekt.php"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline"
+            className="text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 underline underline-offset-2 transition-colors"
           >
             IDI
           </a>

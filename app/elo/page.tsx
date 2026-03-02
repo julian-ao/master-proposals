@@ -228,20 +228,20 @@ export default function Page() {
 
   if (loading) {
     return (
-      <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-          ELO Comparison
+      <div className="container mx-auto px-4 py-8 max-w-6xl text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-8">
+          ELO <span className="text-indigo-600 dark:text-indigo-400">Comparison</span>
         </h1>
-        <p>Loading projects...</p>
+        <p className="text-gray-500 dark:text-gray-400">Loading projects...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-          ELO Comparison
+      <div className="container mx-auto px-4 py-8 max-w-6xl text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-8">
+          ELO <span className="text-indigo-600 dark:text-indigo-400">Comparison</span>
         </h1>
         <p className="text-red-500">Error: {error}</p>
       </div>
@@ -250,13 +250,13 @@ export default function Page() {
 
   if (favoriteProjects.length < 2) {
     return (
-      <div className="container mx-auto p-4 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-          ELO Comparison
+      <div className="container mx-auto px-4 py-8 max-w-6xl text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-8">
+          ELO <span className="text-indigo-600 dark:text-indigo-400">Comparison</span>
         </h1>
-        <p>Please favorite at least 2 projects to use this feature.</p>
+        <p className="text-gray-600 dark:text-gray-400">Please favorite at least 2 projects to use this feature.</p>
         <p className="mt-4">
-          <a href="/" className="text-blue-600 hover:underline">
+          <a href="/" className="text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 font-medium underline underline-offset-2 transition-colors">
             Back to project list
           </a>
         </p>
@@ -265,76 +265,142 @@ export default function Page() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 text-center">
-        ELO Comparison
-      </h1>
-
-      {/* Backlink to main page */}
-      <div className="flex justify-center mb-8">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      {/* Header */}
+      <div className="text-center mb-10">
         <a
           href="/"
-          className="flex items-center text-blue-600 hover:text-blue-800 transition"
+          className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors mb-4"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 mr-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           Back to Projects
         </a>
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
+          Rank Your <span className="text-indigo-600 dark:text-indigo-400">Favorites</span>
+        </h1>
+        <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+          Compare two projects at a time. Pick the one you prefer and we&apos;ll build your personal ranking.
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Leaderboard - full width on mobile, 1/3 width on desktop */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 order-2 md:order-1">
-          <h2 className="text-2xl font-semibold mb-4 text-center">
-            Leaderboard
-          </h2>
-          <div className="flex flex-col items-center mb-6">
-            <p className="text-sm text-gray-500 mb-4 text-center">
-              Comparisons: {projectsElo.comparisonCount}
-            </p>
-            <button
-              onClick={resetElo}
-              className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md transition"
-            >
-              Reset ELO
-            </button>
+      {/* Main comparison area — full width, the star of the show */}
+      <div className="mb-10">
+        {/* The two project cards side by side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          {projectA && (
+            <ProjectComparisonCard
+              project={projectA}
+              showFullDescriptions={showFullDescriptions}
+              showAiSummaries={showAiSummaries}
+              summaries={summaries}
+              eloRating={projectsElo.ratings[projectA.title] || 1000}
+              onUnfavorite={() => handleUnfavorite(projectA.title)}
+              getProgramName={getProgramName}
+              improvedTitle={improvedTitles[projectA.id]?.improvedTitle}
+              showImprovedTitle={showImprovedTitles}
+            />
+          )}
+
+          {projectB && (
+            <ProjectComparisonCard
+              project={projectB}
+              showFullDescriptions={showFullDescriptions}
+              showAiSummaries={showAiSummaries}
+              summaries={summaries}
+              eloRating={projectsElo.ratings[projectB.title] || 1000}
+              onUnfavorite={() => handleUnfavorite(projectB.title)}
+              getProgramName={getProgramName}
+              improvedTitle={improvedTitles[projectB.id]?.improvedTitle}
+              showImprovedTitle={showImprovedTitles}
+            />
+          )}
+        </div>
+
+        {/* Action buttons — directly below the cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
+          <button
+            onClick={() => handleSelection("A")}
+            className="py-2.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-colors flex items-center justify-center"
+          >
+            {isMobile ? (
+              <ArrowUpIcon className="h-4 w-4 mr-1.5" />
+            ) : (
+              <ArrowLeftIcon className="h-4 w-4 mr-1.5" />
+            )}
+            {isMobile ? "First" : "Left"}
+          </button>
+          <button
+            onClick={() => handleSelection("DRAW")}
+            className="text-sm font-medium px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            Draw
+          </button>
+          <button
+            onClick={selectRandomProjects}
+            className="text-sm font-medium px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            Skip
+          </button>
+          <button
+            onClick={() => handleSelection("B")}
+            className="py-2.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium transition-colors flex items-center justify-center"
+          >
+            {isMobile ? "Second" : "Right"}
+            {isMobile ? (
+              <ArrowDownIcon className="h-4 w-4 ml-1.5" />
+            ) : (
+              <ArrowRightIcon className="h-4 w-4 ml-1.5" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom section: Leaderboard + Settings side by side */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Leaderboard — takes 2/3 */}
+        <div className="md:col-span-2 bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-semibold text-gray-900 dark:text-white">
+              Your Ranking
+            </h2>
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-gray-400 dark:text-gray-500">
+                {projectsElo.comparisonCount} comparisons
+              </span>
+              <button
+                onClick={resetElo}
+                className="text-xs font-medium text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400 transition-colors"
+              >
+                Reset
+              </button>
+            </div>
           </div>
-          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+          <div className="divide-y divide-gray-100 dark:divide-gray-800">
             {sortedProjects.map((project, index) => (
               <div
                 key={project.id}
-                className="py-3 flex justify-between items-start"
+                className="py-2.5 flex justify-between items-start"
               >
-                <div className="flex items-start">
-                  <span className="text-gray-500 mr-3 font-semibold">
+                <div className="flex items-start min-w-0">
+                  <span className="text-xs text-gray-400 mr-2 font-semibold mt-0.5 flex-shrink-0 w-5 text-right">
                     {index + 1}.
                   </span>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col min-w-0">
                     {showImprovedTitles &&
                       improvedTitles[project.id]?.improvedTitle && (
-                        <span className="font-medium break-words pr-2 text-teal-600 dark:text-teal-400 text-sm">
+                        <span className="font-medium break-words pr-2 text-teal-600 dark:text-teal-400 text-xs">
                           {improvedTitles[project.id].improvedTitle}
                         </span>
                       )}
                     <a
                       href={"https://www.idi.ntnu.no/education/" + project.link}
-                      className={`font-medium break-words pr-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline ${
+                      className={`font-medium break-words pr-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors ${
                         showImprovedTitles &&
                         improvedTitles[project.id]?.improvedTitle
-                          ? "text-xs text-gray-500 dark:text-gray-400"
-                          : ""
+                          ? "text-xs text-gray-400 dark:text-gray-500"
+                          : "text-sm text-gray-700 dark:text-gray-300"
                       }`}
                       style={{ wordBreak: "break-word" }}
                       target="_blank"
@@ -344,28 +410,17 @@ export default function Page() {
                     </a>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <span className="text-blue-600 font-semibold">
+                <div className="flex items-center gap-1.5 flex-shrink-0 ml-2">
+                  <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 tabular-nums">
                     {project.elo}
                   </span>
                   <button
                     onClick={() => handleUnfavorite(project.title)}
-                    className="text-gray-400 hover:text-red-500 transition"
-                    title="Unfavorite project"
+                    className="text-gray-300 hover:text-red-500 dark:text-gray-600 dark:hover:text-red-400 transition-colors"
+                    title="Remove from ranking"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 </div>
@@ -374,138 +429,49 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Comparison Cards - full width on mobile, 2/3 width on desktop */}
-        <div className="md:col-span-2 flex flex-col order-1 md:order-2 mb-8 md:mb-0">
-          <h2 className="text-2xl font-semibold mb-4 text-center">
-            Which project do you prefer?
-          </h2>
-
-          {/* Display options - more compact on mobile */}
-          <div className="flex flex-wrap justify-center gap-4 mb-4">
-            <div className="flex items-center">
+        {/* Display Settings — takes 1/3, tucked away */}
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-5">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+            Display
+          </h3>
+          <div className="flex flex-col space-y-3">
+            <DarkModeToggle />
+            <label htmlFor="show-full-descriptions" className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="checkbox"
                 id="show-full-descriptions"
                 checked={showFullDescriptions}
                 onChange={() => setShowFullDescriptions((prev) => !prev)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
               />
-              <label
-                htmlFor="show-full-descriptions"
-                className="ml-2 text-sm text-gray-700 dark:text-gray-300"
-              >
-                Show full descriptions
-              </label>
-            </div>
-            <div className="flex items-center">
+              <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+                Full descriptions
+              </span>
+            </label>
+            <label htmlFor="show-ai-summaries-elo" className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="checkbox"
-                id="show-ai-summaries"
+                id="show-ai-summaries-elo"
                 checked={showAiSummaries}
                 onChange={() => setShowAiSummaries((prev) => !prev)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
               />
-              <label
-                htmlFor="show-ai-summaries"
-                className="ml-2 text-sm text-gray-700 dark:text-gray-300"
-              >
-                Show AI summaries
-              </label>
-            </div>
-            <div className="flex items-center">
+              <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+                AI summaries
+              </span>
+            </label>
+            <label htmlFor="show-improved-titles-elo" className="flex items-center gap-2.5 cursor-pointer group">
               <input
                 type="checkbox"
                 id="show-improved-titles-elo"
                 checked={showImprovedTitles}
                 onChange={() => setShowImprovedTitles((prev) => !prev)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
               />
-              <label
-                htmlFor="show-improved-titles-elo"
-                className="ml-2 text-sm text-gray-700 dark:text-gray-300"
-              >
-                Show AI improved titles
-              </label>
-            </div>
-            <div className="flex items-center">
-              <DarkModeToggle />
-            </div>
-          </div>
-
-          {/* Draw and Skip buttons row - adaptable to mobile */}
-          <div className="flex flex-wrap justify-center gap-3 mb-4">
-            <button
-              onClick={() => handleSelection("DRAW")}
-              className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-6 rounded-md transition"
-            >
-              It's a Draw
-            </button>
-
-            <button
-              onClick={selectRandomProjects}
-              className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 py-2 px-6 rounded-md transition"
-            >
-              Skip Comparison
-            </button>
-          </div>
-
-          {/* Prefer buttons in full-width columns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-            <button
-              onClick={() => handleSelection("A")}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-md transition flex items-center justify-center"
-            >
-              {isMobile ? (
-                <ArrowUpIcon className="h-5 w-5 mr-2" />
-              ) : (
-                <ArrowLeftIcon className="h-5 w-5 mr-2" />
-              )}
-              {isMobile ? "Prefer First" : "Prefer Left Project"}
-            </button>
-
-            <button
-              onClick={() => handleSelection("B")}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-md transition flex items-center justify-center"
-            >
-              {isMobile ? "Prefer Second" : "Prefer Right Project"}
-              {isMobile ? (
-                <ArrowDownIcon className="h-5 w-5 ml-2" />
-              ) : (
-                <ArrowRightIcon className="h-5 w-5 ml-2" />
-              )}
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {/* Project A */}
-            {projectA && (
-              <ProjectComparisonCard
-                project={projectA}
-                showFullDescriptions={showFullDescriptions}
-                showAiSummaries={showAiSummaries}
-                summaries={summaries}
-                eloRating={projectsElo.ratings[projectA.title] || 1000}
-                onUnfavorite={() => handleUnfavorite(projectA.title)}
-                getProgramName={getProgramName}
-                improvedTitle={improvedTitles[projectA.id]?.improvedTitle}
-                showImprovedTitle={showImprovedTitles}
-              />
-            )}
-
-            {/* Project B */}
-            {projectB && (
-              <ProjectComparisonCard
-                project={projectB}
-                showFullDescriptions={showFullDescriptions}
-                showAiSummaries={showAiSummaries}
-                summaries={summaries}
-                eloRating={projectsElo.ratings[projectB.title] || 1000}
-                onUnfavorite={() => handleUnfavorite(projectB.title)}
-                getProgramName={getProgramName}
-                improvedTitle={improvedTitles[projectB.id]?.improvedTitle}
-                showImprovedTitle={showImprovedTitles}
-              />
-            )}
+              <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+                AI improved titles
+              </span>
+            </label>
           </div>
         </div>
       </div>

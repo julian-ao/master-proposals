@@ -14,45 +14,32 @@ export function ProjectTypeFilter({ value, onChange }: ProjectTypeFilterProps) {
     onChange(newValue);
   };
 
+  const options: { key: "all" | "single" | "duo"; label: string }[] = [
+    { key: "all", label: "All" },
+    { key: "single", label: "1 student" },
+    { key: "duo", label: "2 students" },
+  ];
+
   return (
-    <div className="mb-4 p-4 bg-white dark:bg-gray-800 rounded-lg shadow">
-      <h3 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+    <div className="mb-5">
+      <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
         Group Size
-      </h3>
-      <div className="flex items-center space-x-4">
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            checked={value === "all"}
-            onChange={() => handleTypeChange("all")}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
-          />
-          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
-            All
-          </span>
-        </label>
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            checked={value === "single"}
-            onChange={() => handleTypeChange("single")}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
-          />
-          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
-            1 student
-          </span>
-        </label>
-        <label className="inline-flex items-center">
-          <input
-            type="radio"
-            checked={value === "duo"}
-            onChange={() => handleTypeChange("duo")}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
-          />
-          <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
-            2 students
-          </span>
-        </label>
+      </p>
+      <div className="inline-flex rounded-lg bg-gray-100 dark:bg-gray-800 p-0.5">
+        {options.map((option) => (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() => handleTypeChange(option.key)}
+            className={`px-4 py-1.5 text-xs font-medium rounded-md transition-all ${
+              value === option.key
+                ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -247,70 +247,61 @@ export default function ProjectBrowser() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          IDI Master Proposals {new Date(Date.now()).getFullYear()}
+      <header className="mb-10">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-1">
+          IDI Master Proposals{" "}
+          <span className="text-indigo-600 dark:text-indigo-400">
+            {new Date(Date.now()).getFullYear()}
+          </span>
         </h1>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">
+          Browse and filter available master project proposals
+        </p>
 
-        <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-8 w-8 text-yellow-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-yellow-700">
-                Project proposals can be registered from{" "}
-                <strong>April 1st</strong>.<br />
-                {/* The deadline for submitting proposals are{" "}
-                <strong>May 21st</strong>. */}
-              </p>
-            </div>
-          </div>
+        <div className="flex items-center gap-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 px-4 py-3 mb-5">
+          <svg
+            className="h-5 w-5 text-amber-500 flex-shrink-0"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <p className="text-sm text-amber-800 dark:text-amber-200">
+            Project proposals can be registered from{" "}
+            <strong>April 1st</strong>.
+          </p>
         </div>
 
         {/* ELO Ranking Link */}
         {isMounted && favorites.length >= 2 && (
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <svg
-                  className="h-8 w-8 text-blue-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+          <div className="flex items-center gap-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 px-4 py-3 mb-5">
+            <svg
+              className="h-5 w-5 text-blue-500 flex-shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              />
+            </svg>
+            <div>
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                You have <strong>{favorites.length}</strong> favorited projects!{" "}
+                <a
+                  href="/elo"
+                  className="font-medium underline underline-offset-2 hover:text-blue-600 dark:hover:text-blue-300"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-blue-700">
-                  You have {favorites.length} favorited projects! Compare them
-                  and create your personal ranking.
-                </p>
-                <p className="mt-1">
-                  <a
-                    href="/elo"
-                    className="text-blue-600 font-medium hover:underline"
-                  >
-                    Go to ELO Ranking →
-                  </a>
-                </p>
-              </div>
+                  Compare &amp; rank them →
+                </a>
+              </p>
             </div>
           </div>
         )}
@@ -328,13 +319,13 @@ export default function ProjectBrowser() {
             onMajorCourseFilterChange={setMajorCourseFilter}
           />
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h3 className="font-medium text-gray-900 dark:text-white mb-3">
-              Other Options
+          {/* Filter Options */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-5">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              Other filters
             </h3>
-            <div className="flex mt-2 flex-col space-y-2">
-              <DarkModeToggle />
-              <div>
+            <div className="flex flex-col space-y-3">
+              <label htmlFor="show-favorites" className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="checkbox"
                   id="show-favorites"
@@ -342,20 +333,16 @@ export default function ProjectBrowser() {
                   onChange={() => {
                     setShowFavorites((prev) => !prev);
                     if (!showFavorites) {
-                      // If enabling "show only favorites", disable "hide favorites"
                       setHideFavorites(false);
                     }
                   }}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor="show-favorites"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
                   Show only favorites
-                </label>
-              </div>
-              <div>
+                </span>
+              </label>
+              <label htmlFor="hide-favorites" className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="checkbox"
                   id="hide-favorites"
@@ -363,98 +350,89 @@ export default function ProjectBrowser() {
                   onChange={() => {
                     setHideFavorites((prev) => !prev);
                     if (!hideFavorites) {
-                      // If enabling "hide favorites", disable "show only favorites"
                       setShowFavorites(false);
                     }
                   }}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor="hide-favorites"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
                   Hide favorites{" "}
                   {isMounted && favorites.length > 0 && `(${favorites.length})`}
-                </label>
-              </div>
-              <div>
+                </span>
+              </label>
+              <label htmlFor="show-hidden" className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="checkbox"
                   id="show-hidden"
                   checked={showHiddenProjects}
                   onChange={() => setShowHiddenProjects((prev) => !prev)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor="show-hidden"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
                   Show hidden projects{" "}
                   {isMounted &&
                     hiddenProjects.length > 0 &&
                     `(${hiddenProjects.length})`}
-                </label>
-              </div>
-              <div>
+                </span>
+              </label>
+              <label htmlFor="show-tildelt" className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="checkbox"
                   id="show-tildelt"
                   checked={showAvailableOnly}
                   onChange={() => setShowTildelt((prev) => !prev)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor="show-tildelt"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
-                  Show only available projects
-                </label>
-              </div>
-              <div>
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+                  Show only available
+                </span>
+              </label>
+            </div>
+          </div>
+
+          {/* Display Options */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm p-5">
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+              Display
+            </h3>
+            <div className="flex flex-col space-y-3">
+              <DarkModeToggle />
+              <label htmlFor="auto-expand" className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="checkbox"
                   id="auto-expand"
                   checked={autoExpandDescriptions}
                   onChange={() => setAutoExpandDescriptions((prev) => !prev)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor="auto-expand"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
-                  Auto-expand all descriptions
-                </label>
-              </div>
-              <div>
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+                  Auto-expand descriptions
+                </span>
+              </label>
+              <label htmlFor="show-ai-summaries" className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="checkbox"
                   id="show-ai-summaries"
                   checked={showAiSummaries}
                   onChange={() => setShowAiSummaries((prev) => !prev)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor="show-ai-summaries"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
                   Show AI summaries
-                </label>
-              </div>
-              <div>
+                </span>
+              </label>
+              <label htmlFor="show-improved-titles" className="flex items-center gap-2.5 cursor-pointer group">
                 <input
                   type="checkbox"
                   id="show-improved-titles"
                   checked={showImprovedTitles}
                   onChange={() => setShowImprovedTitles((prev) => !prev)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
                 />
-                <label
-                  htmlFor="show-improved-titles"
-                  className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-                >
+                <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
                   Show AI improved titles
-                </label>
-              </div>
+                </span>
+              </label>
             </div>
           </div>
 

@@ -8,7 +8,7 @@ export const DarkModeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div>
+    <label htmlFor="darkModeToggle" className="flex items-center gap-2.5 cursor-pointer group">
       <input
         type="checkbox"
         id="darkModeToggle"
@@ -16,14 +16,11 @@ export const DarkModeToggle: React.FC = () => {
         onChange={(e) => {
           setTheme(e.target.checked ? "dark" : "light");
         }}
-        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500/25"
       />
-      <label
-        className="ml-3 text-sm text-gray-700 dark:text-gray-300"
-        htmlFor="darkModeToggle"
-      >
-        Dark Mode
-      </label>
-    </div>
+      <span className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+        Dark mode
+      </span>
+    </label>
   );
 };

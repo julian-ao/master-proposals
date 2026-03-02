@@ -15,7 +15,7 @@ export default function Providers(props: { children: React.ReactNode }) {
         <ReactQueryDevtools initialIsOpen={false} />
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >

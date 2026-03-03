@@ -249,14 +249,11 @@ export default function ProjectBrowser() {
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <header className="mb-10">
         <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-1">
-          IDI Master Proposals{" "}
+          IDI Master Projects{" "}
           <span className="text-indigo-600 dark:text-indigo-400">
             {new Date(Date.now()).getFullYear()}
           </span>
         </h1>
-        <p className="text-gray-500 dark:text-gray-400 mb-6">
-          Browse and filter available master project proposals
-        </p>
 
         <div className="flex items-center gap-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 px-4 py-3 mb-5">
           <svg

@@ -36,15 +36,11 @@ const _projectsDataAtom = atomWithQuery((get) => ({
 export const availableSupervisorsAtom = atom<string[]>(
   (get) => get(_projectsDataAtom).data?.availableSupervisors || [],
 );
-export const loadingProjectsAtom = atom<boolean>(
-  (get) => get(_projectsDataAtom).isLoading,
-);
+export const loadingProjectsAtom = atom<boolean>((get) => get(_projectsDataAtom).isLoading);
 export const errorLoadingProjectsAtom = atom<string | null>(
   (get) => get(_projectsDataAtom).error?.message || null,
 );
-export const projectsAtom = atom(
-  (get) => get(_projectsDataAtom).data?.projects || [],
-);
+export const projectsAtom = atom((get) => get(_projectsDataAtom).data?.projects || []);
 
 // Interface for improved titles
 export interface IImprovedTitles {
@@ -58,7 +54,7 @@ export interface IImprovedTitles {
 async function fetchImprovedTitles(): Promise<
   Record<string, { originalTitle: string; improvedTitle: string }>
 > {
-  const response = await fetch("/json/titles-gemini.json");
+  const response = await fetch("/json/titles-2026.json");
   if (!response.ok) {
     throw new Error("Failed to load improved titles");
   }
@@ -85,16 +81,10 @@ export const improvedTitlesLoadingAtom = atom<boolean>(
 export const improvedTitlesErrorAtom = atom<string | null>(
   (get) => get(_improvedTitlesDataAtom).error?.message || null,
 );
-export const showImprovedTitlesAtom = atomWithStorage<boolean>(
-  "show_improved_titles",
-  false,
-);
+export const showImprovedTitlesAtom = atomWithStorage<boolean>("show_improved_titles", false);
 
 // Add showAiSummariesAtom for persisting AI summaries preference
-export const showAiSummariesAtom = atomWithStorage<boolean>(
-  "show_ai_summaries",
-  false,
-);
+export const showAiSummariesAtom = atomWithStorage<boolean>("show_ai_summaries", false);
 
 // Interface for summaries
 export interface ISummaries {
@@ -105,10 +95,8 @@ export interface ISummaries {
 }
 
 // Function to fetch AI summaries
-async function fetchSummaries(): Promise<
-  Record<string, { title: string; summary: string }>
-> {
-  const response = await fetch("/json/summaries-gemini.json");
+async function fetchSummaries(): Promise<Record<string, { title: string; summary: string }>> {
+  const response = await fetch("/json/summaries-2026.json");
   if (!response.ok) {
     throw new Error("Failed to load AI summaries");
   }
@@ -123,16 +111,13 @@ const _summariesDataAtom = atomWithQuery(() => ({
     return fetchSummaries();
   },
   staleTime: 1000 * 60 * 5, // 5 minutes
-  
 }));
 
 // Derived atoms for summaries
-export const summariesAtom = atom<
-  Record<string, { title: string; summary: string }>
->((get) => get(_summariesDataAtom).data || {});
-export const summariesLoadingAtom = atom<boolean>(
-  (get) => get(_summariesDataAtom).isLoading,
+export const summariesAtom = atom<Record<string, { title: string; summary: string }>>(
+  (get) => get(_summariesDataAtom).data || {},
 );
+export const summariesLoadingAtom = atom<boolean>((get) => get(_summariesDataAtom).isLoading);
 export const summariesErrorAtom = atom<string | null>(
   (get) => get(_summariesDataAtom).error?.message || null,
 );
@@ -143,10 +128,7 @@ export interface ProjectsEloState {
   comparisonCount: number;
 }
 
-export const projectsEloAtom = atomWithStorage<ProjectsEloState>(
-  "projects_elo",
-  {
-    ratings: {},
-    comparisonCount: 0,
-  },
-);
+export const projectsEloAtom = atomWithStorage<ProjectsEloState>("projects_elo", {
+  ratings: {},
+  comparisonCount: 0,
+});

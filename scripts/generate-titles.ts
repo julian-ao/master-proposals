@@ -2,220 +2,96 @@
  * Script to generate improved titles for projects using AI
  *
  * This script reads project data from the most recent JSON file,
- * sends each project description to an AI model,
+ * sends each project description to an AI model
+ * (OpenRouter by default),
  * and saves the generated titles to a new JSON file.
  *
  * Run with: npx tsx scripts/generate-titles.ts
  */
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { generateText } from "ai";
 import * as dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
+import {
+  type Project,
+  createProgressBar,
+  createRateLimiter,
+  getCliOption,
+  getConfiguredRequestsPerMinute,
+  getMostRecentProjectsFile,
+  initializeLanguageModel,
+} from "./ai-script-utils";
 
 // Load environment variables from .env file
 dotenv.config();
-
-// Add progress bar functionality
-function createProgressBar(
-  total: number,
-  barLength: number = 30,
-): {
-  update: (current: number) => void;
-  complete: () => void;
-} {
-  let startTime = Date.now();
-
-  function formatTime(ms: number): string {
-    // For times less than a minute
-    if (ms < 60000) {
-      return `${Math.floor(ms / 1000)}s`;
-    }
-    // For times less than an hour
-    if (ms < 3600000) {
-      const minutes = Math.floor(ms / 60000);
-      const seconds = Math.floor((ms % 60000) / 1000);
-      return `${minutes}m ${seconds}s`;
-    }
-    // For longer times
-    const hours = Math.floor(ms / 3600000);
-    const minutes = Math.floor((ms % 3600000) / 60000);
-    return `${hours}h ${minutes}m`;
-  }
-
-  function calculateETA(current: number): string {
-    if (current === 0) return "calculating...";
-
-    const elapsedMs = Date.now() - startTime;
-    const msPerItem = elapsedMs / current;
-    const itemsRemaining = total - current;
-    const msRemaining = msPerItem * itemsRemaining;
-
-    return formatTime(msRemaining);
-  }
-
-  function render(current: number) {
-    const percentage = Math.floor((current / total) * 100);
-    const filledLength = Math.floor((current / total) * barLength);
-    const bar = "█".repeat(filledLength) + "░".repeat(barLength - filledLength);
-
-    const eta = calculateETA(current);
-    const elapsed = formatTime(Date.now() - startTime);
-
-    process.stdout.write(
-      `\r[${bar}] ${percentage}% | ${current}/${total} | Elapsed: ${elapsed} | ETA: ${eta}`,
-    );
-
-    if (current === total) {
-      const totalTime = formatTime(Date.now() - startTime);
-      process.stdout.write(`\nCompleted in ${totalTime}\n`);
-    }
-  }
-
-  return {
-    update: (current: number) => {
-      render(current);
-    },
-    complete: () => {
-      render(total);
-    },
-  };
-}
-
-interface IProject {
-  id: string;
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  teacher: string;
-  status: string;
-  link: string;
-  programs: string[];
-  type: "single" | "duo";
-}
-
-// Function to get the most recent projects JSON file
-function getMostRecentProjectsFile(): string {
-  const dataDir = path.join(__dirname, "..", "data");
-
-  if (!fs.existsSync(dataDir)) {
-    throw new Error(
-      "Data directory not found. Please run scrape-projects.ts first.",
-    );
-  }
-
-  const projectFiles = fs
-    .readdirSync(dataDir)
-    .filter((file) => file.startsWith("projects-") && file.endsWith(".json"))
-    .map((file) => path.join(dataDir, file));
-
-  if (projectFiles.length === 0) {
-    throw new Error(
-      "No project data files found. Please run scrape-projects.ts first.",
-    );
-  }
-
-  // Sort files by modification time (newest first)
-  projectFiles.sort((a, b) => {
-    return fs.statSync(b).mtime.getTime() - fs.statSync(a).mtime.getTime();
-  });
-
-  return projectFiles[0];
-}
 
 async function generateTitles() {
   console.log("Starting improved title generation...");
 
   try {
-    // Get the most recent projects file
     const projectsFile = getMostRecentProjectsFile();
     console.log(`Using project data from: ${projectsFile}`);
 
-    // Read project data
     const projectData = JSON.parse(fs.readFileSync(projectsFile, "utf8"));
-    const projects: IProject[] = projectData.projects;
-
+    const projects: Project[] = projectData.projects;
     console.log(`Found ${projects.length} projects to generate titles for`);
 
-    // Determine which model to use
-    const modelProvider = process.env.MODEL_PROVIDER || "lmstudio";
-    console.log(`Using model provider: ${modelProvider}`);
-
-    let model;
-
-    // Initialize the selected model
-    if (modelProvider === "gemini") {
-      // Check if API key is available
-      if (!process.env.GOOGLE_API_KEY) {
+    const singleProjectId = getCliOption("project-id", "p") || process.env.PROJECT_ID;
+    let projectsToProcess = projects;
+    if (singleProjectId) {
+      const selectedProject = projects.find((project) => project.id === singleProjectId);
+      if (!selectedProject) {
         throw new Error(
-          "GOOGLE_API_KEY environment variable is required for Gemini model",
+          `Project with ID "${singleProjectId}" not found in ${path.basename(projectsFile)}`,
         );
       }
 
-      console.log("Initializing Google Gemini model...");
-      const google = createGoogleGenerativeAI({
-        apiKey: process.env.GOOGLE_API_KEY,
-      });
-
-      // Use Gemini 2.0 flash
-      model = google("models/gemini-2.0-flash");
-    } else {
-      // Default to LMStudio
-      console.log("Initializing LMStudio model...");
-      const lmstudio = createOpenAICompatible({
-        name: "lmstudio",
-        baseURL: "http://localhost:1234/v1",
-      });
-
-      // Use local model
-      const modelName = process.env.LMSTUDIO_MODEL || "gemma-3-27b-it";
-      model = lmstudio(modelName);
+      projectsToProcess = [selectedProject];
+      console.log(
+        `Single-project test mode enabled for ID "${singleProjectId}" (${selectedProject.title})`,
+      );
     }
 
-    // Store titles - using project ID as key
-    const titles: Record<
-      string,
-      { originalTitle: string; improvedTitle: string }
-    > = {};
+    const { modelProvider, model, baseModel } = initializeLanguageModel({
+      defaultProvider: "openrouter",
+      useReasoningExtractionForNonOpenRouter: false,
+    });
 
-    // Define batch size
-    const batchSize = process.env.BATCH_SIZE
-      ? parseInt(process.env.BATCH_SIZE)
-      : 5;
-    console.log(`Processing in batches of ${batchSize} projects`);
+    const configuredRpm = getConfiguredRequestsPerMinute(modelProvider, 40);
+    const waitForRateLimit =
+      configuredRpm > 0 ? createRateLimiter(configuredRpm) : async () => Promise.resolve();
 
-    // Create progress bar
-    const progressBar = createProgressBar(projects.length);
+    if (configuredRpm > 0) {
+      console.log(`Rate limiting enabled: ${configuredRpm} requests/minute`);
+    }
+    const debugTitles = process.env.DEBUG_TITLES === "1";
+
+    const titles: Record<string, { originalTitle: string; improvedTitle: string }> = {};
+
+    const batchSize = process.env.BATCH_SIZE ? parseInt(process.env.BATCH_SIZE, 10) : 5;
+    const effectiveBatchSize = singleProjectId ? 1 : batchSize;
+    console.log(`Processing ${projectsToProcess.length} project(s) in batches of ${effectiveBatchSize}`);
+
+    const progressBar = createProgressBar(projectsToProcess.length);
     let completedCount = 0;
 
-    // Split projects into batches
-    for (let i = 0; i < projects.length; i += batchSize) {
-      const batch = projects.slice(i, i + batchSize);
+    for (let i = 0; i < projectsToProcess.length; i += effectiveBatchSize) {
+      const batch = projectsToProcess.slice(i, i + effectiveBatchSize);
       console.log(
-        `Processing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(projects.length / batchSize)}`,
+        `Processing batch ${Math.floor(i / effectiveBatchSize) + 1}/${Math.ceil(projectsToProcess.length / effectiveBatchSize)}`,
       );
 
-      // Process batch in parallel
       const batchPromises = batch.map(async (project) => {
         try {
-          // Use both short and full descriptions for better context
           const shortDesc = project.shortDescription || "";
           const fullDesc = project.fullDescription || "";
           const originalTitle = project.title || "";
-
-          // Clean both descriptions by removing HTML tags
           const cleanShortDesc = shortDesc.replace(/<[^>]*>?/gm, "");
           const cleanFullDesc = fullDesc.replace(/<[^>]*>?/gm, "");
-
-          // Combine both descriptions for better context
           const combinedDescription =
-            cleanShortDesc +
-            (cleanShortDesc && cleanFullDesc ? "\n\n" : "") +
-            cleanFullDesc;
+            cleanShortDesc + (cleanShortDesc && cleanFullDesc ? "\n\n" : "") + cleanFullDesc;
 
-          // Generate system prompt
           const systemPrompt =
             "You are an academic assistant that specializes in creating clear, concise, and engaging titles for academic research projects. " +
             "Create a better, more specific title that clearly communicates the focus of the project. " +
@@ -223,31 +99,48 @@ async function generateTitles() {
             "Avoid generic academic phrases like 'A Study of' or 'An Investigation Into'. " +
             "Only reply with the improved title, no additional text or explanation.";
 
-          // Generate user prompt from project details
           const userPrompt =
             `Original title: ${originalTitle}\n\n` +
             `Project description: ${combinedDescription}\n\n` +
             `Create a better, more concise title that clearly communicates the focus of this project.`;
 
-          // Call the AI model
+          await waitForRateLimit();
           const result = await generateText({
-            model: model,
+            model,
             system: systemPrompt,
             prompt: userPrompt,
-            maxTokens: 50,
           });
 
-          // Return results with project ID
+          let improvedTitle = result.text.trim();
+          if (debugTitles || improvedTitle.length === 0) {
+            console.log(
+              `[title-debug] id=${project.id} textLen=${improvedTitle.length} reasoningLen=${result.reasoningText?.length ?? 0} finishReason=${result.finishReason}`,
+            );
+          }
+
+          if (improvedTitle.length === 0) {
+            await waitForRateLimit();
+            const retryResult = await generateText({
+              model: baseModel,
+              system: systemPrompt,
+              prompt: userPrompt,
+            });
+
+            improvedTitle = retryResult.text.trim();
+            if (debugTitles || improvedTitle.length === 0) {
+              console.log(
+                `[title-debug] retry id=${project.id} textLen=${improvedTitle.length} reasoningLen=${retryResult.reasoningText?.length ?? 0} finishReason=${retryResult.finishReason}`,
+              );
+            }
+          }
+
           return {
             id: project.id,
             originalTitle: project.title,
-            improvedTitle: result.text.trim(),
+            improvedTitle: improvedTitle || project.title || "Failed to generate improved title.",
           };
         } catch (error) {
-          console.error(
-            `Error generating title for project ID ${project.id}:`,
-            error,
-          );
+          console.error(`Error generating title for project ID ${project.id}:`, error);
           return {
             id: project.id,
             originalTitle: project.title,
@@ -256,10 +149,7 @@ async function generateTitles() {
         }
       });
 
-      // Wait for all promises in the batch to resolve
       const batchResults = await Promise.all(batchPromises);
-
-      // Store results in the titles object
       for (const result of batchResults) {
         titles[result.id] = {
           originalTitle: result.originalTitle,
@@ -267,25 +157,15 @@ async function generateTitles() {
         };
       }
 
-      // Update progress
       completedCount += batch.length;
       progressBar.update(completedCount);
     }
 
-    // Complete progress bar
     progressBar.complete();
 
-    // Create output filename based on the input file
-    const timestamp = new Date()
-      .toISOString()
-      .replace(/:/g, "-")
-      .replace(/\..+/, "");
-    const outputPath = path.join(
-      path.dirname(projectsFile),
-      `titles-${timestamp}.json`,
-    );
+    const timestamp = new Date().toISOString().replace(/:/g, "-").replace(/\..+/, "");
+    const outputPath = path.join(path.dirname(projectsFile), `titles-${timestamp}.json`);
 
-    // Save titles to file
     fs.writeFileSync(
       outputPath,
       JSON.stringify(
@@ -301,11 +181,13 @@ async function generateTitles() {
     );
 
     console.log(`\nTitle generation complete!`);
-    console.log(
-      `${Object.keys(titles).length}/${
-        projects.length
-      } improved titles generated`,
-    );
+    console.log(`${Object.keys(titles).length}/${projectsToProcess.length} improved titles generated`);
+
+    if (singleProjectId && titles[singleProjectId]) {
+      console.log(`\nSingle-project title (${singleProjectId}):`);
+      console.log(titles[singleProjectId].improvedTitle);
+    }
+
     console.log(`Improved titles saved to: ${outputPath}`);
   } catch (error) {
     console.error("Error generating titles:", error);
@@ -313,5 +195,4 @@ async function generateTitles() {
   }
 }
 
-// Execute the script
 generateTitles();

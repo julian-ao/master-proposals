@@ -2,244 +2,147 @@
  * Script to generate summaries for projects using Vercel AI SDK
  *
  * This script reads project data from the most recent JSON file,
- * sends each project description to a local LMStudio model via the Vercel AI SDK,
+ * sends each project description to an AI model via the Vercel AI SDK
+ * (OpenRouter by default),
  * and saves the summaries to a new JSON file.
  *
  * Run with: npx tsx scripts/generate-summaries.ts
+ * Test a single project: npx tsx scripts/generate-summaries.ts --project-id <id>
  */
 
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { generateText } from "ai";
 import * as dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
+import {
+  type Project,
+  createProgressBar,
+  createRateLimiter,
+  getCliOption,
+  getConfiguredRequestsPerMinute,
+  getMostRecentProjectsFile,
+  initializeLanguageModel,
+} from "./ai-script-utils";
 
 // Load environment variables from .env file
 dotenv.config();
-
-// Add progress bar functionality
-function createProgressBar(
-  total: number,
-  barLength: number = 30,
-): {
-  update: (current: number) => void;
-  complete: () => void;
-} {
-  let startTime = Date.now();
-
-  function formatTime(ms: number): string {
-    // For times less than a minute
-    if (ms < 60000) {
-      return `${Math.floor(ms / 1000)}s`;
-    }
-    // For times less than an hour
-    if (ms < 3600000) {
-      const minutes = Math.floor(ms / 60000);
-      const seconds = Math.floor((ms % 60000) / 1000);
-      return `${minutes}m ${seconds}s`;
-    }
-    // For longer times
-    const hours = Math.floor(ms / 3600000);
-    const minutes = Math.floor((ms % 3600000) / 60000);
-    return `${hours}h ${minutes}m`;
-  }
-
-  function calculateETA(current: number): string {
-    if (current === 0) return "calculating...";
-
-    const elapsedMs = Date.now() - startTime;
-    const msPerItem = elapsedMs / current;
-    const itemsRemaining = total - current;
-    const msRemaining = msPerItem * itemsRemaining;
-
-    return formatTime(msRemaining);
-  }
-
-  function render(current: number) {
-    const percentage = Math.floor((current / total) * 100);
-    const filledLength = Math.floor((current / total) * barLength);
-    const bar = "█".repeat(filledLength) + "░".repeat(barLength - filledLength);
-
-    const eta = calculateETA(current);
-    const elapsed = formatTime(Date.now() - startTime);
-
-    process.stdout.write(
-      `\r[${bar}] ${percentage}% | ${current}/${total} | Elapsed: ${elapsed} | ETA: ${eta}`,
-    );
-
-    if (current === total) {
-      const totalTime = formatTime(Date.now() - startTime);
-      process.stdout.write(`\nCompleted in ${totalTime}\n`);
-    }
-  }
-
-  return {
-    update: (current: number) => {
-      render(current);
-    },
-    complete: () => {
-      render(total);
-    },
-  };
-}
-
-interface IProject {
-  id: string;
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  teacher: string;
-  status: string;
-  link: string;
-  programs: string[];
-  type: "single" | "duo";
-}
-
-// Function to get the most recent projects JSON file
-function getMostRecentProjectsFile(): string {
-  const dataDir = path.join(__dirname, "..", "data");
-
-  if (!fs.existsSync(dataDir)) {
-    throw new Error(
-      "Data directory not found. Please run scrape-projects.ts first.",
-    );
-  }
-
-  const projectFiles = fs
-    .readdirSync(dataDir)
-    .filter((file) => file.startsWith("projects-") && file.endsWith(".json"))
-    .map((file) => path.join(dataDir, file));
-
-  if (projectFiles.length === 0) {
-    throw new Error(
-      "No project data files found. Please run scrape-projects.ts first.",
-    );
-  }
-
-  // Sort files by modification time (newest first)
-  projectFiles.sort((a, b) => {
-    return fs.statSync(b).mtime.getTime() - fs.statSync(a).mtime.getTime();
-  });
-
-  return projectFiles[0];
-}
 
 async function generateSummaries() {
   console.log("Starting project summary generation...");
 
   try {
-    // Get the most recent projects file
     const projectsFile = getMostRecentProjectsFile();
     console.log(`Using project data from: ${projectsFile}`);
 
-    // Read project data
     const projectData = JSON.parse(fs.readFileSync(projectsFile, "utf8"));
-    const projects: IProject[] = projectData.projects;
-
+    const projects: Project[] = projectData.projects;
     console.log(`Found ${projects.length} projects to summarize`);
 
-    // Determine which model to use
-    const modelProvider = process.env.MODEL_PROVIDER || "lmstudio";
-    console.log(`Using model provider: ${modelProvider}`);
+    const singleProjectId = getCliOption("project-id", "p") || process.env.PROJECT_ID;
+    let projectsToSummarize = projects;
 
-    let model;
-
-    // Initialize the selected model
-    if (modelProvider === "gemini") {
-      // Check if API key is available
-      if (!process.env.GOOGLE_API_KEY) {
+    if (singleProjectId) {
+      const selectedProject = projects.find((project) => project.id === singleProjectId);
+      if (!selectedProject) {
         throw new Error(
-          "GOOGLE_API_KEY environment variable is required for Gemini model",
+          `Project with ID "${singleProjectId}" not found in ${path.basename(projectsFile)}`,
         );
       }
 
-      console.log("Initializing Google Gemini model...");
-      const google = createGoogleGenerativeAI({
-        apiKey: process.env.GOOGLE_API_KEY,
-      });
-
-      // Use Gemini 2.0 flash
-      model = google("models/gemini-2.0-flash");
-    } else {
-      // Default to LMStudio
-      console.log("Initializing LMStudio model...");
-      const lmstudio = createOpenAICompatible({
-        name: "lmstudio",
-        baseURL: "http://localhost:1234/v1",
-      });
-
-      // Use local model
-      const modelName = process.env.LMSTUDIO_MODEL || "gemma-3-27b-it";
-      model = lmstudio(modelName);
+      projectsToSummarize = [selectedProject];
+      console.log(
+        `Single-project test mode enabled for ID "${singleProjectId}" (${selectedProject.title})`,
+      );
     }
 
-    // Store summaries by project ID
+    const { modelProvider, model, baseModel } = initializeLanguageModel({
+      defaultProvider: "openrouter",
+      useReasoningExtractionForNonOpenRouter: true,
+    });
+
+    const debugSummary = process.env.DEBUG_SUMMARY === "1";
+    const configuredRpm = getConfiguredRequestsPerMinute(modelProvider, 45);
+    const waitForRateLimit =
+      configuredRpm > 0 ? createRateLimiter(configuredRpm) : async () => Promise.resolve();
+
+    if (configuredRpm > 0) {
+      console.log(`Rate limiting enabled: ${configuredRpm} requests/minute`);
+    }
+
     const summaries: Record<string, { title: string; summary: string }> = {};
 
-    // Process projects in batches to avoid overwhelming the LLM
-    const batchSize = process.env.BATCH_SIZE
-      ? parseInt(process.env.BATCH_SIZE)
-      : 20;
-    console.log(`Processing in batches of ${batchSize} projects`);
+    const configuredBatchSize = process.env.BATCH_SIZE ? parseInt(process.env.BATCH_SIZE, 10) : 20;
+    const batchSize = singleProjectId ? 1 : configuredBatchSize;
+    console.log(`Processing ${projectsToSummarize.length} project(s) in batches of ${batchSize}`);
 
-    // Create progress bar
-    const progressBar = createProgressBar(projects.length);
+    const progressBar = createProgressBar(projectsToSummarize.length);
     let completedCount = 0;
 
-    for (let i = 0; i < projects.length; i += batchSize) {
-      const batch = projects.slice(i, i + batchSize);
-
+    for (let i = 0; i < projectsToSummarize.length; i += batchSize) {
+      const batch = projectsToSummarize.slice(i, i + batchSize);
       console.log(
         `\nProcessing batch ${
           Math.floor(i / batchSize) + 1
-        }/${Math.ceil(projects.length / batchSize)}`,
+        }/${Math.ceil(projectsToSummarize.length / batchSize)}`,
       );
 
-      // Process each project in the batch in parallel
       const batchPromises = batch.map(async (project) => {
         try {
-          // Use both short and full descriptions for better context
           const shortDesc = project.shortDescription || "";
           const fullDesc = project.fullDescription || "";
-
-          // Clean both descriptions by removing HTML tags
           const cleanShortDesc = shortDesc.replace(/<[^>]*>?/gm, "");
           const cleanFullDesc = fullDesc.replace(/<[^>]*>?/gm, "");
-
-          // Combine both descriptions for better context
           const combinedDescription =
-            cleanShortDesc +
-            (cleanShortDesc && cleanFullDesc ? "\n\n" : "") +
-            cleanFullDesc;
+            cleanShortDesc + (cleanShortDesc && cleanFullDesc ? "\n\n" : "") + cleanFullDesc;
 
-          // Generate system prompt
           const systemPrompt =
             "You are an academic assistant that specializes in creating concise, informative summaries of master's project proposals. " +
             "Extract the key information such as research area, technologies, and expected outcomes. " +
+            "The goal is to help students decide if a project aligns with their interests. " +
             "Keep summaries under 100 words. " +
             "Focus on the key research aspects, technologies involved, and the expected outcomes. " +
-            "Only reply with the summary, no additional text.";
+            "Only reply with the summary, no additional text. " +
+            "Do not include reasoning, think tags, XML tags, or markdown fences.";
 
-          // Generate user prompt from project details
           const userPrompt =
             `Please summarize this master's project proposal:\n\n` +
             `Title: ${project.title}\n` +
             `Description: ${combinedDescription}`;
 
-          // Call the AI model
+          await waitForRateLimit();
           const result = await generateText({
-            model: model,
+            model,
             system: systemPrompt,
             prompt: userPrompt,
-            maxTokens: 150,
           });
 
-          // Return results with project ID
+          let summaryText = result.text.trim();
+          if (debugSummary || summaryText.length === 0) {
+            console.log(
+              `[summary-debug] id=${project.id} textLen=${summaryText.length} reasoningLen=${result.reasoningText?.length ?? 0} finishReason=${result.finishReason}`,
+            );
+          }
+
+          if (summaryText.length === 0) {
+            await waitForRateLimit();
+            const retryResult = await generateText({
+              model: baseModel,
+              system: systemPrompt,
+              prompt: userPrompt,
+            });
+
+            summaryText = retryResult.text.trim();
+            if (debugSummary || summaryText.length === 0) {
+              console.log(
+                `[summary-debug] retry id=${project.id} textLen=${summaryText.length} reasoningLen=${retryResult.reasoningText?.length ?? 0} finishReason=${retryResult.finishReason}`,
+              );
+            }
+          }
+
           return {
             id: project.id,
             title: project.title,
-            summary: result.text.trim(),
+            summary: summaryText || "Failed to generate summary.",
           };
         } catch (error) {
           console.error(`Error summarizing project ID ${project.id}:`, error);
@@ -251,10 +154,7 @@ async function generateSummaries() {
         }
       });
 
-      // Wait for all projects in this batch to be processed
       const batchResults = await Promise.all(batchPromises);
-
-      // Store results in the summaries object
       for (const result of batchResults) {
         summaries[result.id] = {
           title: result.title,
@@ -262,25 +162,19 @@ async function generateSummaries() {
         };
       }
 
-      // Update progress
       completedCount += batch.length;
       progressBar.update(completedCount);
     }
 
-    // Complete progress bar
     progressBar.complete();
 
-    // Create output filename based on the input file
-    const timestamp = new Date()
-      .toISOString()
-      .replace(/:/g, "-")
-      .replace(/\..+/, "");
-    const outputPath = path.join(
-      path.dirname(projectsFile),
-      `summaries-${timestamp}.json`,
-    );
+    const timestamp = new Date().toISOString().replace(/:/g, "-").replace(/\..+/, "");
+    const safeProjectId = singleProjectId?.replace(/[^a-zA-Z0-9_-]/g, "_");
+    const outputFilename = safeProjectId
+      ? `summary-${safeProjectId}-${timestamp}.json`
+      : `summaries-${timestamp}.json`;
+    const outputPath = path.join(path.dirname(projectsFile), outputFilename);
 
-    // Save summaries to file
     fs.writeFileSync(
       outputPath,
       JSON.stringify(
@@ -288,6 +182,7 @@ async function generateSummaries() {
           summaries,
           originalDataFile: path.basename(projectsFile),
           generatedAt: new Date().toISOString(),
+          singleProjectId: singleProjectId || null,
           totalSummaries: Object.keys(summaries).length,
         },
         null,
@@ -297,8 +192,14 @@ async function generateSummaries() {
 
     console.log(`\nSummary generation complete!`);
     console.log(
-      `${Object.keys(summaries).length}/${projects.length} projects summarized`,
+      `${Object.keys(summaries).length}/${projectsToSummarize.length} projects summarized`,
     );
+
+    if (singleProjectId && summaries[singleProjectId]) {
+      console.log(`\nSingle-project summary (${singleProjectId}):`);
+      console.log(summaries[singleProjectId].summary);
+    }
+
     console.log(`Summaries saved to: ${outputPath}`);
   } catch (error) {
     console.error("Error generating summaries:", error);
@@ -306,5 +207,4 @@ async function generateSummaries() {
   }
 }
 
-// Execute the script
 generateSummaries();
